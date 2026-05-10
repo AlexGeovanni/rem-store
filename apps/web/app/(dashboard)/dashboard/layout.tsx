@@ -1,0 +1,43 @@
+import { Metadata } from "next";
+import SidebarProviderConfig from "./_components/sidebar-provider-config";
+import { TooltipProvider } from "@workspace/ui/components/tooltip";
+// import { getCachedUser } from "@/lib/cache/user";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Dashboard Negocio",
+};
+
+/**
+ * BusinessLayout - Layout para rutas del dashboard de negocio (admin)
+ * Incluye:
+ * - Sidebar de navegación
+ * - Header del dashboard
+ * - Contenido del dashboard
+ *
+ * Este layout se aplica a todas las rutas dentro de (admin):
+ * - /dashboard/*
+ *
+ * NO incluye Header/Footer del sitio público (solo UI del dashboard)
+ * El usuario está disponible desde el store de Zustand (configurado en RootLayout)
+ */
+export default async function BusinessLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  // El usuario ya está disponible en el store de Zustand desde el RootLayout
+  // No necesitamos llamar getServerUserFromToken aquí para evitar duplicaciones
+  // Los componentes hijos pueden acceder al usuario vía useAuthStore()
+  const initialUser = null;
+  // await getCachedUser();
+  return (
+    <main className="[--header-height:calc(--spacing(14))]">
+      <TooltipProvider>
+        <SidebarProviderConfig initialUser={initialUser}>
+          {children}
+        </SidebarProviderConfig>
+      </TooltipProvider>
+    </main>
+  );
+}

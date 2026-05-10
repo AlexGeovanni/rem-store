@@ -6,7 +6,13 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    // "module": "esnext",
+    "paths": {
+      "@/*": [ "./*"],
+      "@workspace/ui/*":["../../packages/ui/src/*"],
+      "@repo/core/*":["../../package/core/sr/*"]
+    }
   },
   "include": [
     "**/*.ts",

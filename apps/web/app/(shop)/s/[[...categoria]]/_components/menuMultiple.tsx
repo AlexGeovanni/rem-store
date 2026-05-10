@@ -1,0 +1,106 @@
+import { Checkbox } from "@workspace/ui/components/checkbox";
+import Link from "next/link";
+import {
+  TypeBuyPrice,
+  TypeDiscount,
+  TypeCategory,
+  buyPrice,
+  clothesCheckbox,
+  discount,
+  electronicsCheckbox,
+  homeCheckbox,
+} from "../data/constants";
+
+type Props = {
+  title: string;
+  array: TypeBuyPrice[] | TypeDiscount[] | TypeCategory[];
+};
+
+interface MenuMultipleProps {
+  categoriaActual?: string;
+}
+
+// Mapeo de categorías para enlaces
+const CATEGORIA_LINKS: Record<string, string> = {
+  'moda': '/s/moda',
+  'electronico': '/s/electronico',
+  'hogar': '/s/hogar',
+};
+
+export function MenuMultiple({ categoriaActual }: MenuMultipleProps) {
+  return (
+    <>
+      {/* Sección de Categorías Principales */}
+      <div className="border-t border-gray-400 py-2 font-satoshi">
+        <span className="mb-2 inline-block font-semibold">Categorías</span>
+        <div className="space-y-1.5">
+          <Link 
+            href="/s" 
+            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${!categoriaActual ? 'font-semibold text-black' : 'text-gray-700'}`}
+          >
+            Todos los productos
+          </Link>
+          <Link 
+            href="/s/moda" 
+            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'moda' ? 'font-semibold text-black' : 'text-gray-700'}`}
+          >
+            Moda
+          </Link>
+          <Link 
+            href="/s/electronico" 
+            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'electronico' ? 'font-semibold text-black' : 'text-gray-700'}`}
+          >
+            Electrónicos
+          </Link>
+          <Link 
+            href="/s/hogar" 
+            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'hogar' ? 'font-semibold text-black' : 'text-gray-700'}`}
+          >
+            Hogar
+          </Link>
+        </div>
+      </div>
+
+      {/* Filtros específicos según la categoría */}
+      {categoriaActual === 'moda' && (
+        <ItemsFormChecbox title="Genero" array={clothesCheckbox} />
+      )}
+      {categoriaActual === 'electronico' && (
+        <ItemsFormChecbox title="Electronicos" array={electronicsCheckbox} />
+      )}
+      {categoriaActual === 'hogar' && (
+        <ItemsFormChecbox title="Hogar" array={homeCheckbox} />
+      )}
+      
+      {/* Filtros comunes */}
+      <ItemsFormChecbox title="Comprar por precio" array={buyPrice} />
+      <ItemsFormChecbox title="Rebajas" array={discount} />
+    </>
+  );
+}
+
+const ItemsFormChecbox = ({ title, array }: Props) => {
+  return (
+    <div className="border-t border-gray-400 py-2 font-satoshi">
+      <span className="mb-2 inline-block">{title}</span>
+      <div className="space-y-1.5">
+        {array.map((item, i) => (
+          <div
+            key={`${item.label}-${i}-${item.id}`}
+            className="items-top flex space-x-2 py-1"
+          >
+            <Checkbox id={`${item.id}-${item.label}`}  />
+            <div className="flex items-center leading-none">
+              <label
+                htmlFor={`${item.id}-${item.label}`}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {item.label}
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
