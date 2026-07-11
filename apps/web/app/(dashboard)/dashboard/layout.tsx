@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import SidebarProviderConfig from "./_components/sidebar-provider-config";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
+import { getAuthToken } from "@/app/actions/auth.actions";
+import { decodeJWT, getNameFromPayload } from "@repo/api-client/jwt";
 // import { getCachedUser } from "@/lib/cache/user";
 
 export const metadata: Metadata = {
@@ -26,15 +28,13 @@ export default async function BusinessLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // El usuario ya está disponible en el store de Zustand desde el RootLayout
-  // No necesitamos llamar getServerUserFromToken aquí para evitar duplicaciones
-  // Los componentes hijos pueden acceder al usuario vía useAuthStore()
   const initialUser = null;
-  // await getCachedUser();
+  const token = await getAuthToken();
+  const name = getNameFromPayload(decodeJWT(token ?? ""));
   return (
     <main className="[--header-height:calc(--spacing(14))]">
       <TooltipProvider>
-        <SidebarProviderConfig initialUser={initialUser}>
+        <SidebarProviderConfig initialUser={name}>
           {children}
         </SidebarProviderConfig>
       </TooltipProvider>

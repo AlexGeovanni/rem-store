@@ -127,6 +127,8 @@ export default function Page() {
     active: { backgroundColor: "#e5e7eb" },
     completed: { backgroundColor: "#10b981" },
   };
+
+  console.log(isError, errorMessage);
   
   return (
     <>

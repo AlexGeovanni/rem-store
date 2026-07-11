@@ -5,7 +5,7 @@ import {
   TypeDiscount,
   TypeCategory,
   buyPrice,
-  clothesCheckbox,
+  fashionsCheckbox,
   discount,
   electronicsCheckbox,
   homeCheckbox,
@@ -63,7 +63,7 @@ export function MenuMultiple({ categoriaActual }: MenuMultipleProps) {
 
       {/* Filtros específicos según la categoría */}
       {categoriaActual === 'moda' && (
-        <ItemsFormChecbox title="Genero" array={clothesCheckbox} />
+        <ItemsFormChecbox title="Genero" array={fashionsCheckbox} />
       )}
       {categoriaActual === 'electronico' && (
         <ItemsFormChecbox title="Electronicos" array={electronicsCheckbox} />

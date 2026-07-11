@@ -4,24 +4,24 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 // import { userService } from "@/service/accountDetailsservice";
 
-export function SiteHeader({ initialUser }: { initialUser: any }) {
+export function SiteHeader({ name }: { name: string }) {
   // Usar el store de Zustand en lugar de recibir props
   // El usuario ya está disponible desde el AuthProvider en el root layout
   // const [avatar, setAvatar] = useState<string>("");
   const { data: avatar, isLoading } = useQuery({
     queryKey: ["avatar"],
-    queryFn: async () => await fetch(`https://api.dicebear.com/9.x/fun-emoji/svg?seed=${initialUser?.name || "usuario"}&radius=50`, {
+    queryFn: async () => await fetch(`https://api.dicebear.com/9.x/fun-emoji/svg?seed=${name || "usuario"}&radius=50`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then(res => res.text()),
-    enabled: !!initialUser
+    enabled: !!name
   });
   // console.log("data avatar", avatar);
   // const { toggleSidebar } = useSidebar();
   // useEffect(()=>{
-  //   if(initialUser){
+  //   if(name){
   //     (async () => {
   //       const response = await fetch("https://api.dicebear.com/9.x/fun-emoji/svg?seed=Geovanni&radius=50", {
   //         method: "GET",
@@ -33,7 +33,7 @@ export function SiteHeader({ initialUser }: { initialUser: any }) {
   //       setAvatar(data);
   //     })();
   //   }
-  // },[initialUser]);
+  // },[name]);
 
   return (
     <header className="bg-background sticky py-2 top-0 z-50 flex w-full items-center border-b">
@@ -44,9 +44,9 @@ export function SiteHeader({ initialUser }: { initialUser: any }) {
           {/* <div>Marketplace</div> */}
           <div className="text-lg font-medium">Bienvenido </div>
           <div className="flex items-center space-x-4">
-            <span className="text-base font-medium">{initialUser?.name || "Usuario"}</span>
+            <span className="text-base font-medium">{name || "Usuario"}</span>
             {/* <div className="size-8 bg-slate-400 rounded-full"></div> */}
-            <div className="size-14 rounded-full" dangerouslySetInnerHTML={{ __html: avatar || "" }}></div>
+            <div className="size-12 rounded-full" dangerouslySetInnerHTML={{ __html: avatar || "" }}></div>
           </div>
         </div>
         {/* <Breadcrumb className="hidden sm:block">

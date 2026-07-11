@@ -1,31 +1,48 @@
 "use client";
-// import { notFound } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormProduct from "../../_components/form";
 import Link from "next/link";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ProductCreateInput, productCreateSchema } from "@repo/core/schemas/productCreate.schema";
+import {
+  ProductCreateInput,
+  productCreateSchema,
+} from "@repo/core/schemas/productCreate.schema";
 import { ArrowLeft } from "lucide-react";
+import { productService } from "@/app/lib/service/product.service";
+import { useEffect, useState } from "react";
+import FormProduct from "../../_components/formProduct";
 
 export default function UpdateProductClient({
   productId,
 }: {
   productId: string;
 }) {
+  const [file, setFile] = useState<File | null>(null);
+
   const router = useRouter();
-  const { data, isLoading } = useQuery({
+
+  const form = useForm<ProductCreateInput>({
+    resolver: zodResolver(productCreateSchema),
+    mode: "onChange",
+  });
+
+  const { data: product, isLoading } = useQuery({
     queryKey: ["product", productId],
-    queryFn: () => {
-      // productService.getDetailProduct(productId)
-    },
+    queryFn: () => productService.getProductById(productId),
     enabled: !!productId,
     retry: false,
   });
-  const { mutate, isPending, isError } = useMutation({
+
+  const updateMutation = useMutation({
+    mutationFn: (data:unknown) =>
+      productService.updateProduct(productId, data),
+      
+  });
+  
+  const deleteMutation = useMutation({
     // mutationFn: (id: string) => productService.deleteProduct(id),
     onSuccess: () => {
       router.push("/dashboard/");
@@ -35,31 +52,36 @@ export default function UpdateProductClient({
       console.log("error");
     },
   });
-  const form = useForm<ProductCreateInput>({
-    resolver: zodResolver(productCreateSchema),
-    mode: "onChange",
-    defaultValues: {
-      category: "electronics",
-      name: "Camisa de prueba",
-      sku: "1234567890",
-      price: 100000,
-      stock: 10,
-      description: "Camisa de prueba",
-      // url: "https://www.google.com",
-      status: true,
-      details: {
-        ram: "4GB",
-        memory: "128GB",
-        brand: "Samsung",
-        model: "Galaxy S21",
-      } as Record<string, string>,
-    },
-  });
 
   const onSubmitDelete = async () => {
     alert("Eliminar producto");
     // mutate(productId);
   };
+
+  useEffect(() => {
+    if (!product) return;
+
+    form.reset({
+      categoryId: product.category.id,
+      subCategory: product.subCategory,
+      name: product.name,
+      url: product.url,
+      sku: product.sku,
+      price: product.price,
+      stock: product.stock,
+      description: product.description,
+      businessId: product.idBusiness,
+      active: product.active,
+      details: product.details,
+    });
+  }, [product, form]);
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    const {businessId, categoryId, sku, ...res}= data;
+    console.log("data", res);
+    updateMutation.mutate(res)
+  });
+
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <header>
@@ -79,11 +101,7 @@ export default function UpdateProductClient({
         </div>
       </header>
       {/* <Separator className="my-3 mt-5" /> */}
-      {/* <FormProduct
-        form={form}
-        isUpdate={true}
-        onSubmitDelete={onSubmitDelete}
-      /> */}
+      <FormProduct form={form} isUpdate={!!product} onSubmit={onSubmit} onChange={setFile} onSubmitDelete={onSubmitDelete} />
     </div>
   );
 }

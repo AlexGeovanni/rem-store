@@ -2,15 +2,7 @@
 import { Controller, UseFormReturn } from "react-hook-form";
 import FormCategoryField from "./formCategoryFeld";
 
-import { Label } from "@workspace/ui/components/label";
 import { Field, FieldError, FieldLabel } from "@workspace/ui/components/field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select";
 import {
   InputGroup,
   InputGroupAddon,
@@ -21,42 +13,73 @@ import ButtonBase from "@workspace/ui/components/buttonBase";
 import { Button } from "@workspace/ui/components/button";
 import { Trash } from "lucide-react";
 import {
-  categoriesValues,
   type ProductCreateInput,
 } from "@repo/core/schemas/productCreate.schema";
-import FormInputField from "../../_components/FormInputField";
+import FormInputField from "../../../_components/FormInputField";
 import ImageUploader from "./imageUploader";
 import { Switch } from "@workspace/ui/components/switch";
+import SelectController from "./selectController";
+import {
+  CATEGORIES,
+  SUB_CATEGORIES_ELECTRONIC,
+  SUB_CATEGORIES_FASHION,
+  SUB_CATEGORIES_HOME,
+} from "@/app/(dashboard)/constants/category";
+import { useEffect, useMemo } from "react";
 
 interface FormProductProps {
   form: UseFormReturn<ProductCreateInput>;
   isUpdate?: boolean;
+  onChange?: (file: File | null) => void
   onSubmit: () => void;
   onSubmitDelete?: () => void;
 }
 
-// export const styleInput = cva(
-//   "border border-gray-300 p-3 py-2 rounded-lg transition-shadow  focus-within:border-ring/40 focus-within:outline-none focus-within:ring-[2px] focus-within:ring-ring/0 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50 [&:has(input:is(:disabled))_*]:pointer-events-none",
-// );
-
 export default function FormProduct({
   form,
   isUpdate,
+  onChange,
   onSubmit,
   onSubmitDelete,
 }: FormProductProps) {
   const {
-    formState: { isValid }} = form;
+    formState: { isValid, errors },
+    getValues,
+    
+  } = form;
+
+  const category = getValues("categoryId");
+
+  const SUB_CATEGORIES = useMemo(() => {
+    return category === "1"
+      ? SUB_CATEGORIES_FASHION
+      : category === "2"
+        ? SUB_CATEGORIES_ELECTRONIC
+        : SUB_CATEGORIES_HOME;
+  }, [category]);
+
+  useEffect(() => {
+  form.resetField("subCategory");
+}, [category]);
+
   return (
     <form onSubmit={onSubmit}>
       <div className="grid grid-cols-4 gap-4 mt-4">
         <div className="col-span-2 w-full space-y-3">
           <div className="space-y-1.5 grid grid-cols-2 gap-2">
-            <div className="space-y-3">
-              <Label htmlFor="category">* Selecciona la categoria</Label>
-              <SelectComponent form={form} isUpdate={isUpdate} />
-            </div>
-            <div>
+            <SelectController
+              control={form.control}
+              data={CATEGORIES}
+              label="* Categorias"
+              name="categoryId"
+            />
+            <SelectController
+              control={form.control}
+              data={SUB_CATEGORIES}
+              label="* Subcategoria"
+              name="subCategory"
+            />
+            {/* <div>
               <Controller
                 name="status"
                 control={form.control}
@@ -76,7 +99,7 @@ export default function FormProduct({
                   </Field>
                 )}
               />
-            </div>
+            </div> */}
           </div>
           <div className="w-full space-y-3">
             <div className="grid grid-cols-2 gap-2">
@@ -153,13 +176,13 @@ export default function FormProduct({
             </div>
           </div>
           <FormCategoryField
-            category={form.watch("category")}
+            category={form.watch("categoryId")}
             form={form}
-            keyCategory={form.watch("category")}
+            keyCategory={form.watch("categoryId")}
           />
         </div>
         <div className="col-span-2">
-          <ImageUploader />
+          <ImageUploader onChange={onChange} />
         </div>
       </div>
       <div className="mt-5 flex justify-between space-x-2">
@@ -194,44 +217,3 @@ export default function FormProduct({
     </form>
   );
 }
-
-const SelectComponent = ({
-  form,
-  isUpdate,
-}: {
-  form: UseFormReturn<ProductCreateInput>;
-  isUpdate?: boolean;
-}) => {
-  return (
-    <Controller
-      name="category"
-      control={form.control}
-      render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid} className="w-full">
-          <Select
-            disabled={isUpdate}
-            onValueChange={(e) => {
-              field.onChange(e);
-              form.setValue("details", {} as any);
-            }}
-            value={field.value}
-          >
-            <SelectTrigger className="w-full focus:ring-0 focus:ring-offset-0 h-10! ">
-              <SelectValue
-                className="cursor-pointer"
-                placeholder="Categoria*"
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {categoriesValues.map((value, i) => (
-                <SelectItem key={i} className="cursor-pointer h-10" value={value}>
-                  {value}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
-      )}
-    />
-  );
-};

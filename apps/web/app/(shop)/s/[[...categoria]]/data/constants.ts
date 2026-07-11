@@ -45,7 +45,7 @@ export type TypeCategory = Default & {
   value: string;
 };
 
-export const clothesCheckbox: TypeCategory[] = [
+export const fashionsCheckbox: TypeCategory[] = [
   {
     id: 5,
     label: "Hombre",

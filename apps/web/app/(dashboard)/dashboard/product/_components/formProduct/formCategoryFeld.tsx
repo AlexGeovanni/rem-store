@@ -1,26 +1,29 @@
 import { type ProductCreateInput } from "@repo/core/schemas/productCreate.schema";
-import { Field, FieldError, FieldLabel } from "@workspace/ui/components/field";
-import { Input } from "@workspace/ui/components/input";
-import { cn } from "@workspace/ui/lib/utils";
-import { Controller, UseFormReturn } from "react-hook-form";
-import FormInputField from "../../_components/FormInputField";
-// import { styleInput } from "./form";
+import {
+  UseFormReturn,
+} from "react-hook-form";
+import FormInputField from "../../../_components/FormInputField";
+import { RAM, STORAGE,BRANDS } from "@/app/(dashboard)/constants/electronics";
+import SelectController from "./selectController";
+
 interface FormCategoryFieldProps {
   category: string;
   form: UseFormReturn<ProductCreateInput>;
   keyCategory: string;
 }
+
 export default function FormCategoryField({
   category,
   form,
   keyCategory,
 }: FormCategoryFieldProps) {
+ 
 
   return (
     <div key={keyCategory} className="space-y-3 pr-2">
       <p>Detalles espeficos del producto</p>
       <div>
-        {category === "clothes" && (
+        {category === "1" && (
           <div>
             <div className="grid grid-cols-2 gap-2">
               <FormInputField
@@ -37,33 +40,36 @@ export default function FormCategoryField({
                 type="text"
                 placeholder="Algodón, Poliéster, etc."
               />
-              
+               <FormInputField
+                control={form.control}
+                name="details.color"
+                label="* Color"
+                type="text"
+                placeholder="Negro, Rojo, etc."
+              />
             </div>
           </div>
         )}
-        {category === "electronics" && (
+        {category === "2" && (
           <div className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
-              <FormInputField
+              <SelectController
                 control={form.control}
+                data={RAM}
+                label="* Ram"
                 name="details.ram"
-                label="* RAM"
-                type="text"
-                placeholder="4, 8, 16, etc."
               />
-              <FormInputField
+              <SelectController
                 control={form.control}
-                name="details.memory"
+                data={STORAGE}
                 label="* Almacenamiento"
-                type="text"
-                placeholder="128, 256, 512, etc."
+                name="details.memory"
               />
-              <FormInputField
+              <SelectController
                 control={form.control}
-                name="details.brand"
+                data={BRANDS}
                 label="* Marca"
-                type="text"
-                placeholder="ASUS, Apple, etc."
+                name="details.brand"
               />
               <FormInputField
                 control={form.control}
@@ -75,7 +81,7 @@ export default function FormCategoryField({
             </div>
           </div>
         )}
-        {category === "home" && (
+        {category === "3" && (
           <div className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <FormInputField
@@ -99,7 +105,6 @@ export default function FormCategoryField({
                 type="text"
                 placeholder="1Kg, 10Kg, 100Kg, etc."
               />
-            
             </div>
           </div>
         )}
@@ -107,3 +112,4 @@ export default function FormCategoryField({
     </div>
   );
 }
+

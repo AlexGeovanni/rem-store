@@ -1,10 +1,8 @@
 import { ReactNode } from "react";
-import FormatPrice from "./formatPrice";
 import { Heart } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "./button";
-
-
+import FormatPrice from "@repo/core/utils/FormatPrice";
 
 interface CardProps {
   children: ReactNode;
@@ -62,7 +60,15 @@ export function CardButtonFavorite({
   );
 }
 
-export function CardTitle({
+export function CardContentDiscount({ discount }: { discount: number }) {
+  return (
+    <div className="absolute top-2 left-2 bg-black text-white text-xs font-bold px-2 py-1 rounded-full">
+      -{discount}%
+    </div>
+  );
+}
+
+export function CardTitleStore({
   children,
   className,
 }: {
@@ -70,18 +76,17 @@ export function CardTitle({
   className?: string;
 }) {
   return (
-    <h3
-      className={clsx(
-        "text-black font-medium text-sm line-clamp-1 sm:text-base",
-        className,
-      )}
-    >
-      {children}
-    </h3>
+    <div className={clsx("mt-3 flex items-center gap-2 text-foreground transition-colors hover:text-primary", className)}>
+      <span className="truncate text-[12px] tracking-wide">
+       {children}
+      </span>
+    </div>
   );
 }
 
 interface CardPriceProps {
+  name: string;
+  category: string;
   price: number;
   discount?: number; // porcentaje de descuento, opcional
   salePrice: number; // precio rebajado opcional
@@ -89,37 +94,31 @@ interface CardPriceProps {
 }
 
 export function CardPrice({
+  name,
+  category,
   price,
   discount = 0,
   salePrice,
   className,
 }: CardPriceProps) {
-  console.log(price)
   return (
-    <div
-      className={clsx(
-        "flex items-center flex-wrap gap-x-1 sm:gap-x-2",
-        className,
-      )}
-    >
-      {/* Precio original */}
-      <FormatPrice
-        price={salePrice}
-        className="text-black font-medium text-base sm:text-lg"
-      />
-
-      {/* Precio en oferta */}
-      {discount > 0 && (
-        <>
-          <FormatPrice
-            price={salePrice ?? price}
-            className="text-muted-foreground font-medium line-through text-[13px] sm:text-sm"
-          />
-          <div className="text-red-600 font-medium text-[13px] sm:text-sm">
-            -{discount}% de descuento
+    <div className="mt-2 flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="font-mono text-[13px] uppercase tracking-wider text-muted-foreground">
+            {category}
           </div>
-        </>
-      )}
-    </div>
+          <h3 className="mt-0.5 truncate text-lg font-medium leading-tight text-foreground">
+            {name}
+          </h3>
+        </div>
+        <div className="shrink-0 text-right">
+          <div className=" font-semibold text-foreground">{FormatPrice(salePrice ?? price)}</div>
+          {discount > 0 && (
+            <div className="text-[13px] text-muted-foreground line-through">
+              {FormatPrice(salePrice ?? price)}
+            </div>
+          )}
+        </div>
+      </div>
   );
 }

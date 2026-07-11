@@ -3,19 +3,28 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import FormProduct from "../_components/form";
 import { useMutation } from "@tanstack/react-query";
 import { useUserStore } from "@/app/stores/useUserStore";
-import { TABS_LAYOUT, TABS_MENU, useTabStore } from "@/app/stores/dashboard/tab-dashboard";
+import {
+  TABS_LAYOUT,
+  TABS_MENU,
+  useTabStore,
+} from "@/app/stores/dashboard/tab-dashboard";
 import { ArrowLeft } from "lucide-react";
-import { Field } from "@workspace/ui/components/field";
-import { ProductCreateInput, productCreateSchema } from "@repo/core/schemas/productCreate.schema";
-export default function CreateProductPage() {
+import {
+  ProductCreateInput,
+  productCreateSchema,
+} from "@repo/core/schemas/productCreate.schema";
+import FormProduct from "../_components/formProduct";
+import { useState } from "react";
+import { productService } from "@/app/lib/service/product.service";
+export default function CreatetPage() {
   const dataUser = useUserStore((state) => state.user);
-  const {setTabAside}=useTabStore()
+  const [file, setFile] = useState<File | null>(null);
+  const { setTabAside } = useTabStore();
+
   const { mutate, isPending, isError } = useMutation({
-    // mutationFn: productService.postProduct,
+    mutationFn: productService.postProduct,
     onSuccess: (data) => {
       console.log("page data", data);
       // router.push("/auth/iniciar-sesion"); // Redirigir a la página de inicio de sesión o donde sea necesario
@@ -26,43 +35,81 @@ export default function CreateProductPage() {
       // setErrorMessage('Error al registrar la cuenta. Por favor, inténtelo de nuevo más tarde.')
     },
   });
-  // console.log("dataUser", dataUser);
+
   const form = useForm<ProductCreateInput>({
     resolver: zodResolver(productCreateSchema),
     mode: "onChange",
     defaultValues: {
-      category: "electronics" as const,
+      categoryId: "1",
+      subCategory:"",
       name: "",
+      url:"",
       sku: "",
       price: 0,
       stock: 0,
       description: "",
-      businessId:"",
-      // url: "",
-      status: true,
-      details: {} as Record<string, string>,
+      businessId: "",
+      active: true,
+      details: {
+      } as Record<string, string>,
     },
   });
 
+  const handleUpload = async () => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const url = await res.json();
+    return url
+  };
+
   const onSubmit = form.handleSubmit(async (data) => {
-    data.businessId = dataUser?.id || "xddd";
-    // mutate(data);
-    console.log("data submit", data);
-  });
-    
+  try {
+    const uploaded = await handleUpload();
+
+    if (!uploaded?.url) {
+      throw new Error("Upload failed");
+    }
+
+    if (!dataUser?.id) {
+      throw new Error("id failed");
+    }
+
+
+    const payload = {
+      ...data,
+      businessId: dataUser.id,
+      url: uploaded.url
+    };
+    console.log(payload)
+
+    mutate(payload)
+  } catch (error) {
+    console.error(error);
+    // mostrar toast/error al usuario
+  }
+});
+
   const handleClickBack = () => {
     setTabAside(TABS_LAYOUT.PRODUCTS, TABS_MENU.PRODUCTS_LIST);
-  }
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <header>
-          <Link href={"/dashboard/product"}>
-        <button className="cursor-pointer text-sm flex items-center select-none gap-1 hover:underline-offset-2" onClick={handleClickBack}>
+        <Link href={"/dashboard/product"}>
+          <button
+            className="cursor-pointer text-sm flex items-center select-none gap-1 hover:underline-offset-2"
+            onClick={handleClickBack}
+          >
             <ArrowLeft size={16} />
             Volver
-        </button>
-          </Link>
+          </button>
+        </Link>
         <div>
           <h2 className="text-lg font-semibold lg:text-2xl">
             Crear nuevo producto
@@ -75,7 +122,9 @@ export default function CreateProductPage() {
           Ingrese los detalles de su nuevo producto
         </h3>
       </div>
-      <FormProduct form={form} onSubmit={onSubmit} />
+
+      <FormProduct form={form} onSubmit={onSubmit} onChange={setFile} />
+
     </div>
   );
 }

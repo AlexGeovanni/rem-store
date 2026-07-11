@@ -132,7 +132,7 @@ const CardDashboard = ({
     <div
       className={cn(
         "border-r p-4 min-h-[150px] flex flex-col justify-between",
-        className
+        className,
       )}
     >
       <p className="font-semibold text-lg">{title}</p>
@@ -148,7 +148,7 @@ const CardDashboard = ({
               <ArrowCaretDownIcon className="inline-flex -mr-1.5" />
             )} */}
             {percentage}%
-          </span> {" "}
+          </span>{" "}
           ultimo mes
         </div>
       </div>

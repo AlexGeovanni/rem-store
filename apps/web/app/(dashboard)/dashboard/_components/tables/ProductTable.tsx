@@ -15,6 +15,7 @@ import { useUserStore } from "@/app/stores/useUserStore";
 import { SquarePen } from "lucide-react";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { cn } from "@workspace/ui/lib/utils";
+import { productService } from "@/app/lib/service/product.service";
 const invoices = [
   {
     name: "Camisa",
@@ -43,10 +44,7 @@ export function ProductTable() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", userId],
-    queryFn: () => {
-      // productService.getProducts(userId as string)
-      return null
-    },
+    queryFn: () => productService.getProductByBusiness(userId as string),
     enabled: !!userId,
   });
 
@@ -78,7 +76,7 @@ export function ProductTable() {
             <TableCell>
               <div className="inline-block border rounded-md p-0.5">
                 <Image
-                  src={`/img/man-clothes.webp`}
+                  src={product.url || "/images/placeholder.png"}
                   alt={product.name}
                   width={80}
                   height={80}
@@ -94,7 +92,7 @@ export function ProductTable() {
             </TableCell>
             <TableCell>${product.price}</TableCell>
             <TableCell className="text-center">{product.stock}</TableCell>
-            <TableCell className="text-center capitalize">{ product?.category ?? "Sin categoría"}</TableCell>
+            <TableCell className="text-center capitalize">{ product?.category.name ?? "Sin categoría"}</TableCell>
             <TableCell className="text-center">
               <div className="flex justify-center">
                 <Link

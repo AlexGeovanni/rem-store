@@ -9,7 +9,7 @@ type CategoriaValida = typeof CATEGORIAS_VALIDAS[number] | undefined;
 
 // Mapeo de categorías URL a categorías de datos
 const CATEGORIA_MAP: Record<string, string> = {
-  'moda': 'clothe',
+  'moda': 'fashion',
   'electronico': 'electronic',
   'hogar': 'home',
 };
@@ -29,7 +29,7 @@ interface TiendaPageProps {
 
 export default async function TiendaPage({ params }: TiendaPageProps) {
   const { categoria } = await params;
-  
+  console.log('Categoría URL:', categoria);
   // Si no hay categoría, mostrar todos los productos
   const categoriaUrl = categoria?.[0] as CategoriaValida;
   

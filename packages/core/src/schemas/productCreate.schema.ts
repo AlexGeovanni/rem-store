@@ -1,8 +1,8 @@
 import z from "zod";
 
 // 1. Categorías (tipadas correctamente)
-export const categoriesValues = ["clothes", "electronics", "home"] as const;
-export type Category = (typeof categoriesValues)[number];
+export const categoriesValues = ["fashions", "electronic", "home"] as const;
+// export type CategoryId = (typeof categoriesValues)[number];
 
 // 2. Schemas de detalles por categoría
 const ropaDetailsSchema = z.object({
@@ -12,9 +12,9 @@ const ropaDetailsSchema = z.object({
 });
 
 const electronicosDetailsSchema = z.object({
-  brand: z.string().min(2),
-  memory: z.string().min(1),
-  ram: z.string().min(2),
+  brand: z.string(),
+  memory: z.string(),
+  ram: z.string(),
   model: z.string().min(2),
 });
 
@@ -27,6 +27,11 @@ const hogarDetailsSchema = z.object({
 // 3. Base común (para no repetir código)
 const baseProductSchema = z.object({
   name: z.string().min(5, "El nombre es requerido"),
+  url: z
+  .string()
+  .url("Debe ser una URL válida")
+  .or(z.literal(""))
+  .optional(),
   sku: z.string().min(5, "El SKU es requerido"),
   discount: z.coerce
     .number()
@@ -40,7 +45,7 @@ const baseProductSchema = z.object({
     .int()
     .nonnegative("El stock no puede ser negativo")
     .default(0),
-  status: z.boolean().default(true),
+  active: z.boolean().default(true),
   description: z
     .string()
     .min(20, "La descripción es requerida")
@@ -49,19 +54,22 @@ const baseProductSchema = z.object({
 });
 
 // 4. Schema principal (discriminado por categoría)
-export const productCreateSchema = z.discriminatedUnion("category", [
+export const productCreateSchema = z.discriminatedUnion("categoryId", [
   baseProductSchema.extend({
-    category: z.literal("clothes"),
+    categoryId: z.literal("1"),
+    subCategory:z.string(),
     details: ropaDetailsSchema,
   }),
 
   baseProductSchema.extend({
-    category: z.literal("electronics"),
+    categoryId: z.literal("2"),
+    subCategory:z.string(),
     details: electronicosDetailsSchema,
   }),
 
   baseProductSchema.extend({
-    category: z.literal("home"),
+    categoryId: z.literal("3"),
+    subCategory:z.string(),
     details: hogarDetailsSchema,
   }),
 ]);
@@ -86,14 +94,14 @@ export type HogarDetails = z.infer<typeof hogarDetailsSchema>;
 
 export type ProductDetails =
   | {
-      category: "CLOTHING";
+      categoryId: "1";
       details: RopaDetails;
     }
   | {
-      category: "ELECTRONICS";
+      categoryId: "2";
       details: ElectronicosDetails;
     }
   | {
-      category: "HOME";
+      categoryId: "3";
       details: HogarDetails;
     };

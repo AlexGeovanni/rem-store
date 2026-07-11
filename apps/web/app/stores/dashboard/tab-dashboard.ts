@@ -58,19 +58,19 @@ export const DATA_SIDEBAR:DataSidebar[] = [
       },
     ],
   },
-  {
-    id: TABS_LAYOUT.ORDERS,
-    title: "Pedidos",
-    url: "/dashboard/pedidos",
-    icon: ListTodo,
-    childrenTab: [
-      {
-        id: TABS_MENU.ORDERS_LIST,
-        title: "Listado",
-        url: "/dashboard/pedidos",
-      },
-    ],
-  },
+  // {
+  //   id: TABS_LAYOUT.ORDERS,
+  //   title: "Pedidos",
+  //   url: "/dashboard/pedidos",
+  //   icon: ListTodo,
+  //   childrenTab: [
+  //     {
+  //       id: TABS_MENU.ORDERS_LIST,
+  //       title: "Listado",
+  //       url: "/dashboard/pedidos",
+  //     },
+  //   ],
+  // },
 ];
 
 interface TabState {

@@ -38,7 +38,7 @@ export const authService = {
     });
     
     const json = await response.json();
-
+    
     if (!response.ok || !json.ok) {
       throw new Error(json.error || "Error del servidor");
     }

@@ -5,21 +5,19 @@ import Image from "next/image";
 
 export default function PaymentOptionsSection() {
   return (
-    <Wrapper className="space-y-2 md:space-y-4">
+    <Wrapper className="space-y-2 md:space-y-4 pb-16 sm:pb-20 lg:pb-24">
       <div>
-        <h2 className="font-title tracking-tight font-semibold pb-1 text-xl leading-8 md:pb-2 md:text-3xl">
+        <h2 className="text-4xl font-medium pb-1 tracking-tight text-balance text-foreground sm:text-4xl lg:text-5xl">
           ¿Cuáles son las opciones de pago?
         </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <div className="md:col-span-2 lg:col-span-3 md:border-r md:pr-2 ">
           <div className="">
-            <div className="max-w-200">
-              <p className="text-sm md:text-base text-gray-500 text-balance">
+              <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
                 Queremos que la experiencia de compra sea rápida y sencilla, por
                 lo que aceptamos las siguientes opciones de pago:
               </p>
-            </div>
             <div className="grid grid-cols-2 xsm:grid-cols-3 lg:grid-cols-5 gap-2 mt-2 md:mt-4">
               <CardPay classname="col-span-1" />
             </div>

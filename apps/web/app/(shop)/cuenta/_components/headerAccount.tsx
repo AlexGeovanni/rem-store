@@ -1,7 +1,7 @@
-
 import Wrapper from "@/app/components/ui/wrapper";
 import { useUserStore } from "@/app/stores/useUserStore";
 export default function HeaderAccount() {
+  
   const { user } = useUserStore();
   const initialName = user?.name?.split(' ')[0]?.charAt(0) || 'U';
   const formatDateCreatAt = (date: string) => {

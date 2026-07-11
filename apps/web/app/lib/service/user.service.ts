@@ -5,4 +5,8 @@ export const userService = {
     const res = await clientApi.get("/proxy/auth/user");
     return res.data;
   },
+  getBusiness: async () => {
+    const res = await clientApi.get("/proxy/auth/business");
+    return res.data;
+  },
 };

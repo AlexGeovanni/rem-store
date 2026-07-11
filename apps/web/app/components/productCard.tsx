@@ -3,9 +3,10 @@ import { useFavoriteStore } from "../stores/useFavoriteStore";
 import {
   Card,
   CardButtonFavorite,
+  CardContentDiscount,
   CardContentImage,
   CardPrice,
-  CardTitle,
+  CardTitleStore,
 } from "@workspace/ui/components/cardComponents";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,8 +15,8 @@ interface ProductCardProps {
   product: Product;
 }
 export default function ProductCard({ product }: ProductCardProps) {
-    const { id, name, price,sales,discount } = product;
-    console.log(typeof product.price)
+  const { id, name, price, sales, discount } = product;
+
   const { favorite, addFavorite, removeFavorite } = useFavoriteStore(
     (state) => state,
   );
@@ -35,12 +36,44 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="w-full h-auto aspect-3/3.5 object-cover group-hover:scale-105 transition-scale duration-300 ease-out"
           />
         </Link>
+        <CardContentDiscount discount={discount} />
         <CardButtonFavorite isFavorite={true} handleFavoriteClick={() => {}} />
       </CardContentImage>
       <div className="">
-        <CardTitle>{name}</CardTitle>
-        <CardPrice price={sales} salePrice={price} discount={discount} />
+        <Link href={`/`}>
+        <CardTitleStore>@Tienda de que vende</CardTitleStore>
+        </Link>
+        <CardPrice name={name} category="Mujer" price={sales} salePrice={price} discount={discount} />
       </div>
     </Card>
   );
 }
+/**
+ * <Link
+        href={`/`}
+        className="mt-3 flex items-center gap-2 text-foreground transition-colors hover:text-primary"
+      >
+        <span className="truncate text-[12px] tracking-wide">
+          @tienda de ropa
+        </span>
+      </Link>
+      <div className="mt-2 flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            {product.category}
+          </div>
+          <h3 className="mt-0.5 truncate text-lg font-medium leading-tight text-foreground">
+            {product.name}
+          </h3>
+        </div>
+        <div className="shrink-0 text-right">
+          <div className="text-sm font-semibold text-foreground">$300.00</div>
+          {true && (
+            <div className="text-xs text-muted-foreground line-through">
+              $50.00
+            </div>
+          )}
+        </div>
+      </div>
+ * 
+ */

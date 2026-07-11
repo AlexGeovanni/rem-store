@@ -1,6 +1,6 @@
 
 
-type Category = "clothing" | "electronics" | "home";
+type Category = "fashion" | "electronic" | "home";
 
 type Details ={
   size: string;
@@ -35,7 +35,7 @@ export const DealsProduct: Product[] = [
     stock: 50,
     active: true,
     discount: 25,
-    category: "clothing",
+    category: "fashion",
     idBusiness: "b1",
     nameBusiness: "Tienda Moda"
   },
@@ -49,7 +49,7 @@ export const DealsProduct: Product[] = [
     stock: 40,
     active: true,
     discount: 25,
-    category: "clothing",
+    category: "fashion",
     idBusiness: "b1",
     nameBusiness: "Tienda Moda"
   },
@@ -63,7 +63,7 @@ export const DealsProduct: Product[] = [
     stock: 20,
     active: true,
     discount: 25,
-    category: "electronics",
+    category: "electronic",
     idBusiness: "b2",
     nameBusiness: "Tech Store"
   },
@@ -77,7 +77,7 @@ export const DealsProduct: Product[] = [
     stock: 30,
     active: true,
     discount: 15,
-    category: "electronics",
+    category: "electronic",
     idBusiness: "b2",
     nameBusiness: "Tech Store"
   },

@@ -169,6 +169,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@repo/core':
+        specifier: workspace:*
+        version: link:../core
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1

@@ -8,11 +8,11 @@ clientApi.interceptors.response.use(
   (res) => res,
   async (error) => {
     if (error.response?.status === 401) {
-      await fetch("/api/auth/logout", { method: "POST" });
+      // await fetch("/api/auth/logout", { method: "POST" });
 
-      window.location.href = "/auth/iniciar-sesion";
+      // window.location.href = "/auth/iniciar-sesion";
     }
 
-    return Promise.reject(error);
+    // return Promise.reject(error);
   }
 );

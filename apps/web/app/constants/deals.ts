@@ -8,7 +8,7 @@ export const categories = [
     label: "Ropa",
   },
   {
-    id: "electronics",
+    id: "electronic",
     label: "Electronicos",
   },
   {
@@ -17,7 +17,7 @@ export const categories = [
   },
 ];
 
-type Category = "clothing" | "electronics" | "home";
+type Category = "clothing" | "electronic" | "home";
 
 export type ProductDeal = {
     id: number;
@@ -74,7 +74,7 @@ export const dealProducts: ProductDeal[] = [
         price: 1200,
         sales: 1000,
         discount: 25,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 6,
@@ -83,7 +83,7 @@ export const dealProducts: ProductDeal[] = [
         price: 3000,
         sales: 2500,
         discount: 15,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 7,
@@ -92,7 +92,7 @@ export const dealProducts: ProductDeal[] = [
         price: 2500,
         sales: 2000,
         discount: 25,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 8,
@@ -101,7 +101,7 @@ export const dealProducts: ProductDeal[] = [
         price: 2000,
         sales: 1000,
         discount: 10,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 9,
@@ -110,7 +110,7 @@ export const dealProducts: ProductDeal[] = [
         price: 1200,
         sales: 1000,
         discount: 15,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 10,
@@ -119,7 +119,7 @@ export const dealProducts: ProductDeal[] = [
         price: 1200,
         sales: 1000,
         discount: 25,
-        category: "electronics",
+        category: "electronic",
     },
     {
         id: 11,

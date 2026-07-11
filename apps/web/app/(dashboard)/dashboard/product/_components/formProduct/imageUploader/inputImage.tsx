@@ -83,9 +83,6 @@ const validateFile = (
   return null
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 Component                                  */
-/* -------------------------------------------------------------------------- */
 
 export function InputImage({
   onChange,
@@ -106,7 +103,6 @@ export function InputImage({
   const [isLoading, setIsLoading] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
-  // Revoke preview URL on unmount or when it changes to avoid memory leaks.
   useEffect(() => {
     return () => {
       if (image?.previewUrl) URL.revokeObjectURL(image.previewUrl)
@@ -128,7 +124,7 @@ export function InputImage({
       )
 
       if (validationError) {
-        // Clear any previous valid image so the error is the only visible state.
+        
         setImage((prev) => {
           if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl)
           return null
@@ -197,7 +193,7 @@ export function InputImage({
     .join(", ")
 
   return (
-    <div className={cn("w-full max-w-md", className)}>
+    <div className={cn("w-full max-w-md relative", className)}>
       <label
         htmlFor={inputId}
         tabIndex={0}
@@ -290,18 +286,19 @@ export function InputImage({
             variant="outline"
             size="sm"
             onClick={() => inputRef.current?.click()}
+            className="cursor-pointer rounded-2xl"
           >
             Cambiar imagen
           </Button>
           <Button
             type="button"
             variant="destructive"
-            size="sm"
+            // size="sm"
             onClick={handleRemove}
             aria-label="Eliminar imagen seleccionada"
+            className="absolute top-2 right-2 z-999 rounded-full cursor-pointer"
           >
-            <Trash2 className="mr-1 h-4 w-4" aria-hidden="true" />
-            Eliminar
+            <Trash2 className=" h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
       )}

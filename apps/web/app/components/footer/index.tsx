@@ -15,7 +15,7 @@ export default function Footer() {
 
   if (excludedPatterns.some((regex) => regex.test(path))) return null;
   return (
-    <footer className=" border-t border-gray-300 text-neutral-500 mt-5 md:mt-6 lg:mt-12">
+    <footer className=" border-t border-gray-300 text-neutral-500">
       <Wrapper className="">
         <div className=" grid gap-8 lg:grid-cols-[400px_1fr] py-4">
           <div className="">

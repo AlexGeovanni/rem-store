@@ -1,32 +1,47 @@
+import { NextResponse } from "next/server";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { type, ...payload } = body;
 
     const url =
-      type === "cliente"
-        ? "/auth/register/client"
-        : "/auth/register/business";
+      type === "cliente" ? "/auth/register/client" : "/auth/register/business";
 
-    const res = await fetch(process.env.API_URL ?? "http://localhost:8080/api/v1" + url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      process.env.API_URL ?? "http://localhost:8080/api/v1" + url,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload),
-    });
+    );
 
-    const data = await res.json();
+    const data = await response.json();
 
-    return Response.json(data, {
-      status: res.status, 
-    });
+    if (!response.ok) {
+      return NextResponse.json(
+        { ok: false, error: data.error || "Error del servidor" },
+        { status: response.status },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        ok: response.ok,
+        status: response.status,
+        ...data,
+      },
+      { status: response.status },
+    );
   } catch (error) {
     console.error(error);
 
-    return Response.json(
+    return NextResponse.json(
       { error: "Error interno del servidor" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

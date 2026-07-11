@@ -5,6 +5,7 @@ import { SiteHeader } from "./site-header";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "@/app/stores/useUserStore";
+import { userService } from "@/app/lib/service/user.service";
 
 export default function SidebarProviderConfig({
   children,
@@ -15,17 +16,15 @@ export default function SidebarProviderConfig({
 }) {
   const { setUser } = useUserStore();
   
-  const {data, isLoading, error, isSuccess}=useQuery({
+  const {data, isSuccess}=useQuery({
     queryKey: ["business"],
-    queryFn: () => {
-      // userService.getBusiness()
-      return null
-    },
+    queryFn: () => userService.getBusiness(),
     enabled:!!initialUser
   });
   useEffect(()=>{
     if(isSuccess && data){
-      // setUser(data?.data);
+      const { user, ...rest } = data.data;
+      setUser({ ...user, ...rest });
     }
   },[isSuccess, data, setUser]);
   
@@ -34,7 +33,7 @@ export default function SidebarProviderConfig({
       <div className="flex flex-1">
         <SideBar />
         <SidebarInset>
-          <SiteHeader initialUser={initialUser} />
+          <SiteHeader name={initialUser} />
           {/* //p-4 pr-8 */}
           <div className="flex flex-1 flex-col gap-4   min-h-[calc(100vh-var(--header-height)-2rem)]">
             {children}
