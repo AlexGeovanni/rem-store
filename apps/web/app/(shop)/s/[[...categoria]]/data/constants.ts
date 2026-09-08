@@ -99,47 +99,6 @@ export const homeCheckbox: TypeCategory[] = [
   },
 ];
 
-export const clote: TypeCategory[] = [
-  {
-    id: 1,
-    label: "Manga corta",
-    value: "",
-  },
-  {
-    id: 2,
-    label: "Manga Larga",
-    value: "",
-  },
-  {
-    id: 3,
-    label: "Pantalon",
-    value: "",
-  },
-  {
-    id: 4,
-    label: "Sudaderas con y sin gorro",
-    value: "",
-  },
-];
-
-export const electronic: TypeCategory[] = [
-  {
-    id: 5,
-    label: "Intel",
-    value: "",
-  },
-  {
-    id: 6,
-    label: "SSD",
-    value: "",
-  },
-  {
-    id: 7,
-    label: "Gamer",
-    value: "",
-  },
-];
-
 export const SORTBY = {
   RECIENTES: "Recientes",
   MENOR_PRECIO: "Menor precio",

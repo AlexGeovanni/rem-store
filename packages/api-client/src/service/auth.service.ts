@@ -1,5 +1,5 @@
-import { RegisterApiInput } from "@repo/core/schemas/auth/register.api.schema";
-import { LoginInput } from "@repo/core/schemas/auth/login.schema";
+import { RegisterApiInput } from "@repo/core/schemas/register.api.schema";
+import { LoginInput } from "@repo/core/schemas/login.schema";
 
 export const authService = {
   login: async (data: LoginInput) => {

@@ -13,12 +13,12 @@ import FooterForm from "../_components/footerForm";
 import {
   type LoginInput,
   loginSchema,
-} from "@repo/core/schemas/auth/login.schema";
+} from "@repo/core/schemas/login.schema";
 
-import FormInputController from "../_components/FormInputController";
 import { authService } from "@repo/api-client/service/auth.service";
 import { useCartStore } from "@/app/stores/useCartStore";
 import { useCart } from "@/app/hooks/useCart";
+import FormInputController from "@/app/components/ui/formInputController/FormInputController";
 export const labelClass: string = "text-base ";
 
 export const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-lg 
@@ -52,7 +52,7 @@ export default function Page() {
 
       clearGuestCart();
 
-      router.push("/cart");
+      router.push("/carrito");
     },
     onError: async (err) => {
       setMessageLoad(err.message);

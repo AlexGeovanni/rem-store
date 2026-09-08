@@ -4,7 +4,6 @@ import ButtonBase from "@workspace/ui/components/buttonBase";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,

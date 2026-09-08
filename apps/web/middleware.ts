@@ -169,7 +169,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // 5. Rutas públicas - permitir acceso
-  // return NextResponse.next();
+  return NextResponse.next();
 }
 
 // ============================================

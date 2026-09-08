@@ -8,7 +8,7 @@ import { Field, FieldError, FieldLabel } from "@workspace/ui/components/field";
 import { cn } from "@workspace/ui/lib/utils";
 import { Textarea } from "@workspace/ui/components/textarea";
 import { type RegisterInput } from "@repo/core/schemas/auth/register.schema";
-import FormInputController from "../../_components/FormInputController";
+import FormInputController from "../../../../components/ui/formInputController/FormInputController";
 
 type Props = {
   form: UseFormReturn<RegisterInput>;

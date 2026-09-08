@@ -30,19 +30,22 @@ export default function TiendaView({
     queryFn: () => productService.getProducts(),
   });
 
-  const productos = data?.content ?? [];
-  console.log("data de productos", data);
+  const productos = useMemo(() => data?.content ?? [], [data]);
+  // console.log("data de productos", data);
   // Filtrar productos por categoría
   const productosFiltrados = useMemo(() => {
     if (!categoria) return productos;
     return (
-      data?.content?.filter(
+      productos?.filter(
         (product: Product) =>
-          product.details?.category.toLocaleLowerCase() ===
+          product.category?.name?.toLocaleLowerCase() ===
           categoria.toLocaleLowerCase(),
       ) || []
     );
-  }, [categoria, data]);
+  }, [categoria, productos]);
+  console.log("categoria", categoria);
+  console.log("productos", productos);
+  console.log("productosFiltrados", productosFiltrados);
 
   // Función para alternar el estado al hacer clic en el botón
   const toggleActivo = useCallback(() => {
@@ -65,7 +68,7 @@ export default function TiendaView({
 
     const nombres: Record<string, string> = {
       moda: "Moda",
-      electronico: "Electrónicos",
+      electronico: "Electrónica",
       hogar: "Hogar",
     };
 

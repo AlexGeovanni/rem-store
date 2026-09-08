@@ -21,7 +21,7 @@ export default function BreadCrumbs() {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/tienda">Tienda</Link>
+            <Link href="/s">Tienda</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />

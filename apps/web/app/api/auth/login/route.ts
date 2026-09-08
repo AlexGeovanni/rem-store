@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loginSchema } from "@repo/core/schemas/auth/login.schema";
+import { loginSchema } from "@repo/core/schemas/login.schema";
 import { setAuthToken, removeAuthToken } from "@/app/actions/auth.actions";
 
 export async function POST(request: Request) {

@@ -3,7 +3,11 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import FormInputField from "../../../_components/FormInputField";
-import { RAM, STORAGE,BRANDS } from "@/app/(dashboard)/constants/electronics";
+import {
+  ELECTRONICS_BRANDS,
+  ELECTRONICS_RAM,
+  ELECTRONICS_STORAGE,
+} from "@repo/core/constants/categories";
 import SelectController from "./selectController";
 
 interface FormCategoryFieldProps {
@@ -55,19 +59,19 @@ export default function FormCategoryField({
             <div className="grid grid-cols-2 gap-2">
               <SelectController
                 control={form.control}
-                data={RAM}
+                data={ELECTRONICS_RAM}
                 label="* Ram"
                 name="details.ram"
               />
               <SelectController
                 control={form.control}
-                data={STORAGE}
+                data={ELECTRONICS_STORAGE}
                 label="* Almacenamiento"
                 name="details.memory"
               />
               <SelectController
                 control={form.control}
-                data={BRANDS}
+                data={ELECTRONICS_BRANDS}
                 label="* Marca"
                 name="details.brand"
               />

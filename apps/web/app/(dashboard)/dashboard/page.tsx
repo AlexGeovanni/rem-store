@@ -1,8 +1,6 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-// import { TableTopProducts } from "./_components/tables/table-top-products";
-// import { ArrowCaretDownIcon, ArrowCaretUpIcon } from "@/icons/icon";
 const data = [
   {
     title: "Total ventas",

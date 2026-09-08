@@ -4,7 +4,10 @@ import { useState } from "react";
 import QuantityBox from "./_components/quantityBox";
 import StarRating from "./_components/reviews/starRating";
 import ReviewsContent from "./_components/reviews/reviewsContent";
-import DescriptionMore from "./_components/descriptionMore";
+import {
+  DescriptionMore,
+  ProductDetailsView,
+} from "./_components/descriptionMore";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import Wrapper from "@/app/components/ui/wrapper";
 import FormatPrice from "@workspace/ui/components/formatPrice";
@@ -12,8 +15,8 @@ import { Button } from "@workspace/ui/components/button";
 import { Heart } from "lucide-react";
 import { SelectSize } from "./_components/selectSize";
 import BreadCrumbs from "@/app/components/ui/breadCrumbs";
-import { useCartStore } from "@/app/stores/useCartStore";
 import { useCart } from "@/app/hooks/useCart";
+import { useFavoriteStore } from "@/app/stores/useFavoriteStore";
 
 export type TypeReview = {
   id: number;
@@ -175,14 +178,28 @@ const SplitReview = (comentarios: TypeReview[], tamañoGrupo: number) => {
 
 export default function ProductView({ data }: { data: any }) {
   const { addItem } = useCart();
+  const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
+
   const reviewsGroup: TypeReview[][] = SplitReview(reviews, 3);
   const [rating, setRating] = useState<number>(3.7);
   const [quantity, setQuantity] = useState<number>(1);
+
+  const isFavorite = favorite.includes(data?.id);
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      removeFavorite(data?.id);
+    } else {
+      addFavorite(data?.id);
+    }
+  };
+
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
   };
+
   const handleIncreaseQuantity = () => {
     if (quantity >= 99) return;
     setQuantity(quantity + 1);
@@ -199,7 +216,7 @@ export default function ProductView({ data }: { data: any }) {
       stock: data.stock,
     });
   };
-
+  const discount = data?.discount > 0;
   return (
     <main>
       <Wrapper className="mt-0 md:mt-0 lg:mt-0">
@@ -207,50 +224,74 @@ export default function ProductView({ data }: { data: any }) {
       </Wrapper>
       <Wrapper className="mt-0 lg:mt-6">
         <div className="tablet:grid tablet:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6">
-          <div className="relative border-r-0 tablet:border-r tablet:col-span-3 lg:col-span-3 xl:col-span-4">
-            <div className="rounded-lg sticky top-2 left-0 right-0">
-              <div className="mx-auto h-125 bg-[#eec232]">
-                {/* <picture className="w-full h-full object-cover ">
-                <img
-                  src="/img/man-clothes.webp"
-                  alt="Producto 1"
-                  className="w-full rounded-2xl"
-                />
-              </picture> */}
+          <div className="relative border-r-0 tablet:col-span-3 lg:col-span-3 xl:col-span-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 xl:grid-cols-8 tablet:pr-5">
+              <div className="order-1 lg:order-0 lg:col-span-2 xl:col-span-1 flex lg:flex-col gap-4 lg:pr-2 xl:pr-0">
+                <div className="bg-gray-100 border border-slate-300 h-17 xs:h-20 xl:h-22 w-20 xl:w-full rounded-lg"></div>
+                <div className="bg-gray-100 border border-slate-300 h-17 xs:h-20 xl:h-22 w-20 xl:w-full rounded-lg"></div>
+                <div className="bg-gray-100 border border-slate-300 h-17 xs:h-20 xl:h-22 w-20 xl:w-full rounded-lg"></div>
+                <div className="bg-gray-100 border border-slate-300 h-17 xs:h-20 xl:h-22 w-20 xl:w-full rounded-lg"></div>
+              </div>
+              <div className="lg:col-span-10 xl:col-span-7 rounded-lg overflow-hidden">
+                <div className="mx-auto h-125 bg-[#eec232]">
+                  <picture className="w-full h-full object-cover aspect-square">
+                    <img
+                      src={data?.url}
+                      alt={data?.name || "---"}
+                      className="w-full h-full object-cover aspect-square "
+                    />
+                  </picture>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-6 mt-5 tablet:mt-0 tablet:pl-5 tablet:col-span-2">
             <TitleProduct
-              title={data?.name || "Nombre del producto"}
+              storeName={data?.idBusiness ?? "---"}
+              title={data?.name || "---"}
               rating={rating}
+              categoryName={data?.category.name ?? ""}
+              subCategory={data?.subCategory ?? ""}
             />
             <div className=" flex justify-start flex-wrap items-baseline gap-y-1 gap-x-3">
               <FormatPrice
-                price={data?.price || 0}
+                price={
+                  discount
+                    ? data?.price * (1 - data?.discount / 100)
+                    : data?.price
+                }
                 className={"text-black text-3xl"}
               />
-              <FormatPrice
-                price={350}
-                className={" text-muted-foreground line-through text-lg"}
-              />
-              <p className=" text-red-500 rounded-full text-lg ">
-                -25% de descuento
-              </p>
+              {discount && (
+                <>
+                  <FormatPrice
+                    price={data?.price || 0}
+                    className={" text-muted-foreground line-through text-lg"}
+                  />
+                  <p className=" text-red-500 rounded-full text-lg ">
+                    -{data?.discount}% de descuento
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="flex flex-col gap-2">
-              <div>
-                {/* <p className="text-base mb-1">Tamaño:</p> */}
-                <SelectSize />
-              </div>
-              <div>
-                <p className="text-base">
-                  Color:
-                  <span className="pl-1 font-medium text-gray-700">Blanco</span>
-                </p>
-              </div>
+              {data?.details?.size && (
+                <div>
+                  <SelectSize size={data?.details?.size} />
+                </div>
+              )}
+              {data?.details?.color && (
+                <div>
+                  <p className="text-base">
+                    Color:
+                    <span className="pl-1 font-medium text-gray-700">
+                      {data?.details?.color}
+                    </span>
+                  </p>
+                </div>
+              )}
             </div>
             <div className="flex flex-col gap-2 ">
               <QuantityBox
@@ -261,19 +302,23 @@ export default function ProductView({ data }: { data: any }) {
                 handleIncreaseQuantity={handleIncreaseQuantity}
               />
               <div className="w-full flex gap-2 items-center">
-                <ButtonBase onClick={addToCart} className="cursor-pointer py-6" disabled={data?.stock < quantity}>
+                <ButtonBase
+                  onClick={addToCart}
+                  className="cursor-pointer py-6"
+                  disabled={data?.stock < quantity}
+                >
                   Agregar al carrito
                 </ButtonBase>
                 <Button
                   size={"icon"}
                   variant={"outline"}
                   className="cursor-pointer rounded-full p-6"
-                  //   onClick={() => handleFavorite("idProduct")}
+                  onClick={handleFavoriteClick}
                 >
                   <Heart
                     color="#c5044b"
                     className="size-5"
-                    fill={false ? "#c5044b" : "none"}
+                    fill={isFavorite ? "#c5044b" : "none"}
                   />
                 </Button>
               </div>
@@ -291,36 +336,70 @@ export default function ProductView({ data }: { data: any }) {
             </div> */}
           </div>
         </div>
+        <div className="grid grid-cols-1 gap-5 xlm:gap-0 xlm:grid-cols-2 py-5">
+          <div className="col-span-1 ">
+            <div className="pb-5">
+              <h2 className="text-xl">Características del producto</h2>
+              <ProductDetailsView
+                category={data?.category.categoryCode ?? ""}
+                details={data?.details}
+              />
+            </div>
+            <div>
+              <h2 className="text-xl">Descripción</h2>
+              <p className="text-gray-500">{data?.description ?? ""}</p>
+            </div>
+          </div>
+          <div className="col-span-1">
+            <ReviewsContent rating={rating} reviews={reviews} />
+          </div>
+        </div>
       </Wrapper>
-      <DescriptionMore
+      {/* <DescriptionMore
         description={data?.description ?? ""}
-        details={{ category: data?.category, details: data?.details }}
-      />
-      <ReviewsContent rating={rating} reviews={reviews} />
+        category={data?.category.categoryCode ?? ""}
+        details={data?.details}
+      /> */}
     </main>
   );
 }
 
 const TitleProduct = ({
+  storeName,
   title,
   rating,
   classname,
+  categoryName,
+  subCategory,
 }: {
+  storeName: string;
   title: string;
   rating: number;
   classname?: string;
+  categoryName: string;
+  subCategory: string;
 }) => {
-  //   const handleFavorite = useFavoriteStore((state) => state.toggleProductId);
-  // const isFavorite = useFavoriteStore((state)=> state.isFavorite("idProduct"))
   return (
     <div className={`w-full space-y-2 ${classname}`}>
-      {/* <p className="mb-2 text-sm font-medium tablet:flex text-gray-600 tablet:mb-0">
-        <span className=" w-6 h-6 text-base inline-flex justify-center items-center bg-green-500 rounded-full text-white mr-3">
-          H
-        </span>
-        Moda para hombre
-      </p> */}
-      <h1 className=" text-2xl font-medium max-w-screen">{title}</h1>
+      <div className="flex items-center gap-3">
+        <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary font-mono text-xs font-bold text-primary-foreground">
+          LS
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            Vendido por
+          </div>
+          <div className="truncate text-sm leading-tight text-foreground">
+            @{storeName}
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1 className=" text-2xl font-medium max-w-screen">{title}</h1>
+        <p className="font-mono text-[13px] uppercase tracking-wider text-muted-foreground">
+          {categoryName} - {subCategory}
+        </p>
+      </div>
       <div className="inline-flex cursor-pointer gap-2 items-center text-sm tablet:text-base text-gray-700 ">
         <StarRating rating={rating} />
         <span className="tracking-[-0.2px] tablet:text-sm lg:text-base">

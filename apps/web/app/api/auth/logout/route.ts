@@ -5,5 +5,5 @@ import { NextResponse } from "next/server";
 export async function POST() {
     // Eliminar token
     await removeAuthToken();
-    return NextResponse.json(null, { status: 204 });
+    return NextResponse.json({ message: "Sesión cerrada correctamente" }, { status: 200 });
 }

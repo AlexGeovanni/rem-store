@@ -37,9 +37,9 @@ export default function QuantityBox({
 
   return (
     <div className="relative">
-      <span className="absolute px-3 text-xs bg-destructive z-10 -top-2 left-4 text-white rounded-full w-auto h-5 flex items-center justify-center">
+      {stock <= 10 &&  <span className="absolute px-3 text-xs bg-destructive z-10 -top-2 left-4 text-white rounded-full w-auto h-5 flex items-center justify-center">
         Ultimas {stock} unidades
-      </span>
+      </span>}
 
       <div
         className={cn(

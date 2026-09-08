@@ -1,8 +1,7 @@
 import z from "zod";
+import { CATEGORY_IDS } from "../constants/categories";
 
-// 1. Categorías (tipadas correctamente)
-export const categoriesValues = ["fashions", "electronic", "home"] as const;
-// export type CategoryId = (typeof categoriesValues)[number];
+export const categoriesValues = CATEGORY_IDS;
 
 // 2. Schemas de detalles por categoría
 const ropaDetailsSchema = z.object({
@@ -21,7 +20,9 @@ const electronicosDetailsSchema = z.object({
 const hogarDetailsSchema = z.object({
   material: z.string(),
   dimensions: z.string(),
-  weight: z.number().positive(),
+  weight: z.coerce
+    .number()
+    .min(0.1, "El peso debe ser mayor que 0"),
 });
 
 // 3. Base común (para no repetir código)
@@ -44,7 +45,7 @@ const baseProductSchema = z.object({
     .number()
     .int()
     .nonnegative("El stock no puede ser negativo")
-    .default(0),
+    .default(1),
   active: z.boolean().default(true),
   description: z
     .string()
@@ -92,16 +93,18 @@ export type RopaDetails = z.infer<typeof ropaDetailsSchema>;
 export type ElectronicosDetails = z.infer<typeof electronicosDetailsSchema>;
 export type HogarDetails = z.infer<typeof hogarDetailsSchema>;
 
-export type ProductDetails =
-  | {
-      categoryId: "1";
-      details: RopaDetails;
-    }
-  | {
-      categoryId: "2";
-      details: ElectronicosDetails;
-    }
-  | {
-      categoryId: "3";
-      details: HogarDetails;
-    };
+// export type ProductDetails =
+//   | {
+//       categoryId: "1";
+//       details: RopaDetails;
+//     }
+//   | {
+//       categoryId: "2";
+//       details: ElectronicosDetails;
+//     }
+//   | {
+//       categoryId: "3";
+//       details: HogarDetails;
+//     };
+
+export type ProductDetails =  RopaDetails |  ElectronicosDetails | HogarDetails

@@ -1,6 +1,6 @@
 import {UseFormReturn } from "react-hook-form";
 import { RegisterInput } from "@repo/core/schemas/auth/register.schema";
-import FormInputController from "../../../_components/FormInputController";
+import FormInputController from "../../../../../components/ui/formInputController/FormInputController";
 import { Fragment } from "react";
 
 type Props = {

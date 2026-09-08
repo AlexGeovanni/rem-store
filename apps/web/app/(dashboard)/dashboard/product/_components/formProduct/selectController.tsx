@@ -9,7 +9,7 @@ interface SelectComponentProps<
   TValue = string,
 > {
   control: Control<TFieldValues>;
-  data: { label: string; value: TValue }[];
+  data: ReadonlyArray<{ label: string; value: TValue }>;
   name: Path<TFieldValues>;
   label:string,
   defaultValue?:string,

@@ -13,7 +13,8 @@ export default function ReviewsContent({
   reviews,
 }: ReviewsContentProps) {
   return (
-    <Wrapper className="pb-5 md:pb-10">
+    // <Wrapper className="pb-5 md:pb-10"></Wrapper>
+    <>
       <div>
         <h2 className="text-xl font-medium pb-5">
           Clasificación y Comentarios
@@ -70,6 +71,6 @@ export default function ReviewsContent({
           {/* <CarouselReviews reviewsGroup={reviewsGroup} /> */}
         </div>
       </div>
-    </Wrapper>
+    </>
   );
 }

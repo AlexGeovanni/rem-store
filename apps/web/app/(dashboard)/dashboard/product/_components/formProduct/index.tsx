@@ -20,11 +20,11 @@ import ImageUploader from "./imageUploader";
 import { Switch } from "@workspace/ui/components/switch";
 import SelectController from "./selectController";
 import {
-  CATEGORIES,
+  DASHBOARD_CATEGORIES,
   SUB_CATEGORIES_ELECTRONIC,
   SUB_CATEGORIES_FASHION,
   SUB_CATEGORIES_HOME,
-} from "@/app/(dashboard)/constants/category";
+} from "@repo/core/constants/categories";
 import { useEffect, useMemo } from "react";
 
 interface FormProductProps {
@@ -69,7 +69,7 @@ export default function FormProduct({
           <div className="space-y-1.5 grid grid-cols-2 gap-2">
             <SelectController
               control={form.control}
-              data={CATEGORIES}
+              data={DASHBOARD_CATEGORIES}
               label="* Categorias"
               name="categoryId"
             />

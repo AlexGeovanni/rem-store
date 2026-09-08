@@ -1,13 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-/**
- *          "id": "84q2bmOE0GRQ3lQ9alp5xJKZW1Byno",
-            "productId": "NJb6X1Y8yQzKEln60lDdL5qGaAVp34",
-            "productName": "Mesa de comedor de madera",
-            "quantity": 1,
-            "unitPrice": 3002.22,
-            "totalPrice": 3002.22
- */
+
 export type CartItem = {
     id: string;
     productId: string;

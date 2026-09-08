@@ -1,8 +1,7 @@
 import { useUserStore } from "@/app/stores/useUserStore";
 import ButtonBase from "@workspace/ui/components/buttonBase";
-import { Button } from "@workspace/ui/components/button";
-import { SquarePen } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
+import { DialogAccout } from "./dialogAccout/dialogAccout";
 
 export default function ResumenAccount() {
   const { user } = useUserStore();
@@ -13,7 +12,7 @@ export default function ResumenAccount() {
         <div className="px-3">
           <div className="flex items-center justify-between mb-4">
             <p className="mb-1 font-semibold text-lg">Informacion personal</p>
-            <Button
+            {/* <Button
               variant={"link"}
               // type="submit"
               // className="rounded-full text-sm h-9 xsm:h-[40px] border-0 hover:bg-transparent md:border md:hover:border-transparent md:hover:bg-[#000000] md:hover:text-white"
@@ -21,7 +20,8 @@ export default function ResumenAccount() {
             >
               <SquarePen className="size-5 md:size-4" />
               <span className="hidden md:block">Editar</span>
-            </Button>
+            </Button> */}
+            <DialogAccout user={user} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <ItemInfo label="Nombre completo" value={user?.name} />

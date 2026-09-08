@@ -10,6 +10,7 @@ import Address from "./_components/address";
 import Wrapper from "@/app/components/ui/wrapper";
 import { useUserStore } from "@/app/stores/useUserStore";
 import { userService } from "@/app/lib/service/user.service";
+import { authService } from "@repo/api-client/service/auth.service";
 
 export type Tab = {
   id: string;
@@ -20,10 +21,10 @@ const tabs: Tab[] = [
       id: "cuenta",
       label: "Cuenta",
     },
-    {
-      id: "pedidos",
-      label: "Pedidos",
-    },
+    // {
+    //   id: "pedidos",
+    //   label: "Pedidos",
+    // },
     // {
     //   id: "direccion",
     //   label: "Direcciones",
@@ -38,7 +39,7 @@ export default function PageCuenta() {
 
   const handleLogout = async () => {
     try {
-      // await authService.logout();
+      await authService.logout();
       router.push('/auth/iniciar-sesion');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
@@ -92,7 +93,7 @@ export default function PageCuenta() {
             }}
           >
             {tabs[0]?.id === selectedTab && <ResumenAccount key={"resumenId"} />}
-            {tabs[1]?.id === selectedTab && <Orders key={"pedidosId"} />}
+            {/* {tabs[1]?.id === selectedTab && <Orders key={"pedidosId"} />} */}
             {/* {tabs[2]?.id === selectedTab && <Address key={"direccionId"} />} */}
             {/* {"pedidos" === selectedTab && <Orders key={"pedidosId"} />}
             {"direccion" === selectedTab && <Address key={"direccionId"} />} */}

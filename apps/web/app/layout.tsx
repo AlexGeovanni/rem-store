@@ -120,8 +120,10 @@ export default async function RootLayout({
 }>) {
 
   const token = await getAuthToken();
+  console.log("RootLayout - token:", token);
   const name = getNameFromPayload(decodeJWT(token ?? ""));
   const email = getEmailFromPayload(decodeJWT(token ?? ""));
+  // console.log("RootLayout - name:", name, "email:", email);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>

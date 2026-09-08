@@ -1,5 +1,4 @@
 import { type Product } from "@repo/core/types/product";
-import { useFavoriteStore } from "../stores/useFavoriteStore";
 import {
   Card,
   CardButtonFavorite,
@@ -10,40 +9,45 @@ import {
 } from "@workspace/ui/components/cardComponents";
 import Link from "next/link";
 import Image from "next/image";
+import { useFavoriteStore } from "../stores/useFavoriteStore";
 
 interface ProductCardProps {
   product: Product;
 }
 export default function ProductCard({ product }: ProductCardProps) {
-  const { id, name, price, sales, discount } = product;
+  const { id,idBusiness, name, price, sales, discount,category, url } = product;
 
-  const { favorite, addFavorite, removeFavorite } = useFavoriteStore(
-    (state) => state,
-  );
-  //   const isFavorite = favorite.includes(id);
+  const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
+    const isFavorite = favorite.includes(id);
+
+    const handleFavoriteClick = () => {
+      if (isFavorite) {
+        removeFavorite(id);
+      } else {
+        addFavorite(id);
+      }
+    }
 
   return (
     <Card key={id}>
       <CardContentImage>
-        <Link href={""}>
+        <Link href={`/p/${id}`}>
           <Image
-            src={
-              "https://img.freepik.com/fotos-premium/conjunto-ropa-accesorios-variados-hombre_58460-641.jpg?w=1480"
-            }
-            alt="imagen de muestra"
+            src={url}
+            alt={name}
             width={300}
             height={350}
             className="w-full h-auto aspect-3/3.5 object-cover group-hover:scale-105 transition-scale duration-300 ease-out"
           />
         </Link>
-        <CardContentDiscount discount={discount} />
-        <CardButtonFavorite isFavorite={true} handleFavoriteClick={() => {}} />
+        {discount > 0 && <CardContentDiscount discount={discount} />}
+        <CardButtonFavorite isFavorite={isFavorite} handleFavoriteClick={handleFavoriteClick} />
       </CardContentImage>
       <div className="">
         <Link href={`/`}>
-        <CardTitleStore>@Tienda de que vende</CardTitleStore>
+        <CardTitleStore>@{idBusiness}</CardTitleStore>
         </Link>
-        <CardPrice name={name} category="Mujer" price={sales} salePrice={price} discount={discount} />
+        <CardPrice name={name} category={category.name} price={sales} salePrice={price} discount={discount} />
       </div>
     </Card>
   );

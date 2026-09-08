@@ -1,6 +1,10 @@
+import type { CategoryKey } from "../constants/categories";
 
-
-type Category = "fashion" | "electronic" | "home";
+type Category = {
+  id: string;
+  categoryCode:string;
+  name: string;
+};
 
 type Details ={
   size: string;

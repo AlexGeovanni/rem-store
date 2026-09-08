@@ -14,10 +14,11 @@ const menuTabs = {
 
 interface DescriptionMoreProps {
   description: string;
+  category: string;
   details: ProductDetails
 }
 
-export default function DescriptionMore({description, details}:DescriptionMoreProps) {
+export function DescriptionMore({description,category, details}:DescriptionMoreProps) {
 
   const [activeTab, setActiveTab] = useState(Object.keys(menuTabs)[0]);
   const isSmallScreen = useScreenSize(420);
@@ -65,7 +66,7 @@ export default function DescriptionMore({description, details}:DescriptionMorePr
             )}
             {activeTab === Object.keys(menuTabs)[1] && (
               <div>
-                <ProductDetailsView productDetails={details} />
+                <ProductDetailsView category={category} details={details} />
               </div>
             )}
           </ResizablePanel>
@@ -76,36 +77,37 @@ export default function DescriptionMore({description, details}:DescriptionMorePr
 }
 
 interface Props {
-  productDetails: ProductDetails
+  category: string;
+  details: ProductDetails
 }
 
-function ProductDetailsView({ productDetails }: Props) {
-  switch (productDetails.category) {
+export function ProductDetailsView({ category, details }: Props) {
+  switch (category) {
     case "CLOTHING":
       return (
-        <div>
-          <p><strong>Talla:</strong> {productDetails.details.size}</p>
-          <p><strong>Color:</strong> {productDetails.details.color}</p>
-          <p><strong>Material:</strong> {productDetails.details.material}</p>
+        <div className="pt-3">
+          <p>Talla: <span className="font-semibold">{details?.size}</span></p>
+          <p>Color: <span className="font-semibold">{details?.color}</span> </p>
+          <p>Material: <span className="font-semibold">{details?.material}</span></p>
         </div>
       );
 
     case "ELECTRONICS":
       return (
-        <div>
-          <p><strong>Marca:</strong> {productDetails.details.brand}</p>
-          <p><strong>Modelo:</strong> {productDetails.details.model}</p>
-          <p><strong>RAM:</strong> {productDetails.details.ram}</p>
-          <p><strong>Memoria:</strong> {productDetails.details.memory}</p>
+        <div className="pt-2.5">
+          <p className="text-lg uppercase font-semibold">{details?.brand}</p>
+          <p>Modelo: <span className="font-semibold"> {details?.model}</span></p>
+          <p>RAM: <span className="font-semibold">{details?.ram}</span></p>
+          <p>Memoria: <span className="font-semibold">{details?.memory}</span></p>
         </div>
       );
 
     case "HOME":
       return (
         <div>
-          <p><strong>Material:</strong> {productDetails.details.material}</p>
-          <p><strong>Dimensiones:</strong> {productDetails.details.dimensions}</p>
-          <p><strong>Peso: </strong>{productDetails.details.weight}</p>
+          <p>Material: <span className="font-semibold">{details?.material}</span> </p>
+          <p>Dimensiones: <span className="font-semibold">{details?.dimensions}</span></p>
+          <p>Peso: <span className="font-semibold">{details?.weight}</span></p>
         </div>
       );
   }

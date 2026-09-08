@@ -27,19 +27,19 @@ const components: { title: string; href: string; items?: {title:string,href:stri
   },
   {
     title: "Electronicos",
-    href: "/s/electronico",
+    href: "/s/electronica",
     items:[
       {
         title:"Celular",
-        href:"/s/electronico"
+        href:"/s/electronica"
       },
       {
         title:"Laptop",
-        href:"/s/electronico"
+        href:"/s/electronica"
       },
       {
         title:"Otros",
-        href:"/s/electronico"
+        href:"/s/electronica"
       }
     ]
   },
@@ -119,7 +119,7 @@ export function MenuDesktop({ initialUser }: MenuDesktopProps) {
                 // Prevenir la acción predeterminada del clic (abrir/cerrar el menú)
                 e.preventDefault();
                 e.stopPropagation();
-                router.push("/s/electronico");
+                router.push("/s/electronica");
               }}
               // className={cn(triggerStyle(),)}
             >

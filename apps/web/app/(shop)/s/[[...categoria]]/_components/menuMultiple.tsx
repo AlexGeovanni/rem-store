@@ -1,6 +1,10 @@
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import Link from "next/link";
 import {
+  CATEGORIES,
+  getShopCategoryPath,
+} from "@repo/core/constants/categories";
+import {
   TypeBuyPrice,
   TypeDiscount,
   TypeCategory,
@@ -20,59 +24,40 @@ interface MenuMultipleProps {
   categoriaActual?: string;
 }
 
-// Mapeo de categorías para enlaces
-const CATEGORIA_LINKS: Record<string, string> = {
-  'moda': '/s/moda',
-  'electronico': '/s/electronico',
-  'hogar': '/s/hogar',
-};
-
 export function MenuMultiple({ categoriaActual }: MenuMultipleProps) {
   return (
     <>
-      {/* Sección de Categorías Principales */}
       <div className="border-t border-gray-400 py-2 font-satoshi">
         <span className="mb-2 inline-block font-semibold">Categorías</span>
         <div className="space-y-1.5">
-          <Link 
-            href="/s" 
-            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${!categoriaActual ? 'font-semibold text-black' : 'text-gray-700'}`}
+          <Link
+            href="/s"
+            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${!categoriaActual ? "font-semibold text-black" : "text-gray-700"}`}
           >
             Todos los productos
           </Link>
-          <Link 
-            href="/s/moda" 
-            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'moda' ? 'font-semibold text-black' : 'text-gray-700'}`}
-          >
-            Moda
-          </Link>
-          <Link 
-            href="/s/electronico" 
-            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'electronico' ? 'font-semibold text-black' : 'text-gray-700'}`}
-          >
-            Electrónicos
-          </Link>
-          <Link 
-            href="/s/hogar" 
-            className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === 'hogar' ? 'font-semibold text-black' : 'text-gray-700'}`}
-          >
-            Hogar
-          </Link>
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category.slug}
+              href={getShopCategoryPath(category.slug)}
+              className={`block py-1 text-sm hover:text-gray-600 transition-colors ${categoriaActual === category.slug ? "font-semibold text-black" : "text-gray-700"}`}
+            >
+              {category.label}
+            </Link>
+          ))}
         </div>
       </div>
 
-      {/* Filtros específicos según la categoría */}
-      {categoriaActual === 'moda' && (
+      {categoriaActual === "moda" && (
         <ItemsFormChecbox title="Genero" array={fashionsCheckbox} />
       )}
-      {categoriaActual === 'electronico' && (
+      {categoriaActual === "electronico" && (
         <ItemsFormChecbox title="Electronicos" array={electronicsCheckbox} />
       )}
-      {categoriaActual === 'hogar' && (
+      {categoriaActual === "hogar" && (
         <ItemsFormChecbox title="Hogar" array={homeCheckbox} />
       )}
-      
-      {/* Filtros comunes */}
+
       <ItemsFormChecbox title="Comprar por precio" array={buyPrice} />
       <ItemsFormChecbox title="Rebajas" array={discount} />
     </>
@@ -89,7 +74,7 @@ const ItemsFormChecbox = ({ title, array }: Props) => {
             key={`${item.label}-${i}-${item.id}`}
             className="items-top flex space-x-2 py-1"
           >
-            <Checkbox id={`${item.id}-${item.label}`}  />
+            <Checkbox id={`${item.id}-${item.label}`} />
             <div className="flex items-center leading-none">
               <label
                 htmlFor={`${item.id}-${item.label}`}
