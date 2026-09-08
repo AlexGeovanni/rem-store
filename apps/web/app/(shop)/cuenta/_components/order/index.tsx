@@ -1,13 +1,10 @@
 import { OrdersTable } from "./ordersTable";
-
+import { Fragment } from "react";
 export default function Order() {
   return (
-    <div className="px-2">
-      <h2 className="font-satoshi text-2xl mb-1 lg:mb-3">Ordenes</h2>
-      <div className="">
-        Cantidad <span> (10)</span>
-      </div>
+    <Fragment>
+      <h3 className="text-2xl font-medium mb-4">Historial</h3>
       <OrdersTable />
-    </div>
+    </Fragment>
   );
 }

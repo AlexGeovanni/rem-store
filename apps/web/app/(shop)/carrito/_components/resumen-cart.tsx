@@ -11,7 +11,7 @@ export default function ResumenCart({ subtotal, total,isNotEmpty }: ResumenCartP
     return (
       <div className="py-3 lg:px-2 lg:py-0">
         <div className="pb-3">
-          <p className="font-satoshi font-semibold mb-2 text-xl lg:mb-4">
+          <p className="font-semibold mb-2 text-xl lg:mb-4">
             Resumen
           </p>
           <div>

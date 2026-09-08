@@ -1,72 +1,133 @@
 import { useUserStore } from "@/app/stores/useUserStore";
 import ButtonBase from "@workspace/ui/components/buttonBase";
+import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { DialogAccout } from "./dialogAccout/dialogAccout";
+import { useMutation } from "@tanstack/react-query";
+import {
+  UserEditInput,
+  UserEditSchema,
+} from "@repo/core/schemas/userEdit.schema";
+import { userService } from "@/app/lib/service/user.service";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldGroup } from "@workspace/ui/components/field";
+import FormInputController from "@/app/components/ui/formInputController/FormInputController";
+import { toast } from "@workspace/ui/lib/toast";
 
 export default function ResumenAccount() {
   const { user } = useUserStore();
-  console.log("user en resumen account", user);
+
+  const initialName = user?.name?.split(" ")[0]?.charAt(0) || "U";
+
+  const formatDateCreatAt = (date: string) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString("es-ES", {
+      year: "numeric",
+      month: "long",
+    });
+  };
+
+  const form = useForm<UserEditInput>({
+    resolver: zodResolver(UserEditSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: user?.name || "",
+      phoneNumber: user?.phoneNumber || "",
+      address: user?.address || "",
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: UserEditInput) => {
+      return await userService.updateUser(data);
+    },
+    onSuccess: (_response, variables) => {
+      toast.success("Cambios guardados correctamente",{position:"top-right"})
+      form.reset(variables);
+    },
+    onError: () => {
+      // Aqui puedes manejar el error de la actualizacion
+    },
+  });
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    mutate(data);
+  });
+
+  const handleCancel = () => {
+    form.reset();
+  };
+
+
   return (
-    <div className="grid gap-4 px-2 grid-cols-4 lg:grid-cols-5">
-      <div className="col-span-4  lg:col-span-3">
-        <div className="px-3">
-          <div className="flex items-center justify-between mb-4">
-            <p className="mb-1 font-semibold text-lg">Informacion personal</p>
-            {/* <Button
-              variant={"link"}
-              // type="submit"
-              // className="rounded-full text-sm h-9 xsm:h-[40px] border-0 hover:bg-transparent md:border md:hover:border-transparent md:hover:bg-[#000000] md:hover:text-white"
-              className="cursor-pointer"
-            >
-              <SquarePen className="size-5 md:size-4" />
-              <span className="hidden md:block">Editar</span>
-            </Button> */}
-            <DialogAccout user={user} />
+    <div className="">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="mb-1 font-medium text-3xl">Configuracion de cuenta</h2>
+      </div>
+      <div>
+        <h3 className="font-medium text-2xl mb-4">Perfil</h3>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="text-xl font-medium h-15 w-15 bg-amber-600 rounded-full flex items-center justify-center">
+            <span className="text-white">{initialName}</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <ItemInfo label="Nombre completo" value={user?.name} />
-            <ItemInfo label="Correo electronico" value={user?.email} />
-            <ItemInfo label="Telefono" value={user?.phoneNumber} />
-            <ItemInfo
-              classname="col-span-1 md:col-span-2"
-              label="Direccion"
-              value={user?.address}
+          <div className="">
+            <div className="text-sm text-gray-500">
+              Cliente desde {user ? formatDateCreatAt(user.createdAt) : "--"}
+            </div>
+            <div className="text-sm text-gray-500">0 - pedidos realizados</div>
+          </div>
+        </div>
+      </div>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 gap-3">
+          <ItemInfo label="Correo electronico" value={user?.email || ""} />
+          <FieldGroup className="col-span-1">
+            <FormInputController
+              control={form.control}
+              name="name"
+              label="Nombre completo"
+              placeholder="Ingresar nombre completo"
             />
+          </FieldGroup>
+          <FieldGroup className="col-span-1">
+            <FormInputController
+              control={form.control}
+              name="phoneNumber"
+              label="Telefono"
+              placeholder="Ingresar telefono"
+            />
+          </FieldGroup>
+          <FieldGroup>
+            <FormInputController
+              control={form.control}
+              name="address"
+              label="Direccion"
+              placeholder="Ingresar direccion"
+            />
+          </FieldGroup>
+          <div className="col-span-1 flex justify-end items-center gap-3">
+            <ButtonBase
+              type="submit"
+              className="flex-0 w-full rounded-full h-9 xsm:h-11 px-10 "
+              disabled={isPending || 
+                !form.formState.isDirty ||
+                !form.formState.isValid ||
+                form.formState.isSubmitting
+              }
+            >
+              Guardar cambios
+            </ButtonBase>
+            <Button
+              type="button"
+              variant={"outline"}
+              className="px-10 rounded-full flex-none cursor-pointer h-9 xsm:h-11"
+              onClick={handleCancel}
+            >
+              Cancelar
+            </Button>
           </div>
         </div>
-      </div>
-      <div className="col-span-4 lg:col-span-2 space-y-3">
-        <div className="border rounded-lg p-3 shadow">
-          <p className="mb-2 font-semibold">Estadísticas de Compras</p>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-blue-200/40 p-2 py-4 rounded-md space-y-1 flex flex-col justify-center items-center">
-              <p className="text-blue-500 text-xl font-bold">0</p>
-              <span className="inline-block text-xs text-gray-600">
-                Total pedidos
-              </span>
-            </div>
-            <div className="bg-green-200/40 p-2 py-4 rounded-md space-y-1 flex flex-col justify-center items-center">
-              <p className="text-green-500 text-xl font-bold">$0</p>
-              <span className="inline-block text-xs text-gray-600">
-                Total gastado
-              </span>
-            </div>
-            <div className="bg-red-200/40 p-2 py-4 rounded-md space-y-1 flex flex-col justify-center items-center">
-              <p className="text-red-500 text-xl font-bold">0</p>
-              <span className="inline-block text-xs text-gray-600">
-                Favoritos
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="border rounded-lg p-3 shadow">
-          <p className="mb-1 font-semibold">Configuración de cuenta</p>
-          <div className="text-gray-500 text-xs mb-2">
-            Acciones irreversibles para tu cuenta
-          </div>
-          <ButtonBase className="w-full h-[40px]">Eliminar cuenta</ButtonBase>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }
@@ -79,11 +140,11 @@ type PropsItem = {
 
 const ItemInfo = ({ label, value, classname }: PropsItem) => {
   return (
-    <div className={cn("w-full", classname)}>
-      <label htmlFor="" className="uppercase font-medium text-xs text-gray-500">
+    <div className={cn("w-full p-2", classname)}>
+      <label htmlFor="" className="font-medium text-sm text-zinc-600">
         {label}
       </label>
-      <p className="text-black text-sm">{value}</p>
+      <p className="text-black text-sm py-2">{value}</p>
     </div>
   );
 };

@@ -115,7 +115,7 @@ export function CardPrice({
           <div className=" font-semibold text-foreground">{FormatPrice(salePrice ?? price)}</div>
           {discount > 0 && (
             <div className="text-[13px] text-muted-foreground line-through">
-              {FormatPrice(salePrice ?? price)}
+              {FormatPrice( price)}
             </div>
           )}
         </div>

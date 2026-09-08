@@ -4,7 +4,7 @@ import { Button } from "@workspace/ui/components/button"
 
 export default function NotFound() {
   const popularCategories = [
-    { name: "Electrónicos", href: "/s/electronico" },
+    { name: "Electrónicos", href: "/s/electronica" },
     { name: "Moda", href: "/s/moda" },
     { name: "Hogar", href: "/s/hogar" },
   ]
@@ -46,13 +46,13 @@ export default function NotFound() {
 
             {/* Actions */}
             <div className="flex flex-wrap gap-3">
-              <Button asChild>
+              <Button asChild className="rounded-full">
                 <Link href="/">
                   <Home className="h-4 w-4" aria-hidden="true" />
                   Ir al inicio
                 </Link>
               </Button>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="rounded-full">
                 <Link href="/s">
                   <ShoppingBag className="h-4 w-4" aria-hidden="true" />
                   Ver productos
@@ -105,7 +105,7 @@ export default function NotFound() {
               <li key={category.name}>
                 <Link
                   href={category.href}
-                  className="group flex h-full items-center justify-between rounded-lg border border-border bg-card px-4 py-3 text-sm font-medium text-card-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                  className="group flex h-full items-center justify-between rounded-full border border-border bg-card px-4 py-3 text-sm font-medium text-card-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
                   <span>{category.name}</span>
                   <ArrowLeft

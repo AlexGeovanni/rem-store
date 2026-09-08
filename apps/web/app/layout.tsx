@@ -7,6 +7,7 @@ import { Header } from "./components/header";
 import { AuthProvider } from "./providers/authProvider";
 import { getAuthToken } from "./actions/auth.actions";
 import { decodeJWT, getEmailFromPayload, getNameFromPayload } from "@repo/api-client/jwt";
+import { Toaster } from "@workspace/ui/components/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -120,10 +121,9 @@ export default async function RootLayout({
 }>) {
 
   const token = await getAuthToken();
-  console.log("RootLayout - token:", token);
   const name = getNameFromPayload(decodeJWT(token ?? ""));
   const email = getEmailFromPayload(decodeJWT(token ?? ""));
-  // console.log("RootLayout - name:", name, "email:", email);
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
@@ -131,6 +131,7 @@ export default async function RootLayout({
           <AuthProvider user={name && email ? { name, email } : null}>
             <Header />
             {children}
+            <Toaster />
             <Footer />
           </AuthProvider>
         </QueryProvider>

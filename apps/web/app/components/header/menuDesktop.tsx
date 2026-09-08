@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import UserActions from "./user-actions";
+import UserActions from "./userActions";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@workspace/ui/components/navigation-menu";
 import { cn } from "@workspace/ui/lib/utils";
 import { useScreenSize } from "@workspace/ui/hooks/useScreenSize";
@@ -66,10 +66,10 @@ const components: { title: string; href: string; items?: {title:string,href:stri
 // const triggerStyle = cva("tracking-wide text-base cursor-pointer [&_svg]:hidden bg-transparent underline-offset-6 decoration-[1.5px] focus:bg-transparent hover:bg-transparent hover:underline data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:hover:underline data-[state=open]:focus:bg-transparent")
 
 interface MenuDesktopProps {
-  initialUser?: string | null;
+  userName?: string | null;
 }
 
-export function MenuDesktop({ initialUser }: MenuDesktopProps) {
+export function MenuDesktop({ userName }: MenuDesktopProps) {
   const isMobile = useScreenSize(768);
   //   const { onclick } = useOnclickAuth();
   const router = useRouter();
@@ -161,7 +161,7 @@ export function MenuDesktop({ initialUser }: MenuDesktopProps) {
           <UserActions 
             onClickLogin={onClickLogin} 
             onClickProfile={onClickProfile}
-            initialUser={initialUser}
+            userName={userName}
           />
         </NavigationMenuList>
       </NavigationMenu>

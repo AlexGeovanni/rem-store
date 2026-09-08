@@ -11,15 +11,15 @@ export default function PaymentOptionsSection() {
           ¿Cuáles son las opciones de pago?
         </h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div className="md:col-span-2 lg:col-span-3 md:border-r md:pr-2 ">
+      <div className="grid grid-cols-1 tablet:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="tablet:col-span-2 lg:col-span-3 tablet:border-r tablet:pr-2 ">
           <div className="">
               <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
                 Queremos que la experiencia de compra sea rápida y sencilla, por
                 lo que aceptamos las siguientes opciones de pago:
               </p>
             <div className="grid grid-cols-2 xsm:grid-cols-3 lg:grid-cols-5 gap-2 mt-2 md:mt-4">
-              <CardPay classname="col-span-1" />
+              {Array.from({length:5}).map((_,i)=> <CardPay classname="col-span-1" />)}
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@ export default function PaymentOptionsSection() {
           <h3 className="font-medium  pb-1 text-lg leading-8 md:pb-2 md:text-2xl md:text-center">
             Contactanos
           </h3>
-          <div className="flex mt-3 gap-3 flex-col xsm:gap-1 xsm:flex-row md:block md:space-y-6 lg:mt-6 ">
+          <div className="flex mt-3 gap-3 flex-col xsm:gap-1 xsm:flex-row tablet:block tablet:space-y-6 lg:mt-6 ">
             <div className="xsm:w-1/3 flex flex-col xsm:items-center gap-2 md:w-full">
               <Phone />
               <div className="xsm:text-center">

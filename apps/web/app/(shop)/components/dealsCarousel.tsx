@@ -4,23 +4,37 @@ import Wrapper from "@/app/components/ui/wrapper";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ProductCarousel } from "@/app/components/ProductCarousel";
-import { DealsProduct } from "@repo/core/types/product";
 import { categories } from "@/app/constants/deals";
+import { productService } from "@/app/lib/service/product.service";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "@repo/core/types/product";
 
 export default function DealsCarousel() {
-  const [selectCategory, setSelectCategory] = useState<string | undefined>(
+  const [selectCategory, setSelectCategory] = useState<string >(
     "all",
   );
 
-  // Filtrar productos según la categoría seleccionada
-  const filteredProducts = useMemo(() => {
-    if (selectCategory === "all") {
-      return DealsProduct;
+  const { data, isLoading, error, isSuccess } = useQuery({
+      queryKey: ["productsAll"],
+      queryFn: () => productService.getProducts(),
+    });
+  
+    const products = useMemo(() => data?.content ?? [], [data]);
+
+    const filteredProducts = useMemo(() => {
+      if (selectCategory === "all") {
+      return products;
     }
-    return DealsProduct.filter(
-      (product) => product.category === selectCategory,
-    );
-  }, [selectCategory]);
+      return (
+        products?.filter(
+          (product: Product) =>
+            product.category?.name?.toLocaleLowerCase() ===
+            selectCategory.toLocaleLowerCase(),
+        ) || []
+      );
+    }, [selectCategory, products]);
+
+  
   return (
     <div className="w-full overflow-hidden">
       <Wrapper className="space-y-2">

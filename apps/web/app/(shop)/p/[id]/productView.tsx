@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import QuantityBox from "./_components/quantityBox";
 import StarRating from "./_components/reviews/starRating";
 import ReviewsContent from "./_components/reviews/reviewsContent";
@@ -177,7 +177,7 @@ const SplitReview = (comentarios: TypeReview[], tamañoGrupo: number) => {
 };
 
 export default function ProductView({ data }: { data: any }) {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
   const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
 
   const reviewsGroup: TypeReview[][] = SplitReview(reviews, 3);
@@ -185,6 +185,10 @@ export default function ProductView({ data }: { data: any }) {
   const [quantity, setQuantity] = useState<number>(1);
 
   const isFavorite = favorite.includes(data?.id);
+
+  const item = items.find((item) => item.productId === data?.id);
+
+  const quantityExceeded = item ? item.quantity >= item.stock : false;
 
   const handleFavoriteClick = () => {
     if (isFavorite) {
@@ -211,6 +215,7 @@ export default function ProductView({ data }: { data: any }) {
       productId: data.id,
       quantity: quantity,
       productName: data.name,
+      url:data.url,
       unitPrice: data.price,
       totalPrice: data.price * quantity,
       stock: data.stock,
@@ -305,7 +310,7 @@ export default function ProductView({ data }: { data: any }) {
                 <ButtonBase
                   onClick={addToCart}
                   className="cursor-pointer py-6"
-                  disabled={data?.stock < quantity}
+                  disabled={data?.stock < quantity || quantityExceeded}
                 >
                   Agregar al carrito
                 </ButtonBase>
@@ -322,6 +327,12 @@ export default function ProductView({ data }: { data: any }) {
                   />
                 </Button>
               </div>
+              {quantityExceeded && (
+                <p className="px-1 md:px-3 text-sm text-muted-foreground">
+                  Solo hay {data?.stock} unidades disponibles y ya tienes esa
+                  cantidad en tu carrito.
+                </p>
+              )}
             </div>
             {/* <Description /> */}
             {/* <div>
@@ -339,15 +350,15 @@ export default function ProductView({ data }: { data: any }) {
         <div className="grid grid-cols-1 gap-5 xlm:gap-0 xlm:grid-cols-2 py-5">
           <div className="col-span-1 ">
             <div className="pb-5">
-              <h2 className="text-xl">Características del producto</h2>
+              <h2 className="text-xl font-medium">Características del producto</h2>
               <ProductDetailsView
                 category={data?.category.categoryCode ?? ""}
                 details={data?.details}
               />
             </div>
             <div>
-              <h2 className="text-xl">Descripción</h2>
-              <p className="text-gray-500">{data?.description ?? ""}</p>
+              <h2 className="text-xl font-medium">Descripción</h2>
+              <p className="">{data?.description ?? ""}</p>
             </div>
           </div>
           <div className="col-span-1">

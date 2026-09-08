@@ -52,7 +52,8 @@ export default function Page() {
 
       clearGuestCart();
 
-      router.push("/carrito");
+      router.replace("/carrito");
+      router.refresh();
     },
     onError: async (err) => {
       setMessageLoad(err.message);

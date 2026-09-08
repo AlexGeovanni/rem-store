@@ -15,18 +15,21 @@ interface ProductCardProps {
   product: Product;
 }
 export default function ProductCard({ product }: ProductCardProps) {
-  const { id,idBusiness, name, price, sales, discount,category, url } = product;
+  const { id, idBusiness, name, price, discount, category, url } =
+    product;
 
   const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
-    const isFavorite = favorite.includes(id);
+  const isFavorite = favorite.includes(id);
 
-    const handleFavoriteClick = () => {
-      if (isFavorite) {
-        removeFavorite(id);
-      } else {
-        addFavorite(id);
-      }
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      removeFavorite(id);
+    } else {
+      addFavorite(id);
     }
+  };
+
+  const finalPrice = Number((price - (price * discount) / 100).toFixed(2));
 
   return (
     <Card key={id}>
@@ -41,13 +44,22 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         </Link>
         {discount > 0 && <CardContentDiscount discount={discount} />}
-        <CardButtonFavorite isFavorite={isFavorite} handleFavoriteClick={handleFavoriteClick} />
+        <CardButtonFavorite
+          isFavorite={isFavorite}
+          handleFavoriteClick={handleFavoriteClick}
+        />
       </CardContentImage>
       <div className="">
         <Link href={`/`}>
-        <CardTitleStore>@{idBusiness}</CardTitleStore>
+          <CardTitleStore>@{idBusiness}</CardTitleStore>
         </Link>
-        <CardPrice name={name} category={category.name} price={sales} salePrice={price} discount={discount} />
+        <CardPrice
+          name={name}
+          category={category.name}
+          price={price}
+          salePrice={finalPrice}
+          discount={discount}
+        />
       </div>
     </Card>
   );

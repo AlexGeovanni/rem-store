@@ -61,12 +61,10 @@ import { DialogOrderDetail } from "./dialogOrderDetail"
         <TableHeader>
           <TableRow>
             <TableHead className="w-[150px]">Num. orden</TableHead>
-            <TableHead>Estatus</TableHead>
-            {/* <TableHead>Method</TableHead> */}
             <TableHead>Fecha</TableHead>
-            <TableHead className="w-[180px] ">Empresa</TableHead>
+            <TableHead className="w-[250px] ">Empresa</TableHead>
             <TableHead className="w-[50px] ">Cantidad</TableHead>
-            <TableHead className="text-right">Total c/u</TableHead>
+            <TableHead className="text-right">Total</TableHead>
             <TableHead className="text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -74,7 +72,6 @@ import { DialogOrderDetail } from "./dialogOrderDetail"
           {invoices.map((invoice) => (
             <TableRow key={invoice.invoice}>
               <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
               {/* <TableCell>{invoice.paymentMethod}</TableCell> */}  
               <TableCell>02/09/2025</TableCell>           
               <TableCell className=""><p className=" w-full line-clamp-1">la puerte de la esq uiaasasa asassa</p></TableCell>

@@ -8,12 +8,10 @@ import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
 import { cn } from "@workspace/ui/lib/utils";
+import { useAuth } from "@/app/providers/authProvider";
 
-interface HeaderProps {
-  initialUser?: string | null;
-}
-
-export default function Content({ initialUser }: HeaderProps) {
+export default function Content() {
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isScrolledbg, setIsScrolledbg] = useState<boolean>(false);
   const { scrollY } = useScroll();
@@ -24,6 +22,7 @@ export default function Content({ initialUser }: HeaderProps) {
     /^\/admin(\/|$)/, // Ejemplo extra: todo lo que comience con /admin o /admin/...
   ];
   const isHome = path=== "/";
+
   useMotionValueEvent(scrollY, "change", (latestValue) => {
     const diff = latestValue - (scrollY.getPrevious() ?? 0);
     const isScrollingUp = latestValue > 400;
@@ -47,7 +46,7 @@ export default function Content({ initialUser }: HeaderProps) {
         className={cn('fixed top-0 left-0 right-0 z-50 bg-background lg:transition-all lg:ease-initial lg:duration-450 lg:bg-transparent lg:hover:bg-background ',!isHome?'lg:bg-background': isScrolledbg &&'lg:bg-background')}
       >
         {/*border bg-background */}
-        <MenuDesktop initialUser={initialUser} />
+        <MenuDesktop userName={user?.name} />
       </motion.header>  
     </div>
   );

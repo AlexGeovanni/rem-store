@@ -1,9 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Sparkles, Store } from "lucide-react"
+import { ArrowUpRight, Store } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import ButtonBase from "@workspace/ui/components/buttonBase"
 import Wrapper from "@/app/components/ui/wrapper"
+import FormatoPrice from "@repo/core/utils/FormatPrice"
 
 export function HeroSection() {
   return (
@@ -13,22 +14,23 @@ export function HeroSection() {
     >
       <Wrapper className="mx-auto grid w-full grid-cols-1 gap-8 px-4 pb-3 mt-0 md:mt-1 lg:mt-2  sm:px-6 lg:grid-cols-12 lg:gap-4 lg:px-8 lg:pb-6 ">
         {/* Left: Copy */}
-        <div className="flex flex-col justify-between lg:col-span-6">
+        <div className="flex flex-col lg:col-span-6">
           <div className="flex items-center gap-2 text-sm">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 font-mono text-xs uppercase tracking-wider text-accent-foreground">
-              <Sparkles className="size-3" aria-hidden="true" />
+              {/* <Sparkles className="size-3" aria-hidden="true" /> */}
               +2,400 creadores · 38k productos
             </span>
           </div>
 
-          <div className="mt-8 lg:mt-0">
-            <h1
+          <div className="mt-8 flex-1 flex flex-col justify-between">
+            <div>
+              <h1
               id="hero-title"
-              className="font-medium text-6xl leading-[0.9] tracking-tight text-balance text-foreground sm:text-7xl lg:text-[5rem] xl:text-[6.5rem] lg:leading-[0.85]"
+              className="font-medium text-6xl leading-[0.9] tracking-tight text-balance text-foreground sm:text-7xl lg:text-[5rem] xl:text-[6rem] lg:leading-[0.85]"
             >
               Moda <em className="text-primary">independiente</em>, comprada directo al creador.
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-6 max-w-md text-base leading-tight text-muted-foreground ">
               REM/STORE es el marketplace donde marcas pequeñas 
               venden sus piezas. Descubre, compra y conecta con quien hace lo que vistes.
             </p>
@@ -51,6 +53,7 @@ export function HeroSection() {
                   Vender en REM/STORE
                 </Link>
               </Button>
+            </div>
             </div>
 
             <div className="mt-10 flex items-center gap-6 border-t border-border/60 pt-6">
@@ -94,20 +97,20 @@ export function HeroSection() {
             <div className="absolute bottom-4 left-4 max-w-70 w-full rounded-xl bg-background/95 p-4 shadow-lg backdrop-blur-sm sm:bottom-6 sm:left-6">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary font-mono text-sm font-bold text-primary-foreground">
-                  LS
+                  B
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                     Vendido por
                   </div>
                   <div className="truncate text-base leading-tight text-foreground">
-                    @lola.studio
+                    @Backdrom
                   </div>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3">
                 <div className=" text-sm text-foreground">Blazer Solana</div>
-                <div className="text-sm font-semibold text-primary">$189</div>
+                <div className="text-sm font-semibold text-primary">{FormatoPrice(200)}</div>
               </div>
             </div>
 

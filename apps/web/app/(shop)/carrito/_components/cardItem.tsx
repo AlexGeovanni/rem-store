@@ -4,6 +4,8 @@ import { Button } from "@workspace/ui/components/button";
 import { Heart, Minus, Plus, Trash } from "lucide-react";
 import { CartItem } from "@/app/stores/useCartStore";
 import FormatoPrice from "@repo/core/utils/FormatPrice";
+import { useFavoriteStore } from "@/app/stores/useFavoriteStore";
+import Link from "next/link";
 
 interface CardItemProps {
   item: CartItem;
@@ -16,31 +18,39 @@ export default function CardItem({
   onclickCountMinus,
   onclickCountPlus,
 }: CardItemProps) {
-  const { id, productName:name,unitPrice:price, quantity, image, stock } = item;
+  const { id, productName:name,unitPrice:price, quantity, url, stock } = item;
+  const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
+  const isFavorite = favorite.includes(id);
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      removeFavorite(id);
+    } else {
+      addFavorite(id);
+    }
+  };
   return (
     <div className="py-3 md:py-6 relative">
-      <div className="flex items-start font-satoshi">
-        <div className="mr-4">
+      <div className="flex items-start">
+        <Link href={`/p/${id}`} className="mr-4">
           <Image
-            src={
-              "https://static.nike.com/a/images/t_PDP_1728_v1/w_318,f_auto,q_auto:eco,b_rgb:f5f5f5/67457474-ff55-42f6-8c5d-b9d189793aef/shorts-de-correr-dri-fit-de-13-900-con-forro-de-ropa-interior-challenger-flash-YFeHZqPR.png"
-            }
+            src={url ?? ""}
             alt="nike"
             width={160}
             height={160}
             className="aspect-square object-cover rounded-xl"
           />
-        </div>
+        </Link>
         <div className="flex-1 flex flex-col-reverse md:justify-between md:flex-row w-full">
           <div className="text-sm max-w-[20ch] md:max-w-full md:text-base">
-            <div className="text-black text-base md:mb-3">{name}</div>
-            <div className="text-gray-600">
+            <div className="text-black text-base lg:text-lg md:mb-3"><Link href={`/p/${id}`}>{name}</Link></div>
+            {/* <div className="text-gray-600">
               <p className="truncate">
                 Falda de tenis Dri-FIT corta con volantes para mujer
               </p>
               <p className="hidden md:block">Azul marino militar/Blanco</p>
               <p>Talla XS</p>
-            </div>
+            </div> */}
           </div>
           <div>{FormatoPrice(price)}</div>
         </div>
@@ -67,11 +77,12 @@ export default function CardItem({
           </Button>
         </div>
         <Button
+          onClick={handleFavoriteClick}
           variant={"outline"}
           size={"icon"}
           className="cursor-pointer rounded-full border-gray-200 transition-colors ease-out duration-200 hover:bg-gray-200 "
         >
-          <Heart />
+          <Heart color="#c5044b" fill={isFavorite ? "#c5044b" : "none"} />
         </Button>
       </div>
       {quantity >= 10 && (

@@ -2,24 +2,36 @@
 import Link from "next/link";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/app/hooks/useCart";
 // import ButtonAnimateBorder from "../buttons/button-animate-border";
 
 
 interface UserActionsProps {
   onClickLogin: () => void;
   onClickProfile: () => void;
-  initialUser?: string | null;
+  userName?: string | null;
 }
 
-export default function UserActions({ onClickLogin, onClickProfile, initialUser }: UserActionsProps) {
+export default function UserActions({ onClickLogin, onClickProfile, userName }: UserActionsProps) {
+ const {items} = useCart()
+ const totalCartQuantity = items.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
+
+const cartBadge =
+  totalCartQuantity > 9 ? "9+" : totalCartQuantity;
 
   return (
     <div className="flex items-center gap-4">
-      <Link href={"/carrito"}>
+      <Link href={"/carrito"} className="relative">
         <ShoppingCart />
+        <span className="absolute text-[10px] bg-destructive z-10 -top-2 left-3 text-white rounded-full w-5 h-5 flex items-center justify-center">
+       {cartBadge}
+      </span>
       </Link>
-      {!!initialUser ? (
-        <UserAvatar user={initialUser} onClickProfile={onClickProfile} />
+      {!!userName ? (
+        <UserAvatar user={userName} onClickProfile={onClickProfile} />
       ) : (
         <ButtonBase onClick={onClickLogin} className="text-sm h-11">
           Iniciar sesión
