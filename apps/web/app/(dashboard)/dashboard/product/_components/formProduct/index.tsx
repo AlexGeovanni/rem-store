@@ -17,7 +17,6 @@ import {
 } from "@repo/core/schemas/productCreate.schema";
 import FormInputField from "../../../_components/FormInputField";
 import ImageUploader from "./imageUploader";
-import { Switch } from "@workspace/ui/components/switch";
 import SelectController from "./selectController";
 import {
   DASHBOARD_CATEGORIES,
@@ -25,7 +24,8 @@ import {
   SUB_CATEGORIES_FASHION,
   SUB_CATEGORIES_HOME,
 } from "@repo/core/constants/categories";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useWatch } from "react-hook-form";
 
 interface FormProductProps {
   form: UseFormReturn<ProductCreateInput>;
@@ -43,12 +43,18 @@ export default function FormProduct({
   onSubmitDelete,
 }: FormProductProps) {
   const {
-    formState: { isValid, errors },
-    getValues,
-    
+    formState: { isValid },
   } = form;
 
-  const category = getValues("categoryId");
+  const category = useWatch({
+    control: form.control,
+    name: "categoryId",
+  });
+  const imageUrl = useWatch({
+    control: form.control,
+    name: "url",
+  });
+  const previousCategory = useRef(category);
 
   const SUB_CATEGORIES = useMemo(() => {
     return category === "1"
@@ -59,8 +65,29 @@ export default function FormProduct({
   }, [category]);
 
   useEffect(() => {
-  form.resetField("subCategory");
-}, [category]);
+    if (
+      previousCategory.current &&
+      category &&
+      previousCategory.current !== category
+    ) {
+      form.resetField("subCategory");
+    }
+
+    previousCategory.current = category;
+  }, [category, form]);
+
+  const handleImageChange = (selectedFile: File | null) => {
+    // A null value here means the user explicitly removed the image.
+    // An invalid file is ignored by InputImage and does not clear the current URL.
+    if (selectedFile === null) {
+      form.setValue("url", "", {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+
+    onChange?.(selectedFile);
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -176,13 +203,13 @@ export default function FormProduct({
             </div>
           </div>
           <FormCategoryField
-            category={form.watch("categoryId")}
+            category={category}
             form={form}
-            keyCategory={form.watch("categoryId")}
+            keyCategory={category}
           />
         </div>
         <div className="col-span-2">
-          <ImageUploader onChange={onChange} />
+          <ImageUploader value={imageUrl} onChange={handleImageChange} />
         </div>
       </div>
       <div className="mt-5 flex justify-between space-x-2">
@@ -197,6 +224,7 @@ export default function FormProduct({
           <Button
             variant={"destructive"}
             className="rounded-full text-sm h-9 xsm:h-11.5 px-4 cursor-pointer "
+            type="button"
             onClick={() => form.reset()}
           >
             Cancelar

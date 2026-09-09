@@ -1,7 +1,11 @@
 import InputImage from "./inputImage"
 
+interface ImageUploaderProps {
+  value?: string | null
+  onChange?: (file: File | null) => void
+}
 
-export default function ImageUploader({onChange}:{onChange?: (file: File | null) => void}) {
+export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
   return (
     <div className="flex items-center justify-center bg-background p-6">
       <section className="w-full max-w-md space-y-6">
@@ -16,7 +20,7 @@ export default function ImageUploader({onChange}:{onChange?: (file: File | null)
           </p>
         </header>
 
-        <InputImage onChange={onChange} />
+        <InputImage value={value} onChange={onChange} />
       </section>
     </div>
   )

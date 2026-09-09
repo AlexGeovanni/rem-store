@@ -5,13 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import {
   ProductCreateInput,
   productCreateSchema,
 } from "@repo/core/schemas/productCreate.schema";
 import { ArrowLeft } from "lucide-react";
 import { productService } from "@/app/lib/service/product.service";
+import { imageService } from "@/app/lib/service/image.service";
 import { useEffect, useState } from "react";
 import FormProduct from "../../_components/formProduct";
 
@@ -22,14 +22,12 @@ export default function UpdateProductClient({
 }) {
   const [file, setFile] = useState<File | null>(null);
 
-  const router = useRouter();
-
   const form = useForm<ProductCreateInput>({
     resolver: zodResolver(productCreateSchema),
     mode: "onChange",
   });
 
-  const { data: product, isLoading } = useQuery({
+  const { data: product } = useQuery({
     queryKey: ["product", productId],
     queryFn: () => productService.getProductById(productId),
     enabled: !!productId,
@@ -42,17 +40,6 @@ export default function UpdateProductClient({
       
   });
   
-  const deleteMutation = useMutation({
-    // mutationFn: (id: string) => productService.deleteProduct(id),
-    onSuccess: () => {
-      router.push("/dashboard/");
-    },
-    onError: (_) => {
-      // toast.error("Error al eliminar el producto");
-      console.log("error");
-    },
-  });
-
   const onSubmitDelete = async () => {
     alert("Eliminar producto");
     // mutate(productId);
@@ -77,9 +64,17 @@ export default function UpdateProductClient({
   }, [product, form]);
 
   const onSubmit = form.handleSubmit(async (data) => {
-    const {businessId, categoryId, sku, ...res}= data;
-    console.log("data", res);
-    updateMutation.mutate(res)
+    try {
+      const url = file ? await imageService.upload(file) : data.url;
+      const payload: Record<string, unknown> = { ...data, url:url };
+      delete payload.businessId;
+      delete payload.categoryId;
+      delete payload.sku;
+
+      updateMutation.mutate(payload);
+    } catch (error) {
+      console.error("No se pudo actualizar la imagen del producto", error);
+    }
   });
 
   return (

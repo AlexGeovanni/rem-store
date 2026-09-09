@@ -20,6 +20,8 @@ import { Button } from "@workspace/ui/components/button"
 /* -------------------------------------------------------------------------- */
 
 export interface ImageUploaderProps {
+  /** Existing image URL, normally received while editing a product. */
+  value?: string | null
   /** Called whenever a valid file is selected (or null when removed). */
   onChange?: (file: File | null) => void
   /** Allowed MIME types. Defaults to JPEG and WEBP. */
@@ -85,6 +87,7 @@ const validateFile = (
 
 
 export function InputImage({
+  value,
   onChange,
   acceptedTypes = ["image/jpeg", "image/webp"],
   minSizeBytes = 0 * KB,
@@ -131,7 +134,6 @@ export function InputImage({
         })
         setError(validationError)
         setIsLoading(false)
-        onChange?.(null)
         return
       }
 
@@ -188,10 +190,8 @@ export function InputImage({
   }
 
   const acceptAttr = acceptedTypes.join(",")
-  const readableTypes = acceptedTypes
-    .map((t) => t.replace("image/", ".").toUpperCase())
-    .join(", ")
-
+  const previewUrl = image?.previewUrl ?? value ?? null
+  const hasImage = Boolean(previewUrl)
   return (
     <div className={cn("w-full max-w-md relative", className)}>
       <label
@@ -225,19 +225,19 @@ export function InputImage({
           aria-label={label}
         />
 
-        {image ? (
+        {hasImage ? (
           <div className="flex w-full flex-col items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={image.previewUrl || "/placeholder.svg"}
-              alt={`Vista previa de ${image.file.name}`}
+              src={previewUrl ?? "/placeholder.svg"}
+              alt={`Vista previa ${image?.file.name ?? "del producto"}`}
               className="max-h-56 w-auto rounded-md border border-border object-contain"
             />
             <div className="w-full text-sm text-muted-foreground">
               <p className="truncate font-medium text-foreground">
-                {image.file.name}
+                {image?.file.name ?? "Imagen actual del producto"}
               </p>
-              <p>{formatBytes(image.file.size)}</p>
+              <p>{image ? formatBytes(image.file.size) : "Imagen guardada"}</p>
             </div>
           </div>
         ) : (
@@ -279,7 +279,7 @@ export function InputImage({
       )}
 
       {/* Actions */}
-      {image && (
+      {hasImage && (
         <div className="mt-3 flex items-center justify-center gap-2 ">
           <Button
             type="button"

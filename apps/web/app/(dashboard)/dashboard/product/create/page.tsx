@@ -18,19 +18,20 @@ import {
 import FormProduct from "../_components/formProduct";
 import { useState } from "react";
 import { productService } from "@/app/lib/service/product.service";
+import { imageService } from "@/app/lib/service/image.service";
 export default function CreatetPage() {
   const dataUser = useUserStore((state) => state.user);
   const [file, setFile] = useState<File | null>(null);
   const { setTabAside } = useTabStore();
 
-  const { mutate, isPending, isError } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: productService.postProduct,
     onSuccess: (data) => {
       console.log("page data", data);
       // router.push("/auth/iniciar-sesion"); // Redirigir a la página de inicio de sesión o donde sea necesario
       // Redirigir, guardar token, etc.
     },
-    onError: (_) => {
+    onError: () => {
       console.log("error");
       // setErrorMessage('Error al registrar la cuenta. Por favor, inténtelo de nuevo más tarde.')
     },
@@ -55,35 +56,22 @@ export default function CreatetPage() {
     },
   });
 
-  const handleUpload = async () => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const url = await res.json();
-    return url
-  };
-
   const onSubmit = form.handleSubmit(async (data) => {
   try {
-    const uploaded = await handleUpload();
-
-    if (!uploaded?.url) {
-      throw new Error("Upload failed");
+    if (!file) {
+      throw new Error("Debes seleccionar una imagen");
     }
+
+    const url = await imageService.upload(file);
 
     if (!dataUser?.id) {
       throw new Error("id failed");
     }
 
-
     const payload = {
       ...data,
       businessId: dataUser.id,
-      url: uploaded.url
+      url,
     };
     console.log(payload)
 
