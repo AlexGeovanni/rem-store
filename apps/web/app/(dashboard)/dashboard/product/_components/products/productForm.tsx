@@ -22,8 +22,8 @@ import {
   SUB_CATEGORIES_FASHION,
   SUB_CATEGORIES_HOME,
 } from "@repo/core/constants/categories";
-import { useEffect, useMemo, useRef } from "react";
-import { useWatch } from "react-hook-form";
+import { useMemo } from "react";
+import { useFormState, useWatch } from "react-hook-form";
 
 interface FormProductProps {
   form: UseFormReturn<ProductCreateInput>;
@@ -33,13 +33,14 @@ interface FormProductProps {
   onSubmitDelete?: () => void;
 }
 
-export default function FormProduct({
+export default function ProductForm({
   form,
   isUpdate,
   onChange,
   onSubmit,
   onSubmitDelete,
 }: FormProductProps) {
+  
   const category = useWatch({
     control: form.control,
     name: "categoryId",
@@ -48,27 +49,21 @@ export default function FormProduct({
     control: form.control,
     name: "url",
   });
-  const previousCategory = useRef(category);
-
+  const { isDirty, isValid, isSubmitting } = useFormState({
+    control: form.control,
+  });
   const SUB_CATEGORIES = useMemo(() => {
-    return category === "1"
-      ? SUB_CATEGORIES_FASHION
-      : category === "2"
-        ? SUB_CATEGORIES_ELECTRONIC
-        : SUB_CATEGORIES_HOME;
-  }, [category]);
-
-  useEffect(() => {
-    if (
-      previousCategory.current &&
-      category &&
-      previousCategory.current !== category
-    ) {
-      form.resetField("subCategory");
+    switch (category) {
+      case "1":
+        return SUB_CATEGORIES_FASHION;
+      case "2":
+        return SUB_CATEGORIES_ELECTRONIC;
+      case "3":
+        return SUB_CATEGORIES_HOME;
+      default:
+        return [];
     }
-
-    previousCategory.current = category;
-  }, [category, form]);
+  }, [category]);
 
   const handleImageChange = (selectedFile: File | null) => {
     // A null value here means the user explicitly removed the image.
@@ -82,9 +77,6 @@ export default function FormProduct({
 
     onChange?.(selectedFile);
   };
-
-  console.log(DASHBOARD_CATEGORIES);
-  console.log(SUB_CATEGORIES);
 
   return (
     <div className="pt-6">
@@ -106,7 +98,7 @@ export default function FormProduct({
                 control={form.control}
                 data={SUB_CATEGORIES}
                 label="* Subcategoria"
-                // disabled={isUpdate}
+                disabled={isUpdate}
                 name="subCategory"
               />
               {/* <div>
@@ -131,86 +123,84 @@ export default function FormProduct({
               />
             </div> */}
             </div>
-              <div className="grid grid-cols-2 gap-2">
-                <FormInputField
-                  control={form.control}
-                  name="name"
-                  label="* Nombre del producto"
-                  type="text"
-                  placeholder="Ingresa el nombre del producto"
-                />
-                <FormInputField
-                  control={form.control}
-                  name="sku"
-                  label="* Codigo del producto"
-                  type="text"
-                  placeholder="WH-001"
-                  required={false}
-                  disabled={isUpdate}
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <FormInputField
-                  control={form.control}
-                  name="price"
-                  label="* Precio"
-                  type="number"
-                  placeholder="0"
-                />
-                <FormInputField
-                  control={form.control}
-                  name="stock"
-                  label="* Cantidad"
-                  type="number"
-                  placeholder="0"
-                />
-                <FormInputField
-                  control={form.control}
-                  name="discount"
-                  label="Descuento"
-                  type="number"
-                  placeholder="0"
-                  required={false}
-                />
-              </div>
-              <div>
-                <Controller
-                  name="description"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid} className="gap-0.5">
-                      <FieldLabel htmlFor={field.name}>
-                        *Descripcion
-                      </FieldLabel>
-                      <InputGroup>
-                        <InputGroupTextarea
-                          {...field}
-                          id="form-rhf-demo-description"
-                          placeholder="Describe el producto..."
-                          rows={6}
-                          className="min-h-24 resize-none"
-                          aria-invalid={fieldState.invalid}
-                        />
-                        <InputGroupAddon align="block-end">
-                          <InputGroupText className="tabular-nums">
-                            {field.value?.length}/100 caracteres
-                          </InputGroupText>
-                        </InputGroupAddon>
-                      </InputGroup>
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
-                />
-              </div>
+            <div className="grid grid-cols-2 gap-2">
+              <FormInputField
+                control={form.control}
+                name="name"
+                label="* Nombre del producto"
+                type="text"
+                placeholder="Ingresa el nombre del producto"
+              />
+              <FormInputField
+                control={form.control}
+                name="sku"
+                label="* Codigo del producto"
+                type="text"
+                placeholder="WH-001"
+                required={false}
+                disabled={isUpdate}
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <FormInputField
+                control={form.control}
+                name="price"
+                label="* Precio"
+                type="number"
+                placeholder="0"
+              />
+              <FormInputField
+                control={form.control}
+                name="stock"
+                label="* Cantidad"
+                type="number"
+                placeholder="0"
+              />
+              <FormInputField
+                control={form.control}
+                name="discount"
+                label="Descuento"
+                type="number"
+                placeholder="0"
+                required={false}
+              />
+            </div>
+            <div>
+              <Controller
+                name="description"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-0.5">
+                    <FieldLabel htmlFor={field.name}>*Descripcion</FieldLabel>
+                    <InputGroup>
+                      <InputGroupTextarea
+                        {...field}
+                        id="form-rhf-demo-description"
+                        placeholder="Describe el producto..."
+                        rows={6}
+                        className="min-h-24 resize-none"
+                        aria-invalid={fieldState.invalid}
+                      />
+                      <InputGroupAddon align="block-end">
+                        <InputGroupText className="tabular-nums">
+                          {field.value?.length}/100 caracteres
+                        </InputGroupText>
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </div>
           </div>
           <div className="col-span-2 space-y-5">
             <ImageUploader value={imageUrl} onChange={handleImageChange} />
             <FormCategoryField
-              category={category}
+              category={category ?? ""}
               form={form}
-              keyCategory={category}
+              keyCategory={category ?? "empty"}
             />
           </div>
         </div>
@@ -219,9 +209,9 @@ export default function FormProduct({
             <ButtonBase
               disabled={
                 // isPending ||
-                !form.formState.isDirty ||
-                !form.formState.isValid ||
-                form.formState.isSubmitting
+                !isDirty ||
+                !isValid ||
+                isSubmitting
               }
               type="submit"
               className=" rounded-full text-sm h-9 xsm:h-11.5 px-4 "

@@ -1,6 +1,6 @@
 // import { notFound } from "next/navigation";
 
-import UpdateProductClient from ".";
+import UpdateProductClient from "./UpdateProductClient";
 type PageProps = {
   params: Promise<{ id: string }>;
 };

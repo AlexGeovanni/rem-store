@@ -15,10 +15,10 @@ import {
   ProductCreateInput,
   productCreateSchema,
 } from "@repo/core/schemas/productCreate.schema";
-import FormProduct from "../_components/formProduct";
 import { useState } from "react";
 import { productService } from "@/app/lib/service/product.service";
 import { imageService } from "@/app/lib/service/image.service";
+import ProductForm from "../_components/products/productForm";
 export default function CreatetPage() {
   const dataUser = useUserStore((state) => state.user);
   const [file, setFile] = useState<File | null>(null);
@@ -111,7 +111,7 @@ export default function CreatetPage() {
         </h3>
       </div>
 
-      <FormProduct form={form} onSubmit={onSubmit} onChange={setFile} />
+      <ProductForm form={form} onSubmit={onSubmit} onChange={setFile}  />
 
     </div>
   );

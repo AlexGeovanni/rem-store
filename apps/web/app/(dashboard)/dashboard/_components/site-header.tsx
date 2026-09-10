@@ -18,22 +18,6 @@ export function SiteHeader({ name }: { name: string }) {
     }).then(res => res.text()),
     enabled: !!name
   });
-  // console.log("data avatar", avatar);
-  // const { toggleSidebar } = useSidebar();
-  // useEffect(()=>{
-  //   if(name){
-  //     (async () => {
-  //       const response = await fetch("https://api.dicebear.com/9.x/fun-emoji/svg?seed=Geovanni&radius=50", {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-  //       const data = await response.text();
-  //       setAvatar(data);
-  //     })();
-  //   }
-  // },[name]);
 
   return (
     <header className="bg-background sticky py-2 top-0 z-50 flex w-full items-center border-b">

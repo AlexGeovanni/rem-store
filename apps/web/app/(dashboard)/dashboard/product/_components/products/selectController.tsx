@@ -17,6 +17,7 @@ interface SelectComponentProps<
   defaultValue?:string,
   placeholder?: string;
   className?: string;
+  onValueChange?: (value: string) => void;
 }
 
 export default function SelectController<
@@ -30,14 +31,13 @@ export default function SelectController<
   disabled=false,
   defaultValue="",
   className,
+  onValueChange,
 }: SelectComponentProps<TFieldValues, TValue>) {    
-  
   return (
     <Fragment>
       <Controller
         name={name}
         control={control}
-        disabled={disabled}
         render={({ field, fieldState }) => (
           <Field
           data-invalid={fieldState.invalid}
@@ -45,9 +45,13 @@ export default function SelectController<
           >
           <Label htmlFor={field.name}>{label}</Label>
             <Select
-              {...field}
-              onValueChange={field.onChange}
-              // value={String(field.value || defaultValue)}
+              value={String(field.value ?? defaultValue)}
+              onValueChange={(value) => {
+                field.onChange(value);
+                onValueChange?.(value);
+              }}
+              name={field.name}
+              disabled={disabled}
             >
               <SelectTrigger className="w-full focus:ring-0 focus:ring-offset-0 h-10! ">
                 <SelectValue

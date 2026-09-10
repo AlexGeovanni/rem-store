@@ -44,8 +44,8 @@ export const CATEGORIES: readonly CategoryDefinition[] = [
 ] as const;
 
 export const DASHBOARD_CATEGORIES = CATEGORIES.map(({ label, id }) => ({
-  label,
   value: id,
+  label,
 }));
 
 export const SUB_CATEGORIES_FASHION = [

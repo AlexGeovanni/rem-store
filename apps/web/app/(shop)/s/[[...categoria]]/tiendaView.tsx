@@ -31,7 +31,6 @@ export default function TiendaView({
   });
 
   const productos = useMemo(() => data?.content ?? [], [data]);
-  // console.log("data de productos", data);
   // Filtrar productos por categoría
   const productosFiltrados = useMemo(() => {
     if (!categoria) return productos;
@@ -43,9 +42,6 @@ export default function TiendaView({
       ) || []
     );
   }, [categoria, productos]);
-  console.log("categoria", categoria);
-  console.log("productos", productos);
-  console.log("productosFiltrados", productosFiltrados);
 
   // Función para alternar el estado al hacer clic en el botón
   const toggleActivo = useCallback(() => {

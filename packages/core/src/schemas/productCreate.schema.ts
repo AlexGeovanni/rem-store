@@ -3,108 +3,123 @@ import { CATEGORY_IDS } from "../constants/categories";
 
 export const categoriesValues = CATEGORY_IDS;
 
-// 2. Schemas de detalles por categoría
-const ropaDetailsSchema = z.object({
-  size: z.string().min(1, "El tamaño es requerido").toUpperCase(),
-  color: z.string().min(3),
-  material: z.string().min(1, "El material es requerido"),
+// Detalless por categoria
+
+export const ropaDetailsSchema = z.object({
+  size: z
+    .string()
+    .min(1, "El tamaño es requerido")
+    .toUpperCase(),
+
+  color: z
+    .string()
+    .min(3, "El color debe tener al menos 3 caracteres"),
+
+  material: z
+    .string()
+    .min(1, "El material es requerido"),
 });
 
-const electronicosDetailsSchema = z.object({
+export const electronicosDetailsSchema = z.object({
   brand: z.string(),
+
   memory: z.string(),
+
   ram: z.string(),
-  model: z.string().min(2),
+
+  model: z
+    .string()
+    .min(2, "El modelo es requerido"),
 });
 
-const hogarDetailsSchema = z.object({
+export const hogarDetailsSchema = z.object({
   material: z.string(),
+
   dimensions: z.string(),
+
   weight: z.coerce
     .number()
     .min(0.1, "El peso debe ser mayor que 0"),
 });
 
-// 3. Base común (para no repetir código)
-const baseProductSchema = z.object({
-  name: z.string().min(5, "El nombre es requerido"),
+
+// Schema del formulario 
+
+export const productCreateSchema = z.object({
+  categoryId: z
+    .string()
+    .min(1, "Selecciona una categoría"),
+
+  subCategory: z
+    .string()
+    .min(1, "Selecciona una subcategoría"),
+
+  name: z
+    .string()
+    .min(5, "El nombre es requerido"),
+
   url: z
-  .string()
-  .url("Debe ser una URL válida")
-  .or(z.literal(""))
-  .optional(),
-  sku: z.string().min(5, "El SKU es requerido"),
+    .string()
+    .url("Debe ser una URL válida")
+    .or(z.literal(""))
+    .optional(),
+
+  sku: z
+    .string()
+    .min(5, "El SKU es requerido"),
+
   discount: z.coerce
     .number()
     .int()
     .min(0, "El descuento no puede ser negativo")
     .max(99, "El descuento no puede ser mayor a 99")
     .default(0),
-  price: z.coerce.number().positive("El precio debe ser mayor a 0"),
+
+  price: z.coerce
+    .number()
+    .positive("El precio debe ser mayor a 0"),
+
   stock: z.coerce
     .number()
     .int()
     .nonnegative("El stock no puede ser negativo")
     .default(1),
-  active: z.boolean().default(true),
+
+  active: z
+    .boolean()
+    .default(true),
+
   description: z
     .string()
     .min(20, "La descripción es requerida")
-    .max(500, "La descripción no puede tener más de 500 caracteres"),
+    .max(
+      500,
+      "La descripción no puede tener más de 500 caracteres",
+    ),
+
   businessId: z.string(),
+
+  /*
+   * Los details dependen de categoryId,
+   * por eso aquí no hacemos el discriminatedUnion.
+   */
+  details: z.record(z.string(), z.unknown()),
 });
 
-// 4. Schema principal (discriminado por categoría)
-export const productCreateSchema = z.discriminatedUnion("categoryId", [
-  baseProductSchema.extend({
-    categoryId: z.literal("1"),
-    subCategory:z.string(),
-    details: ropaDetailsSchema,
-  }),
 
-  baseProductSchema.extend({
-    categoryId: z.literal("2"),
-    subCategory:z.string(),
-    details: electronicosDetailsSchema,
-  }),
+//  types
 
-  baseProductSchema.extend({
-    categoryId: z.literal("3"),
-    subCategory:z.string(),
-    details: hogarDetailsSchema,
-  }),
-]);
+export type ProductCreateInput =
+  z.input<typeof productCreateSchema>;
 
-/**
- * 5. Tipo inferido (input)
- */
-export type ProductCreateInput = z.input<typeof productCreateSchema>;
+export type ProductCreateOutput =
+  z.output<typeof productCreateSchema>;
 
-/**
- * 6. Tipo validado (output)
- */
-export type ProductCreateOutput = z.infer<typeof productCreateSchema>;
+export type RopaDetails =
+  z.infer<typeof ropaDetailsSchema>;
 
-/**
- *
- */
+export type ElectronicosDetails =
+  z.infer<typeof electronicosDetailsSchema>;
 
-export type RopaDetails = z.infer<typeof ropaDetailsSchema>;
-export type ElectronicosDetails = z.infer<typeof electronicosDetailsSchema>;
-export type HogarDetails = z.infer<typeof hogarDetailsSchema>;
-
-// export type ProductDetails =
-//   | {
-//       categoryId: "1";
-//       details: RopaDetails;
-//     }
-//   | {
-//       categoryId: "2";
-//       details: ElectronicosDetails;
-//     }
-//   | {
-//       categoryId: "3";
-//       details: HogarDetails;
-//     };
-
-export type ProductDetails =  RopaDetails |  ElectronicosDetails | HogarDetails
+export type HogarDetails =
+  z.infer<typeof hogarDetailsSchema>;

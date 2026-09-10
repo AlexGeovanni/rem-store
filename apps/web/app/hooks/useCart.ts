@@ -8,8 +8,7 @@ export const useCart = () => {
   const queryClient = useQueryClient();
 
   const { isAuthenticated } = useAuth();
-  console.log("useCart - isAuthenticated:", isAuthenticated);
-
+  
   // Zustand guest cart
   const guestItems = useCartStore((state) => state.items);
 
