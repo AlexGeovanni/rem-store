@@ -15,8 +15,8 @@ import { PanelForm } from "../_components/panelForm";
 import {
   registerSchema,
   type RegisterInput,
-} from "@repo/core/schemas/auth/register.schema";
-import { registerApiSchema } from "@repo/core/schemas/auth/register.api.schema";
+} from "@repo/core/schemas/register.schema";
+import { registerApiSchema } from "@repo/core/schemas/register.api.schema";
 import { cn } from "@workspace/ui/lib/utils";
 import { Button } from "@workspace/ui/components/button";
 import { FieldGroup } from "@workspace/ui/components/field";

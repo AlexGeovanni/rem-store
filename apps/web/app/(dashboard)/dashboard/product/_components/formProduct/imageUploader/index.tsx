@@ -7,20 +7,23 @@ interface ImageUploaderProps {
 
 export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
   return (
-    <div className="flex items-center justify-center bg-background p-6">
-      <section className="w-full max-w-md space-y-6">
-        <header className="space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight text-balance">
+    <div className="flex items-center justify-center ">
+      <section className="w-full">
+        <header className="mb-6">
+          <p className="text-lg font-medium">
             Subida de imágenes
-          </h1>
-          <p className="text-sm text-muted-foreground text-pretty">
+          </p>
+          {/* <p className="text-sm text-muted-foreground text-pretty">
             Selecciona o arrastra una imagen <strong>.JPEG</strong> o{" "}
             <strong>.WEBP</strong> de maximo  {" "}
             <strong>150 KB</strong>.
-          </p>
+          </p> */}
         </header>
 
-        <InputImage value={value} onChange={onChange} />
+        <div className="grid grid-cols-4">
+          <InputImage  className="col-span-1" value={value} onChange={onChange} />
+        </div>
+
       </section>
     </div>
   )

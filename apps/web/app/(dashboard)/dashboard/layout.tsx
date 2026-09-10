@@ -28,7 +28,7 @@ export default async function BusinessLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialUser = null;
+  
   const token = await getAuthToken();
   const name = getNameFromPayload(decodeJWT(token ?? ""));
   return (

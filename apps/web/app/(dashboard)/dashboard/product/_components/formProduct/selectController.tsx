@@ -2,6 +2,7 @@ import { Field, FieldError } from "@workspace/ui/components/field";
 import { Label } from "@workspace/ui/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
 import { cn } from "@workspace/ui/lib/utils";
+import { Fragment } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 interface SelectComponentProps<
@@ -12,6 +13,7 @@ interface SelectComponentProps<
   data: ReadonlyArray<{ label: string; value: TValue }>;
   name: Path<TFieldValues>;
   label:string,
+  disabled?:boolean;
   defaultValue?:string,
   placeholder?: string;
   className?: string;
@@ -25,20 +27,22 @@ export default function SelectController<
   data,
   name,
   label,
+  disabled=false,
   defaultValue="",
   className,
 }: SelectComponentProps<TFieldValues, TValue>) {    
   return (
-    <div className="space-y-3">
-      <Label htmlFor="category">{label}</Label>
+    <Fragment>
       <Controller
         name={name}
         control={control}
+        disabled={disabled}
         render={({ field, fieldState }) => (
           <Field
-            data-invalid={fieldState.invalid}
-            className={cn("w-full", className)}
+          data-invalid={fieldState.invalid}
+          className={cn("w-full", className)}
           >
+          <Label htmlFor={field.name}>{label}</Label>
             <Select
               {...field}
               onValueChange={field.onChange}
@@ -68,6 +72,6 @@ export default function SelectController<
           </Field>
         )}
       />
-    </div>
+    </Fragment>
   );
 }

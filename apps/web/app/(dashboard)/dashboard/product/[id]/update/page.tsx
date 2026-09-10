@@ -1,4 +1,3 @@
-
 // import { notFound } from "next/navigation";
 
 import UpdateProductClient from ".";
@@ -8,12 +7,6 @@ type PageProps = {
 
 export default async function pageUpdateProduct({ params }: PageProps) {
   const { id } = await params;
-  
 
-  // return notFound()
-  return (
-    <>
-      <UpdateProductClient productId={id} />
-    </>
-  );
+  return <UpdateProductClient productId={id} />;
 }

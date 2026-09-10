@@ -98,15 +98,15 @@ export default function CreatetPage() {
             Volver
           </button>
         </Link>
-        <div>
-          <h2 className="text-lg font-semibold lg:text-2xl">
-            Crear nuevo producto
+        <div className="mt-6">
+          <h2 className="text-lg font-medium lg:text-2xl">
+            Agregar nuevo producto
           </h2>
         </div>
       </header>
       {/* <Separator className="my-3 mt-5" /> */}
       <div>
-        <h3 className="text-sm text-gray-600 lg:text-base">
+        <h3 className="text-sm text-zinc-600">
           Ingrese los detalles de su nuevo producto
         </h3>
       </div>

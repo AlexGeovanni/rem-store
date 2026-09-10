@@ -17,6 +17,7 @@ interface Props<T extends FieldValues> {
   placeholder?: string;
   type?: string;
   required?: boolean;
+  disabled?:boolean;
 }
 
 export default function FormInputField<T extends FieldValues>({
@@ -26,15 +27,17 @@ export default function FormInputField<T extends FieldValues>({
   placeholder,
   type,
   required = true,
+  disabled=false
 }: Props<T>) {
   return (
     <Fragment>
       <Controller
         name={name}
         control={control}
+        disabled={disabled}
         render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid} className="w-full">
-            <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+          <Field data-invalid={fieldState.invalid} className="w-full gap-0.5 ">
+            <FieldLabel htmlFor={field.name} >{label}</FieldLabel>
             <InputGroup className="h-auto">
               <InputGroupInput
                 id={field.name}
@@ -43,7 +46,7 @@ export default function FormInputField<T extends FieldValues>({
                 placeholder={placeholder}
                 autoComplete="off"
                 required={required}
-                className="text-sm xs:text-base h-10"
+                className="h-9.5!"
                 {...field}
                 value={field.value || ""}
               />

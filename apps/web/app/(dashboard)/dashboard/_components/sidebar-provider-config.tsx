@@ -35,7 +35,7 @@ export default function SidebarProviderConfig({
         <SidebarInset>
           <SiteHeader name={initialUser} />
           {/* //p-4 pr-8 */}
-          <div className="flex flex-1 flex-col gap-4   min-h-[calc(100vh-var(--header-height)-2rem)]">
+          <div className="flex flex-1 flex-col gap-4  min-h-[calc(100vh-var(--header-height)-2rem)]">
             {children}
           </div>
         </SidebarInset>

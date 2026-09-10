@@ -86,16 +86,15 @@ export default function UpdateProductClient({
             Volver
           </button>
         </Link>
-        <div>
+        <div className="mt-6">
           <h2 className="text-lg font-semibold lg:text-2xl">
             Actualizar producto
           </h2>
-          <span className="text-xs text-gray-600 lg:text-base">
+          <span className="text-sm text-zinc-600 ">
             Actualiza los detalles de tu producto.
           </span>
         </div>
       </header>
-      {/* <Separator className="my-3 mt-5" /> */}
       <FormProduct form={form} isUpdate={!!product} onSubmit={onSubmit} onChange={setFile} onSubmitDelete={onSubmitDelete} />
     </div>
   );

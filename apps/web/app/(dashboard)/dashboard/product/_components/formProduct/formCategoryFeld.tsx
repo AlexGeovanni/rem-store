@@ -1,7 +1,5 @@
 import { type ProductCreateInput } from "@repo/core/schemas/productCreate.schema";
-import {
-  UseFormReturn,
-} from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import FormInputField from "../../../_components/FormInputField";
 import {
   ELECTRONICS_BRANDS,
@@ -21,15 +19,14 @@ export default function FormCategoryField({
   form,
   keyCategory,
 }: FormCategoryFieldProps) {
- 
-
   return (
-    <div key={keyCategory} className="space-y-3 pr-2">
-      <p>Detalles espeficos del producto</p>
+    <div key={keyCategory} className="space-y-6">
+      <div>
+        <p className="text-lg font-medium">Detalles espeficos del producto</p>
+      </div>
       <div>
         {category === "1" && (
-          <div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <FormInputField
                 control={form.control}
                 name="details.size"
@@ -44,19 +41,17 @@ export default function FormCategoryField({
                 type="text"
                 placeholder="Algodón, Poliéster, etc."
               />
-               <FormInputField
+              <FormInputField
                 control={form.control}
                 name="details.color"
                 label="* Color"
                 type="text"
                 placeholder="Negro, Rojo, etc."
               />
-            </div>
           </div>
         )}
         {category === "2" && (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <SelectController
                 control={form.control}
                 data={ELECTRONICS_RAM}
@@ -83,11 +78,9 @@ export default function FormCategoryField({
                 placeholder="ROG Gaming, iPhone 13, etc."
               />
             </div>
-          </div>
         )}
         {category === "3" && (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <FormInputField
                 control={form.control}
                 name="details.material"
@@ -109,11 +102,9 @@ export default function FormCategoryField({
                 type="text"
                 placeholder="1Kg, 10Kg, 100Kg, etc."
               />
-            </div>
           </div>
         )}
       </div>
     </div>
   );
 }
-

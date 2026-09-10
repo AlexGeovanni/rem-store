@@ -206,7 +206,7 @@ export function InputImage({
         onDrop={handleDrop}
         onKeyDown={handleKeyDown}
         className={cn(
-          "group relative flex w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed bg-card p-6 text-center transition-colors",
+          "group relative h-41 flex w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed bg-card p-2 text-center transition-colors",
           "hover:border-primary/60 hover:bg-accent/40",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           isDragging && "border-primary bg-accent/60",
@@ -226,26 +226,26 @@ export function InputImage({
         />
 
         {hasImage ? (
-          <div className="flex w-full flex-col items-center gap-3">
+          <div className="h-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={previewUrl ?? "/placeholder.svg"}
               alt={`Vista previa ${image?.file.name ?? "del producto"}`}
-              className="max-h-56 w-auto rounded-md border border-border object-contain"
+              className="h-full w-auto rounded-md border border-border object-cover"
             />
-            <div className="w-full text-sm text-muted-foreground">
+            {/* <div className="w-full text-sm text-muted-foreground">
               <p className="truncate font-medium text-foreground">
                 {image?.file.name ?? "Imagen actual del producto"}
               </p>
               <p>{image ? formatBytes(image.file.size) : "Imagen guardada"}</p>
-            </div>
+            </div> */}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-2 py-4">
+          <div className="flex flex-col items-center gap-2 py-4.5">
             <span
               aria-hidden="true"
               className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors",
+                "flex h-full w-12 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors",
                 isDragging && "bg-primary/10 text-primary",
               )}
             >
@@ -280,8 +280,8 @@ export function InputImage({
 
       {/* Actions */}
       {hasImage && (
-        <div className="mt-3 flex items-center justify-center gap-2 ">
-          <Button
+        <div className="flex items-center justify-center gap-2 ">
+          {/* <Button
             type="button"
             variant="outline"
             size="sm"
@@ -289,16 +289,16 @@ export function InputImage({
             className="cursor-pointer rounded-2xl"
           >
             Cambiar imagen
-          </Button>
+          </Button> */}
           <Button
             type="button"
             variant="destructive"
-            // size="sm"
+            size="sm"
             onClick={handleRemove}
             aria-label="Eliminar imagen seleccionada"
-            className="absolute top-2 right-2 z-999 rounded-full cursor-pointer"
+            className="absolute w-7 top-0 right-0 z-999 rounded-full cursor-pointer"
           >
-            <Trash2 className=" h-4 w-4" aria-hidden="true" />
+            <Trash2 className=" " aria-hidden="true" />
           </Button>
         </div>
       )}
