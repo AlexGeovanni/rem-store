@@ -20,7 +20,7 @@ export function SiteHeader({ name }: { name: string }) {
   });
 
   return (
-    <header className="bg-background sticky py-2 top-0 z-50 flex w-full items-center border-b">
+    <header className="bg-white sticky py-2 top-0 z-50 flex w-full items-center">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1 rounded-full" />
         {/* <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4"/> */}

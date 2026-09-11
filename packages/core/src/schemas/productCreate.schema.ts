@@ -77,12 +77,16 @@ export const productCreateSchema = z.object({
 
   price: z.coerce
     .number()
-    .positive("El precio debe ser mayor a 0"),
+    .int()
+    .positive("El precio debe ser mayor a 0")
+    .max(999999, "El precio no puede tener más de 6 dígitos")
+    .default(1),
 
   stock: z.coerce
     .number()
     .int()
     .nonnegative("El stock no puede ser negativo")
+    .max(999, "La cantidad no puede tener más de 3 dígitos")
     .default(1),
 
   active: z

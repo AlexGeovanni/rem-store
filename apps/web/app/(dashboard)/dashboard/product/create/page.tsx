@@ -46,8 +46,9 @@ export default function CreatetPage() {
       name: "",
       url:"",
       sku: "",
-      price: 0,
-      stock: 0,
+      price: 1,
+      stock: 1,
+      discount: 0,
       description: "",
       businessId: "",
       active: true,
@@ -87,7 +88,7 @@ export default function CreatetPage() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="space-y-4">
       <header>
         <Link href={"/dashboard/product"}>
           <button
@@ -98,18 +99,15 @@ export default function CreatetPage() {
             Volver
           </button>
         </Link>
-        <div className="mt-6">
+        <div className="mt-4">
           <h2 className="text-lg font-medium lg:text-2xl">
             Agregar nuevo producto
           </h2>
+          <p className="text-sm text-zinc-600">
+          Ingrese los detalles de su nuevo producto
+        </p>
         </div>
       </header>
-      {/* <Separator className="my-3 mt-5" /> */}
-      <div>
-        <h3 className="text-sm text-zinc-600">
-          Ingrese los detalles de su nuevo producto
-        </h3>
-      </div>
 
       <ProductForm form={form} onSubmit={onSubmit} onChange={setFile}  />
 

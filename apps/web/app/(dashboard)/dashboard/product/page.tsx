@@ -14,22 +14,22 @@ export default function Page() {
 
 // p-4 pr-8 
   return (
-    <div className="bg-white p-4 pl-8  h-full">
-      <header className="flex items-center justify-between">
+    <div>
+      <header className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="font-semibold">Productos</h2>
+          <h1 className="font-medium text-lg lg:text-2xl">Productos</h1>
           <p>Gestione su inventario de productos.</p>
         </div>
         <Link href={"/dashboard/product/create"}>
           <ButtonBase
-            className="flex-0 text-sm h-9 md-medium:h-11.5"
+            className="flex-0 text-sm h-11"
             onClick={handleClickAddProduct}
           >
             Agregar producto
           </ButtonBase>
         </Link>
       </header>
-      <div>
+      <div className="p-4">
         <ProductTable />
       </div>
       {/* Fallback: si no hay coincidencia, mostrar mensaje o redirigir */}

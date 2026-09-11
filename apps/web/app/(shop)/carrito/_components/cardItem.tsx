@@ -3,7 +3,7 @@ import { Button } from "@workspace/ui/components/button";
 // import { TrashIcon, MinusIcon, PlusIcon, HeartLineIcon } from "@/icons/icon";
 import { Heart, Minus, Plus, Trash } from "lucide-react";
 import { CartItem } from "@/app/stores/useCartStore";
-import FormatoPrice from "@repo/core/utils/FormatPrice";
+import FormatoPrice from "@repo/core/utils/formatPrice";
 import { useFavoriteStore } from "@/app/stores/useFavoriteStore";
 import Link from "next/link";
 

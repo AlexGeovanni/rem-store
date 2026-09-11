@@ -79,7 +79,7 @@ export default function ProductForm({
   };
 
   return (
-    <div className="pt-6">
+    <div className="rounded-xl bg-muted/50 p-4">
       <form onSubmit={onSubmit}>
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-2 w-full space-y-5">
@@ -148,6 +148,7 @@ export default function ProductForm({
                 label="* Precio"
                 type="number"
                 placeholder="0"
+                max={999999}
               />
               <FormInputField
                 control={form.control}
@@ -155,6 +156,7 @@ export default function ProductForm({
                 label="* Cantidad"
                 type="number"
                 placeholder="0"
+                max={999}
               />
               <FormInputField
                 control={form.control}
@@ -163,6 +165,7 @@ export default function ProductForm({
                 type="number"
                 placeholder="0"
                 required={false}
+                max={99}
               />
             </div>
             <div>
@@ -214,13 +217,13 @@ export default function ProductForm({
                 isSubmitting
               }
               type="submit"
-              className=" rounded-full text-sm h-9 xsm:h-11.5 px-4 "
+              className=" rounded-full h-11 px-8 cursor-pointer "
             >
-              Guardar producto
+              Guardar
             </ButtonBase>
             <Button
               variant={"destructive"}
-              className="rounded-full text-sm h-9 xsm:h-11.5 px-4 cursor-pointer "
+              className="rounded-full h-11 px-4 cursor-pointer "
               type="button"
               onClick={() => form.reset()}
             >
@@ -231,11 +234,11 @@ export default function ProductForm({
             <Button
               type="button"
               variant={"outline"}
-              className="w-auto rounded-full text-sm cursor-pointer text-gray-600"
+              className="w-auto rounded-full h-11 cursor-pointer text-gray-600"
               onClick={onSubmitDelete}
             >
               <Trash className="size-5" />
-              Eliminar producto
+              Eliminar
             </Button>
           )}
         </div>

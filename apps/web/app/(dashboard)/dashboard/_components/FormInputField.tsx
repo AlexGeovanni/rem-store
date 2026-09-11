@@ -18,6 +18,7 @@ interface Props<T extends FieldValues> {
   type?: string;
   required?: boolean;
   disabled?:boolean;
+  max?: number;
 }
 
 export default function FormInputField<T extends FieldValues>({
@@ -27,7 +28,8 @@ export default function FormInputField<T extends FieldValues>({
   placeholder,
   type,
   required = true,
-  disabled=false
+  disabled=false,
+  max,
 }: Props<T>) {
   return (
     <Fragment>
@@ -46,9 +48,21 @@ export default function FormInputField<T extends FieldValues>({
                 placeholder={placeholder}
                 autoComplete="off"
                 required={required}
+                max={max}
                 className="h-9.5!"
                 {...field}
-                value={field.value || ""}
+                onChange={(event) => {
+                  const value = event.target.value;
+
+                  field.onChange(
+                    type === "number"
+                      ? value === ""
+                        ? undefined
+                        : Number(value)
+                      : value,
+                  );
+                }}
+                value={field.value ?? ""}
               />
             </InputGroup>
             {fieldState.invalid && (

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Heart } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "./button";
-import FormatPrice from "@repo/core/utils/FormatPrice";
+import FormatPrice from "@repo/core/utils/formatPrice";
 
 interface CardProps {
   children: ReactNode;

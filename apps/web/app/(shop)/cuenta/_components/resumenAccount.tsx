@@ -4,8 +4,8 @@ import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import {
-  UserEditInput,
-  UserEditSchema,
+  UserClientEditInput,
+  UserClientEditSchema,
 } from "@repo/core/schemas/userEdit.schema";
 import { userService } from "@/app/lib/service/user.service";
 import { useForm } from "react-hook-form";
@@ -13,22 +13,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldGroup } from "@workspace/ui/components/field";
 import FormInputController from "@/app/components/ui/formInputController/FormInputController";
 import { toast } from "@workspace/ui/lib/toast";
+import formatDateCreatAt from "@repo/core/utils/formartDateCreatAt";
 
 export default function ResumenAccount() {
   const { user } = useUserStore();
 
   const initialName = user?.name?.split(" ")[0]?.charAt(0) || "U";
 
-  const formatDateCreatAt = (date: string) => {
-    const dateObj = new Date(date);
-    return dateObj.toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-    });
-  };
-
-  const form = useForm<UserEditInput>({
-    resolver: zodResolver(UserEditSchema),
+  const form = useForm<UserClientEditInput>({
+    resolver: zodResolver(UserClientEditSchema),
     mode: "onChange",
     defaultValues: {
       name: user?.name || "",
@@ -38,7 +31,7 @@ export default function ResumenAccount() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: UserEditInput) => {
+    mutationFn: async (data: UserClientEditInput) => {
       return await userService.updateUser(data);
     },
     onSuccess: (_response, variables) => {

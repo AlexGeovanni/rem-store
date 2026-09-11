@@ -4,7 +4,7 @@ import { ArrowUpRight, Store } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import ButtonBase from "@workspace/ui/components/buttonBase"
 import Wrapper from "@/app/components/ui/wrapper"
-import FormatoPrice from "@repo/core/utils/FormatPrice"
+import FormatoPrice from "@repo/core/utils/formatPrice"
 
 export function HeroSection() {
   return (

@@ -3,7 +3,7 @@ import { userService } from "@/app/lib/service/user.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   UserEditSchema,
-  UserEditInput,
+  UserClientEditInput,
 } from "@repo/core/schemas/userEdit.schema";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@workspace/ui/components/button";
@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 
 export function DialogAccout({ user }: any) {
   const { mutate } = useMutation({
-    mutationFn: async (data: UserEditInput) => {
+    mutationFn: async (data: UserClientEditInput) => {
       userService.updateUser(data);
     },
     onSuccess: () => {
@@ -34,7 +34,7 @@ export function DialogAccout({ user }: any) {
     },
   });
 
-  const form = useForm<UserEditInput>({
+  const form = useForm<UserClientEditInput>({
     resolver: zodResolver(UserEditSchema),
     mode: "onChange",
     defaultValues: {

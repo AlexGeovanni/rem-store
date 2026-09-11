@@ -1,5 +1,5 @@
 import ButtonBase from  "@workspace/ui/components/buttonBase"
-import FormatPrice from "@repo/core/utils/FormatPrice";
+import FormatPrice from "@repo/core/utils/formatPrice";
 interface ResumenCartProps {
     subtotal: number;
     total: number;

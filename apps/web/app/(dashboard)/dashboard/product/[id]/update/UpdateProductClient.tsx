@@ -30,21 +30,21 @@ export default function UpdateProductClient({
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="space-y-4">
       <header>
-        <Link href={"/dashboard"}>
+        <Link href={"/dashboard/product"}>
           <button className="flex items-center select-none gap-1 cursor-pointer text-sm hover:underline">
             <ArrowLeft className="size-5" />
             Volver
           </button>
         </Link>
-        <div className="mt-6">
+        <div className="mt-4">
           <h2 className="text-lg font-semibold lg:text-2xl">
             Actualizar producto
           </h2>
-          <span className="text-sm text-zinc-600 ">
+          <p className="text-sm text-zinc-600 ">
             Actualiza los detalles de tu producto.
-          </span>
+          </p>
         </div>
       </header>
       <UpdateProductForm product={product} />

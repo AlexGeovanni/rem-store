@@ -2,12 +2,6 @@ import z from "zod";
 import { loginSchema } from "./login.schema";
 
 export const typeAccountSchema = z.object({
-  // type: z.enum(["cliente","empresa"],{
-  //   errorMap: ()=>({message: " El tipo de cuenta solo puede ser cliente o negocio"})
-  // })
-  // type: z.string().refine((val) => val === "cliente" || val === "empresa", {
-  //   message: "El tipo de cuenta solo puede ser cliente o empresa",
-  // }),
   type: z.record(
     z.enum(["cliente", "empresa"], {
       error: " El tipo de cuenta solo puede ser cliente o negocio",
@@ -49,20 +43,10 @@ export const client = z.object({
   }),
 });
 
-// const accountDetails =  z.union([    // Validación condicional según tipo de cuenta
-//   bussines,                  // Si es negocio, aplica bussines schema
-//   client                     // Si es cliente, aplica client schema
-// ])
-
-// export const newDealSchema = z.object({
-// ...typeAccountSchema.shape,
-//   ...loginSchema.shape,
-//   accountDetails: accountDetails
-// });
 export const registerSchema = z.discriminatedUnion("type", [
   // Validación condicional según tipo de cuenta
-  bussines, // Si es negocio, aplica bussines schema
-  client, // Si es cliente, aplica client schema
+  bussines,
+  client, 
 ]);
 
 export type RegisterInput = z.input<typeof registerSchema>;

@@ -30,48 +30,43 @@ const data = [
  * Las validaciones son consistentes y verifican tanto tabAside como tabMenu
  */
 export default function Page() {
-
   return (
     // <div className="bg-white p-4 pl-8 h-full">
-    <div className="bg-white h-full">
-      <div className="p-6 py-7 font-semibold text-xl">
+    <div className="h-full space-y-6">
+      <div className=" font-semibold text-lg lg:text-2xl">
         <h1>Resumen general</h1>
       </div>
-      <div className="border-b border-t px-6">
-        <div className="border-r border-l grid grid-cols-4">
+      <div className="">
+        <div className="grid grid-cols-4 gap-4">
           {data.map((item, index) => (
             <CardDashboard
               key={item.title + index}
               title={item.title}
               value={item.value}
               percentage={item.percentage}
-              className={index === data.length - 1 ? "border-r-0" : ""}
+              className="rounded-xl bg-muted/50"
             />
           ))}
         </div>
       </div>
-      <div className="px-6 border-b">
-        <div className="border-l border-r">
-          <div className=" grid grid-cols-3">
-            <div className="col-span-2  border-r">
-              <div className="p-4">
-                <p className="font-semibold text-lg">Top de productos</p>
-                <p className="text-sm text-muted-foreground">
-                  Los productos más vendidos
-                </p>
-              </div>
-              {/* <TableTopProducts /> */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <div className="p-4 min-h-50 h-full bg-muted/50 rounded-xl">
+              <p className="font-semibold text-lg">Top de productos</p>
+              <p className="text-sm text-muted-foreground">
+                Los productos más vendidos
+              </p>
             </div>
-            <div className="">
-              <div className="p-4  min-h-[200px] border-b">
-                <p className="font-semibold text-lg">Notificaciones</p>
-              </div>
-              <div className="p-4  min-h-[200px] border-b">
-                <p className="font-semibold text-lg">Reseñas recientes</p>
-              </div>
+            {/* <TableTopProducts /> */}
+          </div>
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl bg-muted/50 min-h-50 ">
+              <p className="font-semibold text-lg">Notificaciones</p>
+            </div>
+            <div className="p-4 rounded-xl bg-muted/50 min-h-50 ">
+              <p className="font-semibold text-lg">Reseñas recientes</p>
             </div>
           </div>
-        </div>
       </div>
       {/* {isProductsList && (
         <Fragment>
@@ -129,7 +124,7 @@ const CardDashboard = ({
   return (
     <div
       className={cn(
-        "border-r p-4 min-h-[150px] flex flex-col justify-between",
+        "p-4 min-h-[150px] flex flex-col justify-between",
         className,
       )}
     >

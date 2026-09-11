@@ -4,3 +4,4 @@ const FormatoPrice = (price: number) =>
     currency: "MXN",
   }).format(price);
 export default  FormatoPrice;
+

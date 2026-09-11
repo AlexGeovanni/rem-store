@@ -9,8 +9,14 @@ export const userService = {
     const res = await clientApi.patch("/proxy/user/client/edit", data);
     return res.data;
   },
-  getBusiness: async () => {
-    const res = await clientApi.get("/proxy/user/business");
+  getBusiness: async (signal?:AbortSignal) => {
+    const res = await clientApi.get("/proxy/user/business",{
+      signal,
+    });
+    return res.data;
+  },
+  updateBusiness: async (data: any) => {
+    const res = await clientApi.patch("/proxy/user/business/edit", data);
     return res.data;
   },
 };
