@@ -20,7 +20,7 @@ export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
           </p> */}
         </header>
 
-        <div className="grid grid-cols-4">
+        <div className="grid lg:grid-cols-3 xl:grid-cols-4">
           <InputImage  className="col-span-1" value={value} onChange={onChange} />
         </div>
 

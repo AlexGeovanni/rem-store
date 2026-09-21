@@ -45,62 +45,23 @@ export type TypeCategory = Default & {
   value: string;
 };
 
-export const fashionsCheckbox: TypeCategory[] = [
+export type TypeSortBy = {
+  key: string;
+  label: string;
+};
+
+
+export const SORTBY: TypeSortBy[] = [
   {
-    id: 5,
-    label: "Hombre",
-    value: "hombre",
+    key: "createdAt",
+    label: "Recientes",
   },
   {
-    id: 6,
-    label: "Mujer",
-    value: "mujer",
+    key: "asc",
+    label: "Menor precio",
   },
   {
-    id: 7,
-    label: "Niños y Niñas",
-    value: "niños&niñas",
+    key: "desc",
+    label: "Mayor precio",
   },
 ];
-
-export const electronicsCheckbox: TypeCategory[] = [
-  {
-    id: 8,
-    label: "Celular",
-    value: "celular",
-  },
-  {
-    id: 9,
-    label: "Laptop",
-    value: "laptop",
-  },
-  {
-    id: 10,
-    label: "Otros",
-    value: "otros",
-  },
-];
-
-export const homeCheckbox: TypeCategory[] = [
-  {
-    id: 11,
-    label: "Sillas y bancos",
-    value: "silla&banco",
-  },
-  {
-    id: 12,
-    label: "Estantes y libreros",
-    value: "estante&librero",
-  },
-  {
-    id: 13,
-    label: "Mesas de comedor",
-    value: "mesa",
-  },
-];
-
-export const SORTBY = {
-  RECIENTES: "Recientes",
-  MENOR_PRECIO: "Menor precio",
-  MAYOR_PRECIO: "Mayor precio",
-} as const;

@@ -44,7 +44,7 @@ async function handler(
     });
 
     const { search } = new URL(req.url);
-
+    
     const url = `/${path.join("/")}${search}`;
     let data = undefined;
 

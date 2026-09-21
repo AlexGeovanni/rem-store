@@ -1,4 +1,4 @@
-import { Boxes, ListTodo } from "lucide-react";
+import { Boxes } from "lucide-react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -75,24 +75,32 @@ export const DATA_SIDEBAR:DataSidebar[] = [
 
 interface TabState {
   tabAside: TabValueLayout;
-  setTabAside: (tab: TabValueLayout, menu: TabValueMenu) => void;
   tabMenu: TabValueMenu;
+  setTabAside: (tab: TabValueLayout, menu: TabValueMenu) => void;
+  resetTabs: () => void;
 }
 
 export const useTabStore = create<TabState>()(
   persist(
-    (set) => {
-      const store = {
-        tabAside: "" as TabValueLayout,
-        tabMenu: "" as TabValueMenu,
-        setTabAside: (tab: TabValueLayout, menu: TabValueMenu) => 
-          set({ tabAside: tab, tabMenu: menu }),
-      };
-      
-      return store;
-    },
+    (set) => ({
+      tabAside: DEFAULT_TAB_ASIDE,
+      tabMenu: DEFAULT_TAB_MENU,
+
+      setTabAside: (tab, menu) =>
+        set({
+          tabAside: tab,
+          tabMenu: menu,
+        }),
+
+      resetTabs: () =>
+        set({
+          tabAside: DEFAULT_TAB_ASIDE,
+          tabMenu: DEFAULT_TAB_MENU,
+        }),
+    }),
     {
-      name: "dashboard-tabs-storage", // nombre para localStorage
+      name: "dashboard-tabs-storage",
     }
   )
 );
+

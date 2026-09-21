@@ -3,11 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { PanelForm } from "../_components/panelForm";
-import { FieldGroup, FieldLabel } from "@workspace/ui/components/field";
+import { FieldGroup } from "@workspace/ui/components/field";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import FooterForm from "../_components/footerForm";
 import {
@@ -19,6 +18,7 @@ import { authService } from "@repo/api-client/service/auth.service";
 import { useCartStore } from "@/app/stores/useCartStore";
 import { useCart } from "@/app/hooks/useCart";
 import FormInputController from "@/app/components/ui/formInputController/FormInputController";
+import { toast } from "@workspace/ui/lib/toast";
 export const labelClass: string = "text-base ";
 
 export const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-lg 
@@ -29,26 +29,25 @@ export const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-l
 
 export default function Page() {
   const router = useRouter();
-  const [messageLoad, setMessageLoad] = useState<string>("");
 
   const guestItems = useCartStore((state) => state.items);
   const clearGuestCart = useCartStore((state) => state.clearCart);
   const { mergeCart } = useCart();
 
-  const { mutate, isPending, isSuccess, isError } = useMutation({
+  const { mutate, isPending, } = useMutation({
     mutationFn: authService.login,
     onSuccess: async (_) => {
-      setMessageLoad("Inicio de sesión exitoso.");
+      toast.success("Inicio de sesión exitoso.")
 
-      // merge
-      // if (guestItems.length > 0) {
-      //   await mergeCart(
-      //     guestItems.map((item) => ({
-      //       productId: item.productId,
-      //       quantity: item.quantity,
-      //     })),
-      //   );
-      // }
+      //merge carrito
+      if (guestItems.length > 0) {
+        await mergeCart(
+          guestItems.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+          })),
+        );
+      }
 
       clearGuestCart();
 
@@ -56,7 +55,8 @@ export default function Page() {
       router.refresh();
     },
     onError: async (err) => {
-      setMessageLoad(err.message);
+      console.log(err)
+      toast.error("No pudimos iniciar sesión. Verifica tu correo y contraseña e inténtalo de nuevo.")
     },
   });
 
@@ -69,7 +69,6 @@ export default function Page() {
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
-    setMessageLoad("");
     mutate(data);
   });
 
@@ -112,17 +111,6 @@ export default function Page() {
           </ButtonBase>
           <div className="w-full">
             <FooterForm type="sign-in" />
-            {(isError || isSuccess) && (
-              <FieldLabel
-                className={`text-sm ${
-                  isError
-                    ? "text-red-600 bg-red-100"
-                    : "text-green-600 bg-green-100"
-                } text-center inline-block w-full  p-3 rounded-md mt-1`}
-              >
-                {messageLoad}
-              </FieldLabel>
-            )}
           </div>
         </div>
       </form>

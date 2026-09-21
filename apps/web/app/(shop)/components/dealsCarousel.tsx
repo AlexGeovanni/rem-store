@@ -10,45 +10,50 @@ import { useQuery } from "@tanstack/react-query";
 import { Product } from "@repo/core/types/product";
 
 export default function DealsCarousel() {
-  const [selectCategory, setSelectCategory] = useState<string >(
-    "all",
-  );
+  const [selectCategory, setSelectCategory] = useState<string>("all");
 
-  const { data, isLoading, error, isSuccess } = useQuery({
-      queryKey: ["productsAll"],
-      queryFn: () => productService.getProducts(),
-    });
-  
-    const products = useMemo(() => data?.content ?? [], [data]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["productsAll"],
+    queryFn: () =>
+      productService.getProducts({
+        direction: "desc",
+        discounted: "true",
+      }),
+  });
 
-    const filteredProducts = useMemo(() => {
-      if (selectCategory === "all") {
+  const products = useMemo(() => data?.content ?? [], [data]);
+
+  const filteredProducts = useMemo(() => {
+    if (selectCategory === "all") {
       return products;
     }
-      return (
-        products?.filter(
-          (product: Product) =>
-            product.category?.name?.toLocaleLowerCase() ===
-            selectCategory.toLocaleLowerCase(),
-        ) || []
-      );
-    }, [selectCategory, products]);
+    return (
+      products?.filter(
+        (product: Product) =>
+          product.category?.name?.toLocaleLowerCase() ===
+          selectCategory.toLocaleLowerCase(),
+      ) || []
+    );
+  }, [selectCategory, products]);
 
-  
+  if (filteredProducts.length <= 0) {
+    return null;
+  }
+
   return (
     <div className="w-full overflow-hidden">
       <Wrapper className="space-y-2">
         <div className=" space-y-2 pb-2 md:mb-4 md:space-y-2.5">
           <div>
             <h2
-              className="text-4xl font-medium pb-1 tracking-tight text-balance text-foreground sm:text-4xl lg:text-5xl"
+              className="text-3xl font-medium pb-1 tracking-tight text-balance text-foreground tablet:text-4xl"
               // className="font-semibold pb-1 text-xl leading-8 md:pb-2 sm:text-4xl tablet:text-5xl"
             >
               Compra lo esencial
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Marcas pequeñas que comparten su producto
-              en REM/STORE. Compra directo de su tienda.
+              Marcas pequeñas que comparten su producto en REM/STORE. Compra
+              directo de su tienda.
             </p>
           </div>
           <div className="inline-flex flex-wrap gap-1 p-1 border border-black/10 rounded-full">
@@ -82,7 +87,10 @@ export default function DealsCarousel() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <ProductCarousel products={filteredProducts} />
+            <ProductCarousel
+              products={filteredProducts}
+              isLoading={isLoading}
+            />
           </motion.div>
         </AnimatePresence>
       </Wrapper>

@@ -22,6 +22,6 @@ export type Product ={
   category: Category;
   sku:string;
   details:Details ;
-  idBusiness: string;
+  businessName: string;
   nameBusiness: string;
 }

@@ -1,9 +1,22 @@
+import type { ParamsInter } from "@/app/(shop)/s/[[...categoria]]/page";
 import { clientApi } from "./config/clientApi";
 
 
 export const productService = {
-    getProducts: async () => {
-        const res = await clientApi.get("/proxy/products/all");
+    getProducts: async (params: ParamsInter = {}) => {
+        const paramsQuery = new URLSearchParams();
+
+        Object.entries(params).forEach(([key, value]) => {
+            if (value === undefined || value === null || value === "") return;
+
+            // `pagina` es el nombre usado en la URL de la tienda; la API espera `page`.
+            paramsQuery.set(key === "pagina" ? "page" : key, String(value));
+        });
+
+        const query = paramsQuery.toString();
+        const res = await clientApi.get(
+            `/proxy/products/all${query ? `?${query}` : ""}`,
+        );
         return res.data;
     },
     
@@ -18,7 +31,7 @@ export const productService = {
     },
 
     postProduct: async (data:unknown) => {
-        const res = await clientApi.post(`/proxy/products`,data);
+        const res = await clientApi.post(`/proxy/products/business`,data);
         return res.data;
     },
     updateProduct: async (id: string, data: unknown) => {

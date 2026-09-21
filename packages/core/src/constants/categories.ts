@@ -14,6 +14,7 @@ export type CategoryDefinition = {
   label: string;
   shopTitle: string;
   dealLabel: string;
+  idKey:string
 };
 
 export const CATEGORIES: readonly CategoryDefinition[] = [
@@ -24,6 +25,7 @@ export const CATEGORIES: readonly CategoryDefinition[] = [
     label: "Moda",
     shopTitle: "Colección de Moda",
     dealLabel: "Ropa",
+    idKey:"dYW2POjmXKxeVAPe4plwB0kQaNrLg8"
   },
   {
     id: "2",
@@ -32,6 +34,7 @@ export const CATEGORIES: readonly CategoryDefinition[] = [
     label: "Electrónicos",
     shopTitle: "Electrónicos",
     dealLabel: "Electrónicos",
+    idKey:"km0XYn3xaD7Z24lNvlPjzNVKQrpL9w"
   },
   {
     id: "3",
@@ -40,11 +43,12 @@ export const CATEGORIES: readonly CategoryDefinition[] = [
     label: "Hogar",
     shopTitle: "Artículos para el Hogar",
     dealLabel: "Hogar",
+    idKey:"W1Dykzwr6oBPlv1K4N0YR5n8ZdmVGb"
   },
 ] as const;
 
-export const DASHBOARD_CATEGORIES = CATEGORIES.map(({ label, id }) => ({
-  value: id,
+export const DASHBOARD_CATEGORIES = CATEGORIES.map(({ label, idKey }) => ({
+  value: idKey,
   label,
 }));
 

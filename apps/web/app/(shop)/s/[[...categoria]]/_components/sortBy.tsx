@@ -1,27 +1,57 @@
-
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import { SORTBY } from "../data/constants";
-import { ArrowDown, ChevronDown } from "lucide-react";
-
+import { useEffect, useRef } from "react";
+import { SORTBY, TypeSortBy } from "../data/constants";
+import { ChevronDown } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import type { ParamsInter } from "../page";
 
 interface SortByProps {
   sortActive: boolean;
-  setSortActive: (sortActive: boolean) => void;
+  setSortActive: (sortActive: boolean) => void; 
+  params: ParamsInter;
 }
-export default function SortBy({ sortActive, setSortActive }: SortByProps) {
-  const [sortByName, setSortByName] = useState<keyof typeof SORTBY | undefined>(
-    undefined
-  );
-  const refDiv = useRef<HTMLUListElement>(null);
+export default function SortBy({
+  sortActive,
+  setSortActive,
+  params: queryParams,
+}: SortByProps) {
+
+  const refDiv = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const selectedSort =
+    queryParams.sortBy === "price"
+      ? queryParams.direction
+      : queryParams.sortBy;
+  const sortByName = SORTBY.find((item) => item.key === selectedSort)?.label;
+
+  const cambiarCategoria = (categoria: string) => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (categoria === "createdAt") {
+      params.set("sortBy", "createdAt");
+      params.set("direction", "desc");
+    } else {
+      params.set("sortBy", "price");
+      params.set("direction", categoria);
+    }
+
+    // Al cambiar el orden, volver a la primera página.
+    params.delete("page");
+    params.delete("pagina");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const onclick = () => {
     setSortActive(!sortActive);
-    // alert("Ordernar por");
   };
-  const handleSortByName = (name: keyof typeof SORTBY) => {
-    setSortByName(name);
+
+  const handleSortByName = (name: TypeSortBy) => {
     setSortActive(false);
+    cambiarCategoria(name.key);
   };
+
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (refDiv.current && !refDiv.current.contains(e.target as Node)) {
@@ -32,43 +62,45 @@ export default function SortBy({ sortActive, setSortActive }: SortByProps) {
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, [sortActive, sortByName]);
+  }, [setSortActive]);
 
   return (
-    <div>
+    <div ref={refDiv}>
       <button
         onClick={onclick}
         tabIndex={0}
         className="pl-2 font-medium cursor-pointer flex items-center justify-center"
       >
-        Ordenar por <span className="text-gray-500">{sortByName ? `: ${sortByName}` : ""}</span>
+        Ordenar por{" "}
+        <span className="text-gray-500">
+          {sortByName ? `: ${sortByName}` : ""}
+        </span>
         <motion.div
           className="pt-1.5"
           initial={{ rotate: 0 }}
-          animate={{ rotate: sortActive ? -180 : 0, y:sortActive ?5:0 }}
+          animate={{ rotate: sortActive ? -180 : 0, y: sortActive ? 5 : 0 }}
           transition={{ duration: 0.3 }}
         >
-            <ChevronDown />
+          <ChevronDown />
         </motion.div>
       </button>
       <div className="absolute -top-3-0 -right-1 z-20 ">
         <AnimatePresence>
           {sortActive && (
             <motion.ul
-              ref={refDiv}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3 }}
               className="text-right bg-white  p-3  rounded-lg  w-auto pl-6 pr-4"
             >
-              {Object.values(SORTBY).map((item: string, index: number) => (
+              {SORTBY.map((item: TypeSortBy, index: number) => (
                 <li
                   key={index}
                   className="py-1 font-medium  cursor-pointer hover:text-gray-400"
-                  onClick={() => handleSortByName(item as keyof typeof SORTBY)}
+                  onClick={() => handleSortByName(item)}
                 >
-                  {item}
+                  {item.label}
                 </li>
               ))}
             </motion.ul>

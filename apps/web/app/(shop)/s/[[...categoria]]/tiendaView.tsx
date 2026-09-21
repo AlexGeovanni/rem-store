@@ -10,24 +10,37 @@ import { ProductSkeletonCard } from "@/app/components/productCardSkeleton";
 import ProductCard from "@/app/components/productCard";
 import { Product } from "@repo/core/types/product";
 import { productService } from "@/app/lib/service/product.service";
+import type { ParamsInter } from "./page";
 
 interface TiendaViewProps {
   categoria?: string;
   categoriaUrl?: string;
+  params: ParamsInter;
 }
+/**
+ * 
+ * @param param0 GET /api/v1/products/all?page=0&size=10&sortBy=createdAt&direction=desc
+GET /api/v1/products/all?page=0&size=10&sortBy=price&direction=asc
+GET /api/v1/products/all&sortBy=price&direction=desc
+ * @returns 
+ */
 
 export default function TiendaView({
   categoria,
   categoriaUrl,
+  params
 }: TiendaViewProps) {
+
   const [activo, setActivo] = useState(true);
   const [sortActive, setSortActive] = useState<boolean>(false);
 
   const marginLeftValue = activo ? -270 : 0;
 
   const { data, isLoading, error, isSuccess } = useQuery({
-    queryKey: ["productsAll"],
-    queryFn: () => productService.getProducts(),
+    queryKey: ["productsAll", params],
+    queryFn: () => productService.getProducts(params),
+    staleTime: 1000 * 60,
+    retry: 1,
   });
 
   const productos = useMemo(() => data?.content ?? [], [data]);
@@ -52,10 +65,6 @@ export default function TiendaView({
     if (isSuccess || error) {
       setActivo(false);
     }
-    // setTimeout(() => {
-    //   setSkeleton(true);
-    //   setActivo(false);
-    // }, 2000);
   }, [isSuccess, error]);
 
   // Obtener nombre de la categoría para mostrar
@@ -95,7 +104,11 @@ export default function TiendaView({
             <button onClick={toggleActivo} className="px-2 pr-4 cursor-pointer">
               <span>{marginLeftValue ? "Mostrar " : "Ocultar "}</span>filtros
             </button>
-            <SortBy sortActive={sortActive} setSortActive={setSortActive} />
+            <SortBy
+              sortActive={sortActive}
+              setSortActive={setSortActive}
+              params={params}
+            />
           </div>
         </header>
       </Wrapper>
@@ -111,7 +124,7 @@ export default function TiendaView({
         >
           <div className="pb-4 pr-4">
             <div className="">
-              <MenuMultiple categoriaActual={categoriaUrl} />
+              <MenuMultiple categoriaActual={categoriaUrl} params={params} />
             </div>
           </div>
         </motion.div>

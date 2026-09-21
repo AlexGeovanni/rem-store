@@ -25,7 +25,7 @@ export default function FormCategoryField({
         <p className="text-lg font-medium">Detalles espeficos del producto</p>
       </div>
       <div>
-        {category === "1" && (
+        {category === "dYW2POjmXKxeVAPe4plwB0kQaNrLg8" && (
             <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <FormInputField
                 control={form.control}
@@ -50,7 +50,7 @@ export default function FormCategoryField({
               />
           </div>
         )}
-        {category === "2" && (
+        {category === "km0XYn3xaD7Z24lNvlPjzNVKQrpL9w" && (
             <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <SelectController
                 control={form.control}
@@ -79,7 +79,7 @@ export default function FormCategoryField({
               />
             </div>
         )}
-        {category === "3" && (
+        {category === "W1Dykzwr6oBPlv1K4N0YR5n8ZdmVGb" && (
             <div className="grid grid-cols-2 gap-x-2 gap-y-5">
               <FormInputField
                 control={form.control}

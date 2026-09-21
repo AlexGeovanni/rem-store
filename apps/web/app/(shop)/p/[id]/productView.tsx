@@ -210,6 +210,7 @@ export default function ProductView({ data }: { data: any }) {
   };
 
   const addToCart = () => {
+    
     addItem({
       id: data.id,
       productId: data.id,
@@ -220,8 +221,13 @@ export default function ProductView({ data }: { data: any }) {
       totalPrice: data.price * quantity,
       stock: data.stock,
     });
+
+    setQuantity(1);
+
   };
+
   const discount = data?.discount > 0;
+
   return (
     <main>
       <Wrapper className="mt-0 md:mt-0 lg:mt-0">
@@ -253,7 +259,7 @@ export default function ProductView({ data }: { data: any }) {
 
           <div className="flex flex-col gap-6 mt-5 tablet:mt-0 tablet:pl-5 tablet:col-span-2">
             <TitleProduct
-              storeName={data?.idBusiness ?? "---"}
+              storeName={data?.businessName ?? "---"}
               title={data?.name || "---"}
               rating={rating}
               categoryName={data?.category.name ?? ""}

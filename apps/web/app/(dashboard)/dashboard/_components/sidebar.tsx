@@ -1,5 +1,4 @@
 "use client";
-// import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -32,12 +31,12 @@ interface SideBarProps {
 
 export function SideBar({ ...props }: SideBarProps) {
   const { open } = useSidebar();
-  const { tabAside, tabMenu, setTabAside } = useTabStore();
+  const { tabAside, tabMenu, setTabAside,resetTabs } = useTabStore();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="">
         <SidebarMenu className="py-2">
-          <TeamSwitcher />
+          <TeamSwitcher resetTabs={resetTabs} />
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
@@ -113,7 +112,6 @@ export function SideBar({ ...props }: SideBarProps) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      {/* <Separator /> */}
       <SidebarFooter>
         <div className="flex items-center gap-2 p-2 pe-8 ">
           <span className="text-sm"> &copy;</span>{" "}
@@ -122,7 +120,6 @@ export function SideBar({ ...props }: SideBarProps) {
           </div>
         </div>
       </SidebarFooter>
-      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }
@@ -133,24 +130,25 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
-import { Separator } from "@workspace/ui/components/separator";
 import { useBusinessUser } from "@/app/hooks/useBusinessUser";
 import { authService } from "@repo/api-client/service/auth.service";
 import { useAuth } from "@/app/providers/authProvider";
 import { useRouter } from "next/navigation";
 
-export function TeamSwitcher() {
+export function TeamSwitcher({resetTabs}:{resetTabs:()=>void}) {
+
   const { clearUser } = useAuth();
   const router = useRouter();
   const { isMobile } = useSidebar();
   const { data: user } = useBusinessUser();
+
   const handleLogout = async () => {
     try {
       await authService.logout();
       clearUser();
+      resetTabs()
       router.replace("/auth/iniciar-sesion");
       router.refresh();
     } catch (error) {

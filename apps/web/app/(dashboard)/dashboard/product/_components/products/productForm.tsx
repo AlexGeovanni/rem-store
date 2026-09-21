@@ -54,11 +54,11 @@ export default function ProductForm({
   });
   const SUB_CATEGORIES = useMemo(() => {
     switch (category) {
-      case "1":
+      case "dYW2POjmXKxeVAPe4plwB0kQaNrLg8":
         return SUB_CATEGORIES_FASHION;
-      case "2":
+      case "km0XYn3xaD7Z24lNvlPjzNVKQrpL9w":
         return SUB_CATEGORIES_ELECTRONIC;
-      case "3":
+      case "W1Dykzwr6oBPlv1K4N0YR5n8ZdmVGb":
         return SUB_CATEGORIES_HOME;
       default:
         return [];

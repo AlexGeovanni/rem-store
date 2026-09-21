@@ -7,6 +7,8 @@ import {  useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { productService } from "@/app/lib/service/product.service";
 import UpdateProductForm from "./updateProductForm";
+import { Fragment } from "react";
+import SkeletonDefault from "../../../_components/skeleton/skeletonDefault";
 
 export default function UpdateProductClient({
   productId,
@@ -21,11 +23,7 @@ export default function UpdateProductClient({
     retry: false,
   });
 
-  if (isLoading) {
-    return <h1>Cargando producto...</h1>;
-  }
-
-  if (isError || !product) {
+  if ((isError || !product) && !isLoading) {
     return <h1>No se pudo cargar el producto.</h1>;
   }
 
@@ -38,7 +36,8 @@ export default function UpdateProductClient({
             Volver
           </button>
         </Link>
-        <div className="mt-4">
+      </header>
+      {isLoading ? <SkeletonDefault />:<Fragment><div className="mt-4">
           <h2 className="text-lg font-semibold lg:text-2xl">
             Actualizar producto
           </h2>
@@ -46,8 +45,7 @@ export default function UpdateProductClient({
             Actualiza los detalles de tu producto.
           </p>
         </div>
-      </header>
-      <UpdateProductForm product={product} />
+      <UpdateProductForm product={product} /></Fragment>}
     </div>
   );
 }

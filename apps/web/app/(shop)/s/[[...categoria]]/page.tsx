@@ -1,21 +1,34 @@
-
 import Wrapper from "@/app/components/ui/wrapper";
 import { redirect } from "next/navigation";
 import {
-  CATEGORIES,
   getCategoryBySlug,
   isValidCategorySlug,
 } from "@repo/core/constants/categories";
 import TiendaView from "./tiendaView";
 
+export interface ParamsInter {
+  sortBy?: string;
+  direction?: string;
+  page?: string;
+  pagina?: string;
+  size?: string;
+  discounted?: string;
+}
+
 interface TiendaPageProps {
   params: Promise<{
     categoria?: string[];
   }>;
+  searchParams: Promise<ParamsInter>;
 }
 
-export default async function TiendaPage({ params }: TiendaPageProps) {
+export default async function TiendaPage({
+  params,
+  searchParams,
+}: TiendaPageProps) {
+  
   const { categoria } = await params;
+  const search = await searchParams;
   const categoriaUrl = categoria?.[0];
 
   if (categoriaUrl && !isValidCategorySlug(categoriaUrl)) {
@@ -37,6 +50,7 @@ export default async function TiendaPage({ params }: TiendaPageProps) {
       <TiendaView
         categoria={category?.key}
         categoriaUrl={categoriaUrl}
+        params={search}
       />
     </main>
   );

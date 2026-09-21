@@ -41,7 +41,7 @@ export default function CreatetPage() {
     resolver: zodResolver(productCreateSchema),
     mode: "onChange",
     defaultValues: {
-      categoryId: "1",
+      categoryId: "dYW2POjmXKxeVAPe4plwB0kQaNrLg8",
       subCategory:"",
       name: "",
       url:"",
@@ -74,7 +74,6 @@ export default function CreatetPage() {
       businessId: dataUser.id,
       url,
     };
-    console.log(payload)
 
     mutate(payload)
   } catch (error) {

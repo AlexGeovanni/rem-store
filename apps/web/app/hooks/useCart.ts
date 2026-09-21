@@ -64,7 +64,7 @@ export const useCart = () => {
       removeGuestItem(productId);
       return;
     }
-    await cartService.removeFromCart(cartQuery.data?.id, productId);
+    await cartService.removeFromCart(cartQuery.data?.data?.id, productId);
     queryClient.invalidateQueries({
       queryKey: ["cart"],
     });

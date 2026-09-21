@@ -7,7 +7,7 @@ import { classNameInput, labelClass } from "../../iniciar-sesion/page";
 import { Field, FieldError, FieldLabel } from "@workspace/ui/components/field";
 import { cn } from "@workspace/ui/lib/utils";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { type RegisterInput } from "@repo/core/schemas/auth/register.schema";
+import { type RegisterInput } from "@repo/core/schemas/register.schema";
 import FormInputController from "../../../../components/ui/formInputController/FormInputController";
 
 type Props = {

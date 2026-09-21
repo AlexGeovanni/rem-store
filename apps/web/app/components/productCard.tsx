@@ -15,7 +15,7 @@ interface ProductCardProps {
   product: Product;
 }
 export default function ProductCard({ product }: ProductCardProps) {
-  const { id, idBusiness, name, price, discount, category, url } =
+  const { id, businessName, name, price, discount, category, url } =
     product;
 
   const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
@@ -51,7 +51,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardContentImage>
       <div className="">
         <Link href={`/`}>
-          <CardTitleStore>@{idBusiness}</CardTitleStore>
+          <CardTitleStore>@{businessName}</CardTitleStore>
         </Link>
         <CardPrice
           name={name}

@@ -37,7 +37,6 @@ export default function FormAddress({ setOpen }: FormAddressProps) {
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
-    console.log(data);
     setTimeout(() => {
       form.reset();
       setOpen(); // Close the dialog after form submission

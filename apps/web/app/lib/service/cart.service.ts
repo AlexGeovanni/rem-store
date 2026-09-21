@@ -29,7 +29,7 @@ export const cartService = {
     quantity: number,
   ) => {
     const res = await clientApi.put(
-      `/proxy/shopping-cart/${cartId}/item/${productId}/quantity`,
+      `/proxy/shopping-cart/items/${productId}`,
       null,
       {
         params: {
