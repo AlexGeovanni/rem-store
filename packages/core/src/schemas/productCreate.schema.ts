@@ -101,8 +101,6 @@ export const productCreateSchema = z.object({
       "La descripción no puede tener más de 500 caracteres",
     ),
 
-  businessId: z.string(),
-
   /*
    * Los details dependen de categoryId,
    * por eso aquí no hacemos el discriminatedUnion.

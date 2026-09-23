@@ -12,7 +12,10 @@ import {
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { Button } from "@workspace/ui/components/button";
 import { Trash } from "lucide-react";
-import { type ProductCreateInput } from "@repo/core/schemas/productCreate.schema";
+import {
+  type ProductCreateInput,
+  type ProductCreateOutput,
+} from "@repo/core/schemas/productCreate.schema";
 import FormInputField from "../../../_components/FormInputField";
 import ImageUploader from "./imageUploader";
 import SelectController from "./selectController";
@@ -26,7 +29,7 @@ import { useMemo } from "react";
 import { useFormState, useWatch } from "react-hook-form";
 
 interface FormProductProps {
-  form: UseFormReturn<ProductCreateInput>;
+  form: UseFormReturn<ProductCreateInput, unknown, ProductCreateOutput>;
   isUpdate?: boolean;
   onChange?: (file: File | null) => void;
   onSubmit: () => void;

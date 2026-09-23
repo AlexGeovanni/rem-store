@@ -6,6 +6,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import Wrapper from "@/app/components/ui/wrapper";
 import { Button } from "@workspace/ui/components/button";
 import { type ElectronicosDetails, type HogarDetails, type RopaDetails } from "@repo/core/schemas/productCreate.schema";
+import { Details } from "@repo/core/types/product";
 
 const duration = 0.45;
 const menuTabs = {
@@ -13,7 +14,6 @@ const menuTabs = {
   DETALLE: "Detalles del producto",
 };
 
-type Details = HogarDetails | RopaDetails | ElectronicosDetails 
 
 interface DescriptionMoreProps {
   description: string;

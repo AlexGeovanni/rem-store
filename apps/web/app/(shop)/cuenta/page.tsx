@@ -1,16 +1,13 @@
 "use client";
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useRouter } from "next/navigation";
 import ResumenAccount from "./_components/resumenAccount";
 import MenuTabs from "./_components/menuTabs";
 import Wrapper from "@/app/components/ui/wrapper";
-import { useUserStore } from "@/app/stores/useUserStore";
-import { userService } from "@/app/lib/service/user.service";
-import { authService } from "@repo/api-client/service/auth.service";
-import { useAuth } from "@/app/providers/authProvider";
+import { useLogout } from "@/app/hooks/useLogout";
 import MyPurchases from "./_components/myPurchases/myPurchases";
 import SkeletonAccount from "./_components/skeletonAccount";
+import { useClientUser } from "@/app/hooks/useUser";
 
 export type Tab = {
   id: string;
@@ -28,39 +25,27 @@ const tabs: Tab[] = [
 ];
 
 export default function PageCuenta() {
-  const { isloading, setUser } = useUserStore();
-  const { clearUser } = useAuth();
+  const logout = useLogout();
+  const { data: user, isLoading, isError } = useClientUser();
 
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.id ?? "");
-  const router = useRouter();
-
   const handleLogout = async () => {
     try {
-      await authService.logout();
-      clearUser();
-      router.replace("/auth/iniciar-sesion");
-      router.refresh();
+      await logout();
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await userService.getUser();
-      if (response) {
-        const { user, ...rest } = response.data;
-        setUser({ ...user, ...rest });
-      }
-    };
-    fetchUser();
-  }, []);
-
   return (
     <main className="min-h-svh ">
       <Wrapper className="max-w-275 w-full grid grid-cols-1 gap-4 md:grid-cols-4 tablet:grid-cols-5">
-        {isloading ? (
+        {isLoading ? (
           <SkeletonAccount />
+        ) : isError || !user ? (
+          <p className="col-span-full text-center text-sm text-muted-foreground">
+            No pudimos cargar la información de tu cuenta.
+          </p>
         ) : (
           <Fragment>
             <div className="md:col-span-1 ">
@@ -88,7 +73,7 @@ export default function PageCuenta() {
                   }}
                 >
                   {tabs[0]?.id === selectedTab && (
-                    <ResumenAccount key={"resumenId"} />
+                    <ResumenAccount key={"resumenId"} user={user} />
                   )}
                   {tabs[1]?.id === selectedTab && (
                     <MyPurchases key={"pedidosId"} />

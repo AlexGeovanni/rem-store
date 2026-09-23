@@ -21,7 +21,7 @@ import {
   TABS_MENU,
   type TabValueMenu,
   useTabStore,
-} from "@/app/stores/dashboard/tab-dashboard";
+} from "@/app/stores/dashboard/UseTabStore";
 import { ChevronsUpDownIcon, LayoutDashboard } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 
@@ -132,25 +132,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
-import { useBusinessUser } from "@/app/hooks/useBusinessUser";
-import { authService } from "@repo/api-client/service/auth.service";
-import { useAuth } from "@/app/providers/authProvider";
-import { useRouter } from "next/navigation";
+import { useBusinessUser } from "@/app/hooks/useUser";
+import { useLogout } from "@/app/hooks/useLogout";
 
 export function TeamSwitcher({resetTabs}:{resetTabs:()=>void}) {
 
-  const { clearUser } = useAuth();
-  const router = useRouter();
+  const logout = useLogout();
   const { isMobile } = useSidebar();
   const { data: user } = useBusinessUser();
 
   const handleLogout = async () => {
     try {
-      await authService.logout();
-      clearUser();
+      await logout();
       resetTabs()
-      router.replace("/auth/iniciar-sesion");
-      router.refresh();
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }

@@ -4,15 +4,16 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useUserStore } from "@/app/stores/useUserStore";
+import { useBusinessUser } from "@/app/hooks/useUser";
 import {
   TABS_LAYOUT,
   TABS_MENU,
   useTabStore,
-} from "@/app/stores/dashboard/tab-dashboard";
+} from "@/app/stores/dashboard/UseTabStore";
 import { ArrowLeft } from "lucide-react";
 import {
   ProductCreateInput,
+  ProductCreateOutput,
   productCreateSchema,
 } from "@repo/core/schemas/productCreate.schema";
 import { useState } from "react";
@@ -20,7 +21,7 @@ import { productService } from "@/app/lib/service/product.service";
 import { imageService } from "@/app/lib/service/image.service";
 import ProductForm from "../_components/products/productForm";
 export default function CreatetPage() {
-  const dataUser = useUserStore((state) => state.user);
+  const { data: dataUser } = useBusinessUser();
   const [file, setFile] = useState<File | null>(null);
   const { setTabAside } = useTabStore();
 
@@ -37,7 +38,7 @@ export default function CreatetPage() {
     },
   });
 
-  const form = useForm<ProductCreateInput>({
+  const form = useForm<ProductCreateInput, unknown, ProductCreateOutput>({
     resolver: zodResolver(productCreateSchema),
     mode: "onChange",
     defaultValues: {
@@ -50,7 +51,6 @@ export default function CreatetPage() {
       stock: 1,
       discount: 0,
       description: "",
-      businessId: "",
       active: true,
       details: {
       } as Record<string, string>,

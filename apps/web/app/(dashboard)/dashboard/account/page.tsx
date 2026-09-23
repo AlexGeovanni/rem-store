@@ -3,11 +3,14 @@
 import { Fragment } from "react";
 import ProfileForm from "./_components/account/profileForm";
 import SupportAccess from "./_components/account/supportAccess";
-import { useBusinessUser } from "@/app/hooks/useBusinessUser";
+import { useBusinessUser } from "@/app/hooks/useUser";
 import SkeletonDefault from "../_components/skeleton/skeletonDefault";
+
 export default function PageAccount() {
   const { data: user, isLoading, isError } = useBusinessUser();
 
+  if (isError || !user) return <SkeletonDefault />;
+  
   return (
     <Fragment>
       {isLoading ? (

@@ -1,8 +1,7 @@
-import { useUserStore } from "@/app/stores/useUserStore";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   UserClientEditInput,
   UserClientEditSchema,
@@ -14,9 +13,11 @@ import { FieldGroup } from "@workspace/ui/components/field";
 import FormInputController from "@/app/components/ui/formInputController/FormInputController";
 import { toast } from "@workspace/ui/lib/toast";
 import formatDateCreatAt from "@repo/core/utils/formartDateCreatAt";
+import type { ClientUser } from "@repo/core/types/user";
+import { userQueryKeys } from "@/app/lib/queryKeys";
 
-export default function ResumenAccount() {
-  const { user } = useUserStore();
+export default function ResumenAccount({ user }: { user: ClientUser }) {
+  const queryClient = useQueryClient();
 
   const initialName = user?.name?.split(" ")[0]?.charAt(0) || "U";
 
@@ -35,6 +36,7 @@ export default function ResumenAccount() {
       return await userService.updateUser(data);
     },
     onSuccess: (_response, variables) => {
+      queryClient.invalidateQueries({ queryKey: userQueryKeys.client() });
       toast.success("Cambios guardados correctamente",{position:"top-right"})
       form.reset(variables);
     },
@@ -65,7 +67,7 @@ export default function ResumenAccount() {
           </div>
           <div className="">
             <div className="text-sm text-gray-500">
-              Cliente desde {user ? formatDateCreatAt(user.createdAt) : "--"}
+              Cliente desde {user.createdAt ? formatDateCreatAt(user.createdAt) : "--"}
             </div>
             <div className="text-sm text-gray-500">0 - pedidos realizados</div>
           </div>

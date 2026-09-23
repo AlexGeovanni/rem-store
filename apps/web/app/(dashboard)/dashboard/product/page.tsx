@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TABS_LAYOUT, TABS_MENU, useTabStore } from "@/app/stores/dashboard/tab-dashboard";
+import { TABS_LAYOUT, TABS_MENU, useTabStore } from "@/app/stores/dashboard/UseTabStore";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { ProductTable } from "../_components/tables/ProductTable";
 

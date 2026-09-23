@@ -18,8 +18,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { Button } from "@workspace/ui/components/button";
+import type { User } from "@repo/core/types/user";
+import { userQueryKeys } from "@/app/lib/queryKeys";
 
-export default function ProfileForm({ user }: { user: any }) {
+export default function ProfileForm({ user }: { user: User }) {
   const queryClient = useQueryClient();
   const form = useForm<UserBusinessEditInput>({
     resolver: zodResolver(UserBusinessEditSchema),
@@ -38,7 +40,7 @@ export default function ProfileForm({ user }: { user: any }) {
     },
     onSuccess: (_response, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["business-user"],
+        queryKey: userQueryKeys.business(),
       });
 
       toast.success("Cambios guardados correctamente", {

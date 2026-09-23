@@ -1,7 +1,7 @@
 import { SidebarTrigger } from "@workspace/ui/components/sidebar";
 import { useQuery } from "@tanstack/react-query";
 
-export function SiteHeader({ name }: { name: string }) {
+export function SiteHeader({ name }: { name: string | null }) {
   // Usar el store de Zustand en lugar de recibir props
   const { data: avatar, isLoading } = useQuery({
     queryKey: ["avatar"],

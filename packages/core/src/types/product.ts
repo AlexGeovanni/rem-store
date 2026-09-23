@@ -1,4 +1,3 @@
-import type { CategoryKey } from "../constants/categories";
 
 type Category = {
   id: string;
@@ -6,7 +5,7 @@ type Category = {
   name: string;
 };
 
-type Details = { size: string; color: string; material: string; } | { brand: string; memory: string; ram: string; model: string; } | { material: string; dimensions: string; weight: unknown; }
+export type Details = { size: string; color: string; material: string; } | { brand: string; memory: string; ram: string; model: string; } | { material: string; dimensions: string; weight: unknown; }
 
 export type Product ={
   id: string;

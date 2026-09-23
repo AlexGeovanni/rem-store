@@ -9,14 +9,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { useUserStore } from "@/app/stores/useUserStore";
+import { useBusinessUser } from "@/app/hooks/useUser";
 import { SquarePen } from "lucide-react";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { cn } from "@workspace/ui/lib/utils";
 import { productService } from "@/app/lib/service/product.service";
+import { Product } from "@repo/core/types/product";
 
 export function ProductTable() {
-  const userId = useUserStore((state) => state.user?.id);
+  const { data: businessUser } = useBusinessUser();
+  const userId = businessUser?.id;
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", userId],
@@ -45,7 +47,7 @@ export function ProductTable() {
         </TableRow>
       </TableHeader>
       <TableBody className="relative">
-        {data?.content?.map((product: any) => (
+        {data?.content?.map((product: Product) => (
           <TableRow key={product.id}>
             <TableCell>
               <div className="inline-block border rounded-md p-0.5">

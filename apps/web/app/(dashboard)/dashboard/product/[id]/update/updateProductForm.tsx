@@ -6,6 +6,7 @@ import {
   electronicosDetailsSchema,
   hogarDetailsSchema,
   ProductCreateInput,
+  ProductCreateOutput,
   productCreateSchema,
   ropaDetailsSchema,
 } from "@repo/core/schemas/productCreate.schema";
@@ -23,7 +24,7 @@ export default function UpdateProductForm({ product }: { product: Product }) {
       productService.updateProduct(product.id, data),
   });
 
-  const form = useForm<ProductCreateInput>({
+  const form = useForm<ProductCreateInput, unknown, ProductCreateOutput>({
     resolver: zodResolver(productCreateSchema),
     mode: "onChange",
     defaultValues: mapProductToForm(product),
@@ -65,7 +66,7 @@ export default function UpdateProductForm({ product }: { product: Product }) {
   );
 }
 
-function mapProductToForm(product: any): ProductCreateInput {
+function mapProductToForm(product: Product): ProductCreateInput {
   return {
     categoryId: product.category.id,
     subCategory: product.subCategory,
@@ -76,7 +77,6 @@ function mapProductToForm(product: any): ProductCreateInput {
     stock: product.stock,
     discount: product.discount ?? 0,
     description: product.description,
-    businessId: product.idBusiness,
     active: product.active,
     details: product.details,
   };

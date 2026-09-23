@@ -1,4 +1,4 @@
-import { Boxes } from "lucide-react";
+import { Boxes, type LucideIcon } from "lucide-react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -30,7 +30,7 @@ interface DataSidebar {
   id: TabValueLayout;
   title: string;
   url: string;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   childrenTab: {
     id: TabValueMenu;
     title: string;

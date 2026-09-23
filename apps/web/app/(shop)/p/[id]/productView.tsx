@@ -16,6 +16,8 @@ import { SelectSize } from "./_components/selectSize";
 import BreadCrumbs from "@/app/components/ui/breadCrumbs";
 import { useCart } from "@/app/hooks/useCart";
 import { useFavoriteStore } from "@/app/stores/useFavoriteStore";
+import { Product } from "@repo/core/types/product";
+import { RopaDetails } from "@repo/core/schemas/productCreate.schema";
 
 export type TypeReview = {
   id: number;
@@ -175,7 +177,7 @@ const SplitReview = (comentarios: TypeReview[], tamañoGrupo: number) => {
   return grupos;
 };
 
-export default function ProductView({ data }: { data: any }) {
+export default function ProductView({ data }: { data: Product }) {
   const { addItem, items } = useCart();
   const { favorite, addFavorite, removeFavorite } = useFavoriteStore();
 
@@ -287,18 +289,18 @@ export default function ProductView({ data }: { data: any }) {
             </div>
 
             <div className="flex flex-col gap-2">
-              {data?.details?.size && (
+              {(data?.details as RopaDetails)?.size && (
                 <div>
                   <p>Talla:</p>
-                  <SelectSize size={data?.details?.size} />
+                  <SelectSize size={(data?.details as RopaDetails)?.size} />
                 </div>
               )}
-              {data?.details?.color && (
+              {(data?.details as RopaDetails)?.color && (
                 <div>
                   <p className="text-base">
                     Color:
                     <span className="pl-1 font-medium text-gray-700">
-                      {data?.details?.color}
+                      {(data?.details as RopaDetails)?.color}
                     </span>
                   </p>
                 </div>
