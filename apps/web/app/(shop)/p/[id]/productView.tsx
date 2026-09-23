@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import QuantityBox from "./_components/quantityBox";
 import StarRating from "./_components/reviews/starRating";
 import ReviewsContent from "./_components/reviews/reviewsContent";
 import {
-  DescriptionMore,
   ProductDetailsView,
 } from "./_components/descriptionMore";
 import ButtonBase from "@workspace/ui/components/buttonBase";

@@ -99,7 +99,6 @@ export function CardPrice({
   price,
   discount = 0,
   salePrice,
-  className,
 }: CardPriceProps) {
   return (
     <div className="mt-2 flex items-start justify-between gap-2">

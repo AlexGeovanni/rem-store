@@ -27,12 +27,9 @@ export default function Content() {
     setIsScrolledbg(isScrollingUp)
   });
   if (excludedPatterns.some((regex) => regex.test(path))) return null;
-  // alert(exclidedHome)
-  // const buttonStyles = cva(
-  //   "cursor-pointer w-11! h-11! bg-gray-50/70 hover:bg-gray-100/60 transition duration-300 ease-out  border-transparent"
-  // );
+  
   return (
-    <div className={cn('h-[70px] lg:h-auto",!isHome && "lg:h-[70px] group')}>
+    <div className={cn('h-[70px] lg:h-auto',!isHome && 'lg:h-[70px] group')}>
       <motion.header
         initial={false}
         animate={isScrolled ? { opacity: 0, y: -100 } : { opacity: 1, y: 0 }}
@@ -41,7 +38,6 @@ export default function Content() {
 
         className={cn('fixed top-0 left-0  right-0 z-50 bg-background lg:transition-all lg:ease-initial lg:duration-450 lg:bg-transparent lg:hover:bg-background ',!isHome?'lg:bg-background': isScrolledbg &&'lg:bg-background')}
       >
-        {/*border bg-background */}
         <MenuDesktop userName={user?.name} />
       </motion.header>  
     </div>

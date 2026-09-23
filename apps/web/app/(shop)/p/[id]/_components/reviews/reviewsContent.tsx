@@ -1,7 +1,6 @@
 
 import StarRating from "./starRating";
 import { TypeReview } from "../../productView";
-import Wrapper from "@/app/components/ui/wrapper";
 
 type ReviewsContentProps = {
   rating: number;
@@ -13,7 +12,6 @@ export default function ReviewsContent({
   reviews,
 }: ReviewsContentProps) {
   return (
-    // <Wrapper className="pb-5 md:pb-10"></Wrapper>
     <>
       <div>
         <h2 className="text-xl font-medium pb-5">

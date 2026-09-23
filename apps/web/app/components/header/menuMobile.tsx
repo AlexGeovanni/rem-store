@@ -66,12 +66,7 @@ export function MenuMobile({
           <ul className="">
             <li>
               <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push("/s/moda");
-                }}
-                href={""}
+                href={"/s/moda"}
                 className="font-medium text-xl block py-3 px-1 hover:text-zinc-500"
               >
                 <DrawerTrigger className="cursor-pointer">{components[0]?.title}</DrawerTrigger>
@@ -79,12 +74,7 @@ export function MenuMobile({
             </li>
             <li>
               <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push("/s/electronica");
-                }}
-                href={""}
+                href={"/s/electronica"}
                 className="font-medium text-xl block py-3 px-1 hover:text-zinc-500"
               >
                 <DrawerTrigger className="cursor-pointer">{components[1]?.title}</DrawerTrigger>
@@ -92,12 +82,7 @@ export function MenuMobile({
             </li>
             <li>
               <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push("/s/hogar");
-                }}
-                href={""}
+                href={"/s/hogar"}
                 className="font-medium text-xl block py-3 px-1 hover:text-zinc-500"
               >
                 <DrawerTrigger className="cursor-pointer">{components[2]?.title}</DrawerTrigger>
