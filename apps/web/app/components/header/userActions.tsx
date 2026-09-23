@@ -30,13 +30,15 @@ const cartBadge =
        {cartBadge}
       </span>
       </Link>
-      {!!userName ? (
+      <div className="hidden lg:block">
+        {!!userName ? (
         <UserAvatar user={userName} onClickProfile={onClickProfile} />
       ) : (
         <ButtonBase onClick={onClickLogin} className="text-sm h-11">
           Iniciar sesión
         </ButtonBase>
       )}
+      </div>
     </div>
   );
 }
@@ -46,14 +48,14 @@ interface UserAvatarProps {
   onClickProfile: () => void;
 }
 
-const UserAvatar = ({ user, onClickProfile }: UserAvatarProps) => {
+export const UserAvatar = ({ user, onClickProfile }: UserAvatarProps) => {
   const userName = user?.split(' ')[0] || 'Usuario';
   const initialName = user?.split(' ')[0]?.charAt(0) || 'U';
   return (
-    <div onClick={onClickProfile} className="flex items-center gap-2 border border-gray-300 rounded-full pl-4 cursor-pointer">
+    <div onClick={onClickProfile} className="flex items-center justify-between gap-2 border border-gray-300 rounded-full pl-4 cursor-pointer">
         <div>
-            <span className="text-sm font-medium">Hola, </span>
-            <span className="text-sm font-medium capitalize">{userName}</span>
+            <span className="text-base lg:text-sm font-medium">Hola, </span>
+            <span className="text-base lg:text-sm font-medium capitalize">{userName}</span>
         </div>
         <div className="text-base font-medium h-10 w-10 bg-amber-600 rounded-full flex items-center justify-center">
           <span className="text-white">{initialName}</span>

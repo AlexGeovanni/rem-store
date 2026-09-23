@@ -19,13 +19,6 @@ import { useCartStore } from "@/app/stores/useCartStore";
 import { useCart } from "@/app/hooks/useCart";
 import FormInputController from "@/app/components/ui/formInputController/FormInputController";
 import { toast } from "@workspace/ui/lib/toast";
-export const labelClass: string = "text-base ";
-
-export const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-lg 
-              transition-shadow  focus-within:border-ring/40 focus-within:outline-none 
-              focus-within:ring-[2px] focus-within:ring-ring/0 has-[:disabled]:cursor-not-allowed 
-              has-[:disabled]:opacity-50 [&:has(input:is(:disabled))_*]:pointer-events-none
-              `;
 
 export default function Page() {
   const router = useRouter();
@@ -54,8 +47,7 @@ export default function Page() {
       router.replace("/carrito");
       router.refresh();
     },
-    onError: async (err) => {
-      console.log(err)
+    onError: async (_) => {
       toast.error("No pudimos iniciar sesión. Verifica tu correo y contraseña e inténtalo de nuevo.")
     },
   });
@@ -103,7 +95,7 @@ export default function Page() {
         <div>
           <ButtonBase
             type="submit"
-            className="cursor-pointer rounded-full text-sm h-9 xsm:h-11 xsm:text-base w-full "
+            className="cursor-pointer rounded-full text-sm h-11 xsm:text-base w-full "
             disabled={isPending}
           >
             {isPending && <Loader2Icon className="animate-spin" />}

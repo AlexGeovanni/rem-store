@@ -5,17 +5,20 @@ import { useScreenSize } from "@workspace/ui/hooks/useScreenSize";
 import { cn } from "@workspace/ui/lib/utils";
 import Wrapper from "@/app/components/ui/wrapper";
 import { Button } from "@workspace/ui/components/button";
-import { ProductDetails } from "@repo/core/schemas/productCreate.schema";
+import { type ElectronicosDetails, type HogarDetails, type RopaDetails } from "@repo/core/schemas/productCreate.schema";
+
 const duration = 0.45;
 const menuTabs = {
   DESCRIPCION: "Descripción del producto",
   DETALLE: "Detalles del producto",
 };
 
+type Details = HogarDetails | RopaDetails | ElectronicosDetails 
+
 interface DescriptionMoreProps {
   description: string;
   category: string;
-  details: ProductDetails
+  details: Details
 }
 
 export function DescriptionMore({description,category, details}:DescriptionMoreProps) {
@@ -78,36 +81,37 @@ export function DescriptionMore({description,category, details}:DescriptionMoreP
 
 interface Props {
   category: string;
-  details: ProductDetails
+  details: Details
 }
 
 export function ProductDetailsView({ category, details }: Props) {
+
   switch (category) {
     case "CLOTHING":
       return (
         <div className="pt-3">
-          <p>Talla: <span className="font-semibold">{details?.size}</span></p>
-          <p>Color: <span className="font-semibold">{details?.color}</span> </p>
-          <p>Material: <span className="font-semibold">{details?.material}</span></p>
+          <p>Talla: <span className="font-semibold">{(details as RopaDetails)?.size}</span></p>
+          <p>Color: <span className="font-semibold">{(details as RopaDetails)?.color}</span> </p>
+          <p>Material: <span className="font-semibold">{(details as RopaDetails)?.material}</span></p>
         </div>
       );
 
     case "ELECTRONICS":
       return (
         <div className="pt-2.5">
-          <p className="text-lg uppercase font-semibold">{details?.brand}</p>
-          <p>Modelo: <span className="font-semibold"> {details?.model}</span></p>
-          <p>RAM: <span className="font-semibold">{details?.ram}</span></p>
-          <p>Memoria: <span className="font-semibold">{details?.memory}</span></p>
+          <p className="text-lg uppercase font-semibold">{(details as ElectronicosDetails)?.brand}</p>
+          <p>Modelo: <span className="font-semibold"> {(details as ElectronicosDetails)?.model}</span></p>
+          <p>RAM: <span className="font-semibold">{(details as ElectronicosDetails)?.ram}</span></p>
+          <p>Memoria: <span className="font-semibold">{(details as ElectronicosDetails)?.memory}</span></p>
         </div>
       );
 
     case "HOME":
       return (
         <div>
-          <p>Material: <span className="font-semibold">{details?.material}</span> </p>
-          <p>Dimensiones: <span className="font-semibold">{details?.dimensions}</span></p>
-          <p>Peso: <span className="font-semibold">{details?.weight}</span></p>
+          <p>Material: <span className="font-semibold">{(details as HogarDetails)?.material}</span> </p>
+          <p>Dimensiones: <span className="font-semibold">{(details as HogarDetails)?.dimensions}</span></p>
+          <p>Peso: <span className="font-semibold">{(details as HogarDetails)?.weight}</span></p>
         </div>
       );
   }
@@ -154,16 +158,10 @@ function ResizablePanel({
   );
 }
 
-/*
-  Replacer function to JSON.stringify that ignores
-  circular references and internal React properties.
-
-  https://github.com/facebook/react/issues/8669#issuecomment-531515508
-*/
 const ignoreCircularReferences = () => {
   const seen = new WeakSet();
   return (key: string, value: unknown) => {
-    if (key.startsWith("_")) return; // Don't compare React's internal props.
+    if (key.startsWith("_")) return;
     if (typeof value === "object" && value !== null) {
       if (seen.has(value)) return;
       seen.add(value);

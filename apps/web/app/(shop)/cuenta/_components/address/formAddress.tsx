@@ -12,14 +12,6 @@ import { DialogClose } from "@workspace/ui/components/dialog";
 import { Button } from "@workspace/ui/components/button";
 
 
-const Label: string = "text-sm !text-gray-700";
-
-const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-lg shadow-sm
-              transition-shadow  focus-within:border-ring/40 focus-within:outline-none 
-              focus-within:ring-[2px] focus-within:ring-ring/0 has-[:disabled]:cursor-not-allowed 
-              has-[:disabled]:opacity-50 [&:has(input:is(:disabled))_*]:pointer-events-none
-              `;
-
 type FormAddressProps = {
   setOpen: () => void;
 };
@@ -52,7 +44,7 @@ export default function FormAddress({ setOpen }: FormAddressProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid} className="w-full">
-                <div className={classNameInput}>
+                <div className="">
                   <FieldLabel htmlFor={field.name} className={cn("labelClass")}>
                     *Nombre de la direccion
                   </FieldLabel>
@@ -81,7 +73,7 @@ export default function FormAddress({ setOpen }: FormAddressProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid} className="w-full">
-                <div className={classNameInput}>
+                <div className="">
                   <FieldLabel htmlFor={field.name} className={cn("labelClass")}>
                     *Telefono
                   </FieldLabel>
@@ -110,7 +102,7 @@ export default function FormAddress({ setOpen }: FormAddressProps) {
         control={form.control}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid} className="w-full">
-            <div className={classNameInput}>
+            <div className="">
               <FieldLabel htmlFor={field.name} className={cn("labelClass")}>
                 *Nombre
               </FieldLabel>
@@ -138,7 +130,7 @@ export default function FormAddress({ setOpen }: FormAddressProps) {
         control={form.control}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid} className="w-full">
-            <div className={classNameInput}>
+            <div className="">
               <FieldLabel htmlFor={field.name} className={cn("labelClass")}>
                 *Direccion
               </FieldLabel>

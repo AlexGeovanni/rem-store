@@ -1,6 +1,6 @@
 "use client";
 
-import ResumenCart from "./_components/resumen-cart";
+import ResumenCart from "./_components/resumenCart";
 import CardItem from "./_components/cardItem";
 import Wrapper from "@/app/components/ui/wrapper";
 import Link from "next/link";

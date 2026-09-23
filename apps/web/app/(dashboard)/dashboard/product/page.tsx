@@ -32,12 +32,6 @@ export default function Page() {
       <div className="p-4">
         <ProductTable />
       </div>
-      {/* Fallback: si no hay coincidencia, mostrar mensaje o redirigir */}
-      {/* {!isProductsList && !isOrdersList && (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500">Cargando...</p>
-        </div>
-      )} */}
     </div>
   );
 }

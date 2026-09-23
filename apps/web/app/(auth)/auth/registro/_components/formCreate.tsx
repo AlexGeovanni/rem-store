@@ -3,12 +3,19 @@
 import { UseFormReturn, Controller } from "react-hook-form";
 import { TypeAccount } from "../page";
 
-import { classNameInput, labelClass } from "../../iniciar-sesion/page";
 import { Field, FieldError, FieldLabel } from "@workspace/ui/components/field";
 import { cn } from "@workspace/ui/lib/utils";
 import { Textarea } from "@workspace/ui/components/textarea";
 import { type RegisterInput } from "@repo/core/schemas/register.schema";
 import FormInputController from "../../../../components/ui/formInputController/FormInputController";
+
+export const labelClass: string = "text-base ";
+
+export const classNameInput: string = `border border-gray-300 p-3 py-2 rounded-lg 
+              transition-shadow  focus-within:border-ring/40 focus-within:outline-none 
+              focus-within:ring-[2px] focus-within:ring-ring/0 has-[:disabled]:cursor-not-allowed 
+              has-[:disabled]:opacity-50 [&:has(input:is(:disabled))_*]:pointer-events-none
+              `;
 
 type Props = {
   form: UseFormReturn<RegisterInput>;

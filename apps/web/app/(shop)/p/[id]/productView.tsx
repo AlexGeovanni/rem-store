@@ -290,6 +290,7 @@ export default function ProductView({ data }: { data: any }) {
             <div className="flex flex-col gap-2">
               {data?.details?.size && (
                 <div>
+                  <p>Talla:</p>
                   <SelectSize size={data?.details?.size} />
                 </div>
               )}
@@ -340,17 +341,6 @@ export default function ProductView({ data }: { data: any }) {
                 </p>
               )}
             </div>
-            {/* <Description /> */}
-            {/* <div>
-              <div className="w-full py-3">
-                <p className="text-lg font-medium">Puntos de entrega</p>
-                <ul className="flex gap-4 px-3  flex-wrap text-sm mt-3 list-disc list-inside  ">
-                  <li>Las magaritas</li>
-                  <li>Villas del campo</li>
-                  <li>Plaza sendero</li>
-                </ul>
-              </div>
-            </div> */}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-5 xlm:gap-0 xlm:grid-cols-2 py-5">
@@ -372,11 +362,6 @@ export default function ProductView({ data }: { data: any }) {
           </div>
         </div>
       </Wrapper>
-      {/* <DescriptionMore
-        description={data?.description ?? ""}
-        category={data?.category.categoryCode ?? ""}
-        details={data?.details}
-      /> */}
     </main>
   );
 }

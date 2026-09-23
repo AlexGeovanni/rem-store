@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getApiUrl } from "@repo/api-client/config";
 
 export async function POST(req: Request) {
   try {
@@ -8,9 +9,7 @@ export async function POST(req: Request) {
     const url =
       type === "cliente" ? "/auth/register/client" : "/auth/register/business";
 
-    const response = await fetch(
-      process.env.API_URL ?? "http://localhost:8080/api/v1" + url,
-      {
+    const response = await fetch(getApiUrl(url), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

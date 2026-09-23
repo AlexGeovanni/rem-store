@@ -11,7 +11,7 @@
     "paths": {
       "@/*": [ "./*"],
       "@workspace/ui/*":["../../packages/ui/src/*"],
-      "@repo/core/*":["../../package/core/sr/*"]
+      "@repo/core/*":["../../package/core/src/*"]
     }
   },
   "include": [

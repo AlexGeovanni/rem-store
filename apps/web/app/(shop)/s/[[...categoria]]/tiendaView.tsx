@@ -3,7 +3,7 @@
 import Wrapper from "@/app/components/ui/wrapper";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { MenuMultiple } from "./_components/menuMultiple";
 import SortBy from "./_components/sortBy";
 import { ProductSkeletonCard } from "@/app/components/productCardSkeleton";
@@ -11,6 +11,7 @@ import ProductCard from "@/app/components/productCard";
 import { Product } from "@repo/core/types/product";
 import { productService } from "@/app/lib/service/product.service";
 import type { ParamsInter } from "./page";
+import { FilterMenuDrawer } from "./_components/filterMenuDrawer";
 
 interface TiendaViewProps {
   categoria?: string;
@@ -28,9 +29,8 @@ GET /api/v1/products/all&sortBy=price&direction=desc
 export default function TiendaView({
   categoria,
   categoriaUrl,
-  params
+  params,
 }: TiendaViewProps) {
-
   const [activo, setActivo] = useState(true);
   const [sortActive, setSortActive] = useState<boolean>(false);
 
@@ -73,7 +73,7 @@ export default function TiendaView({
 
     const nombres: Record<string, string> = {
       moda: "Moda",
-      electronico: "Electrónica",
+      electronica: "Electrónica",
       hogar: "Hogar",
     };
 
@@ -81,7 +81,7 @@ export default function TiendaView({
   }, [categoriaUrl]);
 
   return (
-    <>
+    <Fragment>
       <Wrapper className="max-w-full xl:px-11">
         <header className="flex flex-col justify-start gap-2 lg:flex-row lg:justify-between">
           <div className="font-title text-black font-semibold text-lg xsm:text-xl lg:text-2xl">
@@ -93,17 +93,21 @@ export default function TiendaView({
             )}
           </div>
 
-          <div className="min-h-[60px] border-t border-gray-300 flex justify-between items-center w-full lg:hidden">
+          <div className=" py-3  lg:py-0 lg:min-h-15 border-t border-gray-300 flex justify-between items-center w-full lg:hidden">
             <div className="text-gray-700">
               {productosFiltrados.length > 0 &&
                 `${productosFiltrados.length} resultados`}
             </div>
-            {/* <FilterMobile /> */}
           </div>
-          <div className="hidden relative lg:flex lg:items-center">
-            <button onClick={toggleActivo} className="px-2 pr-4 cursor-pointer">
+          
+          <div className="relative pb-3 flex justify-between items-center lg:justify-normal">
+            <button
+              onClick={toggleActivo}
+              className="hidden opacity-0 px-2 pr-4 cursor-pointer lg:block lg:opacity-100"
+            >
               <span>{marginLeftValue ? "Mostrar " : "Ocultar "}</span>filtros
             </button>
+            <FilterMenuDrawer categoriaActual={categoriaUrl} params={params} />
             <SortBy
               sortActive={sortActive}
               setSortActive={setSortActive}
@@ -120,7 +124,7 @@ export default function TiendaView({
             ease: "linear",
             duration: 0.3,
           }}
-          className="hidden custom-scrollbar  w-[270px]  sticky top-3 bottom-5 max-h-[540px] overflow-auto  pl-12 lg:block "
+          className="hidden custom-scrollbar w-68 sticky top-3 bottom-5 max-h-135 overflow-auto  pl-12 lg:block "
         >
           <div className="pb-4 pr-4">
             <div className="">
@@ -132,13 +136,13 @@ export default function TiendaView({
           {isLoading ? (
             Array.from({ length: 5 }).map((_, index) => {
               return (
-                <ProductSkeletonCard 
+                <ProductSkeletonCard
                   key={index + "index-xd"}
                   sortActive={sortActive}
                 />
               );
             })
-          ) : productosFiltrados.length > 0 && !isLoading? (
+          ) : productosFiltrados.length > 0 && !isLoading ? (
             productosFiltrados.map((product: Product, index: number) => {
               return <ProductCard key={product.id + index} product={product} />;
             })
@@ -149,6 +153,6 @@ export default function TiendaView({
           )}
         </div>
       </div>
-    </>
+    </Fragment>
   );
 }

@@ -27,7 +27,7 @@ export default function PaymentOptionsSection() {
               Queremos que la experiencia de compra sea rápida y sencilla, por
               lo que aceptamos las siguientes opciones de pago:
             </p>
-            <div className="grid grid-cols-2 xsm:grid-cols-4 lg:grid-cols-6 gap-2 mt-2 md:mt-4">
+            <div className="grid grid-cols-3 xsm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 md:mt-4">
               {IMG.map((src, i) => (
                 <CardPay key={`${src}-${i}`} classname="col-span-1" src={src} />
               ))}

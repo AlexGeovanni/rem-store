@@ -1,9 +1,7 @@
 import {
   Table,
   TableBody,
-  // TableCaption,
   TableCell,
-  // TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -16,29 +14,7 @@ import { SquarePen } from "lucide-react";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { cn } from "@workspace/ui/lib/utils";
 import { productService } from "@/app/lib/service/product.service";
-const invoices = [
-  {
-    name: "Camisa",
-    desc: "Camisa de algodon blanca talla M para hombre  ",
-    price: 500,
-    stock: 10,
-    category: "Ropa",
-  },
-  {
-    name: "Pantalon",
-    desc: "Pantalon de mezclilla azul talla 32 para hombre ",
-    price: 800,
-    stock: 5,
-    category: "Ropa",
-  },
-  {
-    name: "Zapatos",
-    desc: "Zapatos deportivos negros talla 42 para hombre",
-    price: 1200,
-    stock: 8,
-    category: "Ropa",
-  },
-];
+
 export function ProductTable() {
   const userId = useUserStore((state) => state.user?.id);
 
@@ -54,16 +30,14 @@ export function ProductTable() {
         isEmptyData={!isLoading ? data?.content?.length == 0 : false}
       />
     );
-  // if(!data || data?.content?.length == 0) return <TableProductsEmpty />
+
   return (
     <Table style={{}}>
-      {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
       <TableHeader>
         <TableRow>
           <TableHead className="w-[150px]">Imagen</TableHead>
           <TableHead className="w-[150px]">Nombre</TableHead>
           <TableHead>Descripcion</TableHead>
-          {/* <TableHead>Method</TableHead> */}
           <TableHead className=" w-[180px] ">Precio</TableHead>
           <TableHead className=" w-[50px] ">Catidad</TableHead>
           <TableHead className="text-center ">Categoria</TableHead>
@@ -105,12 +79,6 @@ export function ProductTable() {
           </TableRow>
         ))}
       </TableBody>
-      {/* <TableFooter>
-          <TableRow>
-            <TableCell colSpan={7}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter> */}
     </Table>
   );
 }
@@ -213,7 +181,7 @@ const TableProductsSkeleton = ({ isEmptyData }: { isEmptyData: boolean }) => {
               </p>
             </div>
             <Link href={"/dashboard/product/create"}>
-              <ButtonBase className="text-sm h-9 md-medium:h-11.5">
+              <ButtonBase className="text-sm h-11">
                 Agregar producto
               </ButtonBase>
             </Link>

@@ -1,10 +1,6 @@
 "use client";
 import { MenuDesktop } from "./menuDesktop";
-// import { CartIcon, UserIcon } from "@/icons/icon";
-// import MenuList from "./menu-list";
-// import { MenuMobile } from "./menu-mobile";
 import { usePathname } from "next/navigation";
-// import Link from "next/link";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
 import { cn } from "@workspace/ui/lib/utils";
@@ -43,7 +39,7 @@ export default function Content() {
         exit={isScrolled ? { opacity: 0, y: -100 } : { opacity: 1, y: 0 }}
         transition={isScrolledbg ? {delay:0.2, duration: 0.4 }:{delay:0, duration:0}}
 
-        className={cn('fixed top-0 left-0 right-0 z-50 bg-background lg:transition-all lg:ease-initial lg:duration-450 lg:bg-transparent lg:hover:bg-background ',!isHome?'lg:bg-background': isScrolledbg &&'lg:bg-background')}
+        className={cn('fixed top-0 left-0  right-0 z-50 bg-background lg:transition-all lg:ease-initial lg:duration-450 lg:bg-transparent lg:hover:bg-background ',!isHome?'lg:bg-background': isScrolledbg &&'lg:bg-background')}
       >
         {/*border bg-background */}
         <MenuDesktop userName={user?.name} />

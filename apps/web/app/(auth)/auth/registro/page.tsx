@@ -1,10 +1,11 @@
 "use client";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import FormCreate from "./_components/form-create";
+import FormCreate from "./_components/formCreate";
 import AccountTypeSelector from "./_components/accountTypeSelector";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthForm } from "./_components/auth-form";
+import  AuthForm  from "./_components/authForm/authForm";
 import Step from "./_components/step";
 import { motion } from "motion/react";
 import { ArrowLeft, Loader2Icon } from "lucide-react";
@@ -21,6 +22,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Button } from "@workspace/ui/components/button";
 import { FieldGroup } from "@workspace/ui/components/field";
 import { authService } from "@repo/api-client/service/auth.service";
+import { toast } from "@workspace/ui/lib/toast";
 
 const steps = [
   {
@@ -47,19 +49,17 @@ export default function Page() {
   const [modeXY, setModeXY] = useState<number>(0);
   const [validFormEnd, setValidFormEnd] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState("");
+
   const router = useRouter();
   const { mutate, isPending, isError } = useMutation({
     mutationFn: authService.register,
     onSuccess: () => {
       resetAll();
-      router.push("/auth/iniciar-sesion"); // Redirigir a la página de inicio de sesión o donde sea necesario
-      // Redirigir, guardar token, etc.
+      toast.success("Registro exitoso.")
+      router.push("/auth/iniciar-sesion"); 
     },
     onError: (_) => {
-      setErrorMessage(
-        "Error al registrar la cuenta. Por favor, inténtelo de nuevo.",
-      );
+      toast.error("Error al registrar la cuenta. Por favor, inténtelo de nuevo.")
     },
   });
 
@@ -70,7 +70,6 @@ export default function Page() {
     setModeXY(0);
     setValidFormEnd(false);
     setLoad(true);
-    setErrorMessage("");
   }
 
   const handleNextStep = async () => {
@@ -118,7 +117,6 @@ export default function Page() {
   });
 
   const onSubmit = form.handleSubmit(async (data) => {
-    setErrorMessage("");
     const parsed = registerApiSchema.parse(data);
     mutate(parsed);
   });
@@ -130,7 +128,7 @@ export default function Page() {
   
   return (
     <>
-      <div className="flex max-h-[800px] w-full max-w-[580px] flex-col justify-start space-y-6 transition-all mb-6">
+      <div className="flex max-h-200 w-full max-w-145 flex-col justify-start space-y-6 transition-all mb-6">
         <div className="flex justify-between rounded py-8">
           {steps.map((step, i) => {
             const stepValid = stepsValid.includes(i);
@@ -196,7 +194,7 @@ export default function Page() {
           {stepsPosition > 0 && !validFormEnd && stepsPosition <= 2 && (
             <Button
               type="button"
-              className="flex-1 rounded-full text-sm h-9 xsm:h-12 cursor-pointer xsm:text-base w-full bg-[#000000] hover:bg-[#1d1d1d]"
+              className="flex-1 rounded-full text-sm h-11 cursor-pointer xsm:text-base w-full bg-[#000000] hover:bg-[#1d1d1d]"
               onClick={handleNextStep}
               disabled={load}
             >
@@ -208,7 +206,7 @@ export default function Page() {
           {stepsPosition === 2 && validFormEnd && (
             <Button
               type="submit"
-              className="flex-1 rounded-full cursor-pointer text-sm h-9 xsm:h-12 xsm:text-base w-full  bg-[#000000] hover:bg-[#1d1d1d]"
+              className="flex-1 rounded-full cursor-pointer text-sm h-11 xsm:text-base w-full  bg-[#000000] hover:bg-[#1d1d1d]"
               disabled={isPending || load}
             >
               {isPending && <Loader2Icon className="animate-spin" />}
@@ -216,11 +214,6 @@ export default function Page() {
             </Button>
           )}
         </div>
-        {isError && (
-          <div className="text-red-500 text-xs text-center sm:text-sm">
-            {errorMessage}
-          </div>
-        )}
         <FooterForm type="sign-up" />
       </form>
     </>

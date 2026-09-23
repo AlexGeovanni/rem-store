@@ -12,8 +12,9 @@ import {
 } from "@workspace/ui/components/navigation-menu";
 import { cn } from "@workspace/ui/lib/utils";
 import { useScreenSize } from "@workspace/ui/hooks/useScreenSize";
+import { MenuMobile } from "./menuMobile";
 
-const components: {
+export const components: {
   title: string;
   href: string;
   items?: { title: string; href: string }[];
@@ -83,6 +84,7 @@ export function MenuDesktop({ userName }: MenuDesktopProps) {
   const isMobile = useScreenSize(768);
   //   const { onclick } = useOnclickAuth();
   const router = useRouter();
+
   const onClickLogin = () => {
     router.push("/auth/iniciar-sesion");
   };
@@ -93,16 +95,16 @@ export function MenuDesktop({ userName }: MenuDesktopProps) {
   return (
     <>
       <NavigationMenu
-        className=" relative lg:block w-full max-w-full mx-auto "
+        className=" relative lg:block w-full max-w-full block "
         viewport={isMobile}
       >
-        <NavigationMenuList className="py-3 border-none w-full mx-auto sm:px-5 lg:px-14">
-          <div className="font-semibold cursor-pointer">
+        <NavigationMenuList className="p-3 lg:px-0 lg:py-3 w-full flex space-x-4 lg:space-x-0 lg:justify-between sm:px-5 lg:px-14">
+          <div className="cursor-pointer mr-auto">
             <Link href={"/"} className="font-title uppercase font-black">
               Rem/store
             </Link>
           </div>
-          <div className="group flex flex-1 list-none items-center justify-center">
+          <div className="group hidden lg:flex flex-1 list-none items-center justify-center">
             <NavigationMenuItem>
               <NavigationMenuLink
                 onClick={(e) => {
@@ -156,6 +158,11 @@ export function MenuDesktop({ userName }: MenuDesktopProps) {
             </NavigationMenuItem>
           </div>
           <UserActions
+            onClickLogin={onClickLogin}
+            onClickProfile={onClickProfile}
+            userName={userName}
+          />
+          <MenuMobile
             onClickLogin={onClickLogin}
             onClickProfile={onClickProfile}
             userName={userName}

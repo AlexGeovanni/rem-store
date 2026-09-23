@@ -1,5 +1,5 @@
 
-import { RegisterInput } from "@repo/core/schemas/auth/register.schema";
+import { RegisterInput } from "@repo/core/schemas/register.schema";
 import { Field, FieldContent, FieldDescription, FieldLabel, FieldSet, FieldTitle } from "@workspace/ui/components/field";
 import { RadioGroup, RadioGroupItem } from "@workspace/ui/components/radio-group";
 import { UseFormReturn } from "react-hook-form";

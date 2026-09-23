@@ -14,6 +14,7 @@ import {
   discount,
 } from "../data/constants";
 import type { ParamsInter } from "../page";
+import { Fragment } from "react";
 
 type Props = {
   title: string;
@@ -28,6 +29,7 @@ interface MenuMultipleProps {
 }
 
 export function MenuMultiple({ categoriaActual, params }: MenuMultipleProps) {
+  
   const router = useRouter();
   const pathname = usePathname();
   const query = new URLSearchParams();
@@ -56,7 +58,7 @@ export function MenuMultiple({ categoriaActual, params }: MenuMultipleProps) {
   };
 
   return (
-    <>
+    <Fragment>
       <div className="border-t border-gray-400 py-2">
         <span className="mb-2 inline-block font-semibold">Categorías</span>
         <div className="space-y-1.5">
@@ -84,19 +86,19 @@ export function MenuMultiple({ categoriaActual, params }: MenuMultipleProps) {
         checked={params.discounted === "true"}
         onCheckedChange={handleDiscountChange}
       />
-    </>
+    </Fragment>
   );
 }
 
-const ItemsFormChecbox = ({
+export const ItemsFormChecbox = ({
   title,
   array,
   checked,
   onCheckedChange,
 }: Props) => {
   return (
-    <div className="border-t border-gray-400 py-2 font-satoshi">
-      <span className="mb-2 inline-block">{title}</span>
+    <div className="lg:border-t border-gray-400 py-2 font-satoshi">
+      <span className="font-medium mb-2 text-lg inline-block lg:text-base">{title}</span>
       <div className="space-y-1.5">
         {array.map((item, i) => (
           <div
@@ -111,7 +113,7 @@ const ItemsFormChecbox = ({
             <div className="flex items-center leading-none">
               <label
                 htmlFor={`${item.id}-${item.label}`}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-base lg:text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 {item.label}
               </label>

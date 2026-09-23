@@ -3,12 +3,13 @@
 import { cookies } from "next/headers";
 
 const TOKEN_COOKIE_NAME = "token";
+const SECURE_COOKIE = process.env.NODE_ENV === "production";
 
 export async function setAuthToken(token: string) {
   const cookieStore = await cookies();
   cookieStore.set(TOKEN_COOKIE_NAME, token, {
     httpOnly: true,
-    secure: false,
+    secure: SECURE_COOKIE,
     sameSite: "strict",
     maxAge: 60 * 60 * 24 * 30,
     path: "/",
@@ -21,7 +22,7 @@ export async function removeAuthToken() {
     path: "/",
     maxAge: 0,
     httpOnly: true,
-    secure: false,
+    secure: SECURE_COOKIE,
     sameSite: "strict",
   });
 }

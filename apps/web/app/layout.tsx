@@ -3,10 +3,10 @@ import localFont from "next/font/local";
 import Footer from "./components/footer";
 import "@workspace/ui/globals.css";
 import QueryProvider from "./components/providers/queryProvider";
-import { Header } from "./components/header";
+import { Header } from "./components/header/Header";
 import { AuthProvider } from "./providers/authProvider";
 import { getAuthToken } from "./actions/auth.actions";
-import { decodeJWT, getEmailFromPayload, getNameFromPayload } from "@repo/api-client/jwt";
+import { getEmailFromPayload, getNameFromPayload, isValidJWT } from "@repo/api-client/jwt";
 import { Toaster } from "@workspace/ui/components/sonner";
 
 const geistSans = localFont({
@@ -121,8 +121,9 @@ export default async function RootLayout({
 }>) {
 
   const token = await getAuthToken();
-  const name = getNameFromPayload(decodeJWT(token ?? ""));
-  const email = getEmailFromPayload(decodeJWT(token ?? ""));
+  const payload = token ? await isValidJWT(token) : null;
+  const name = getNameFromPayload(payload);
+  const email = getEmailFromPayload(payload);
   
   return (
     <html lang="en" suppressHydrationWarning>

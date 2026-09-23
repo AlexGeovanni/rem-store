@@ -24,11 +24,6 @@ const data = [
   },
 ];
 
-/**
- * Componente principal del dashboard
- * Muestra diferentes vistas basadas en el estado de tabs
- * Las validaciones son consistentes y verifican tanto tabAside como tabMenu
- */
 export default function Page() {
   return (
     // <div className="bg-white p-4 pl-8 h-full">
@@ -68,44 +63,6 @@ export default function Page() {
             </div>
           </div>
       </div>
-      {/* {isProductsList && (
-        <Fragment>
-          <header className="flex items-center justify-between">
-            <div>
-              <h2 className="font-semibold">Productos</h2>
-              <p>Gestione su inventario de productos.</p>
-            </div>
-            <Link href={"/dashboard/product/create"}>
-              <ButtonBase
-                className="flex-0 text-sm h-9 md-medium:h-11.5"
-                onClick={handleClickAddProduct}
-              >
-                Agregar producto
-              </ButtonBase>
-            </Link>
-          </header>
-          <div>
-            <TableProducts />
-          </div>
-        </Fragment>
-      )}
-      {isOrdersList && (
-        <Fragment>
-          <header>
-            <h2 className="font-semibold">Gestión de pedidos</h2>
-            <p>Seguimiento y gestión de pedidos de clientes.</p>
-          </header>
-          <div>
-            <TableOrders />
-          </div>
-        </Fragment>
-      )} */}
-      {/* Fallback: si no hay coincidencia, mostrar mensaje o redirigir */}
-      {/* {!isProductsList && !isOrdersList && (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500">Cargando...</p>
-        </div>
-      )} */}
     </div>
   );
 }
@@ -135,11 +92,6 @@ const CardDashboard = ({
           <span
             className={cn(percentage > 0 ? "text-green-500" : "text-red-500")}
           >
-            {/* {percentage > 0 ? (
-              <ArrowCaretUpIcon className="inline-flex -mr-1.5" />
-            ) : (
-              <ArrowCaretDownIcon className="inline-flex -mr-1.5" />
-            )} */}
             {percentage}%
           </span>{" "}
           ultimo mes

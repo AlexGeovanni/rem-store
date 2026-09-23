@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { loginSchema } from "@repo/core/schemas/login.schema";
+import { getApiUrl } from "@repo/api-client/config";
 import { setAuthToken, removeAuthToken } from "@/app/actions/auth.actions";
 
 export async function POST(request: Request) {
@@ -9,7 +10,7 @@ export async function POST(request: Request) {
     const { email, password } = loginSchema.parse(body);
 
   
-    const response = await fetch(process.env.API_URL ?? "http://localhost:8080/api/v1"+"/auth/login",{
+    const response = await fetch(getApiUrl("/auth/login"),{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -32,18 +33,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Manejo de errores
-    if (error.name === "ZodError") {
+    if (error instanceof Error && error.name === "ZodError") {
       return NextResponse.json(
         { ok: false, error: "Datos inválidos" },
         { status: 400 }
-      );
-    }
-    if (error.response?.status === 401) {
-      return NextResponse.json(
-        { ok: false, error: "Credenciales incorrectas" },
-        { status: 401 }
       );
     }
 

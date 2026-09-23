@@ -31,20 +31,6 @@ export function SelectSize({size}:{size:string}) {
             />
           </Field>
         </FieldLabel>
-      {/* {Object.keys(sizeGroup).map((s, i) => (
-        <FieldLabel key={`${s}-${i}`} htmlFor={s} className={cn('relative',selected.toLocaleLowerCase()==s.toLocaleLowerCase() && "border-black")}>
-          <Field orientation="horizontal" onClick={()=>handleSelectSize(s)} className="cursor-pointer">
-            <FieldContent className="grid place-items-center">
-              <FieldTitle>{s}</FieldTitle>
-            </FieldContent>
-            <RadioGroupItem
-              value={s}
-              id={s}
-              className="absolute opacity-0 pointer-events-none"
-            />
-          </Field>
-        </FieldLabel>
-      ))} */}
     </RadioGroup>
   );
 }

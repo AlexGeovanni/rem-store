@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import SidebarProviderConfig from "./_components/sidebar-provider-config";
+import SidebarProviderConfig from "./_components/sidebarProviderConfig";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
 import { getAuthToken } from "@/app/actions/auth.actions";
-import { decodeJWT, getNameFromPayload } from "@repo/api-client/jwt";
+import { getNameFromPayload, isValidJWT } from "@repo/api-client/jwt";
 // import { getCachedUser } from "@/lib/cache/user";
 
 export const metadata: Metadata = {
@@ -30,7 +30,8 @@ export default async function BusinessLayout({
 }>) {
   
   const token = await getAuthToken();
-  const name = getNameFromPayload(decodeJWT(token ?? ""));
+  const payload = token ? await isValidJWT(token) : null;
+  const name = getNameFromPayload(payload);
   return (
     <main className="[--header-height:calc(--spacing(14))]">
       <TooltipProvider>
