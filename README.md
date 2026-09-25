@@ -4,6 +4,8 @@ Aplicación de comercio electrónico para consultar productos, gestionar un carr
 
 El proyecto incluye una tienda pública para clientes y un dashboard para usuarios con rol de negocio.
 
+### [rem-store-backend](https://github.com/AlexGeovanni/rem-store-backend)
+
 ## Funcionalidades principales
 
 - Catálogo de productos con categorías, filtros y ordenamiento.
