@@ -1,6 +1,5 @@
 import { getRoleFromPayload, isValidJWT } from "@repo/api-client/jwt";
 import { NextRequest, NextResponse } from "next/server";
-// import { isValidJWT, getRoleFromPayload } from "@/utils/jwt";
 
 // ============================================
 // CONSTANTES DE CONFIGURACIÓN
@@ -103,11 +102,7 @@ export async function middleware(request: NextRequest) {
   const hasValidFormat = token ? isValidJWTFormat(token) : false;
   const verifiedPayload =
     hasValidFormat && token ? await isValidJWT(token) : null;
-  // Verificar la firma del token (solo si tiene formato válido)
-  // let verifiedPayload = null;
-  // if (hasValidFormat && token) {
-  //   verifiedPayload = await isValidJWT(token);
-  // }
+
   if (matchesRoute(pathname, PUBLIC_ROUTES_CLIENT)) {
     if (verifiedPayload) {
       const userRole = getRoleFromPayload(verifiedPayload);

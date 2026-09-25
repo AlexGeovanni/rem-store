@@ -1,14 +1,14 @@
-import Order from "../order";
+import Order from "../order/order";
 
 export default function MyPurchases() {
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 ">
         <h2 className="mb-1 font-medium text-3xl">Mis compras</h2>
       </div>
       <div className="mb-4">
         <h3 className="mb-3 font-medium text-2xl">Estadísticas</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 xsm:grid-cols-3 gap-3">
           <div className="bg-blue-200/40 p-2 py-4 rounded-md space-y-1 flex flex-col justify-center items-center">
             <p className="text-blue-500 text-xl font-medium">10</p>
             <span className="inline-block text-sm text-zinc-600">

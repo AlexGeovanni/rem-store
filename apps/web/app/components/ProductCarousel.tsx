@@ -10,11 +10,14 @@ import ProductCard from "./productCard";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface ProductCarouselProps {
-  products: Product[];
+  filteredProducts: Product[];
   isLoading: boolean;
 }
 
-export function ProductCarousel({ products, isLoading }: ProductCarouselProps) {
+export function ProductCarousel({
+  filteredProducts,
+  isLoading,
+}: ProductCarouselProps) {
   return (
     <Carousel
       opts={{
@@ -25,7 +28,18 @@ export function ProductCarousel({ products, isLoading }: ProductCarouselProps) {
       //   classNameParent="overflow-visible"
     >
       <CarouselContent className="-ml-2 md:-ml-4">
-        {isLoading || !products
+        {!(filteredProducts.length > 0) &&
+          Array.from({ length: 2 }).map((_, i) => (
+            <CarouselItem
+              key={i}
+              className="pl-2 md:pl-4 basis-[60%] sm:basis-[40%]  lg:basis-[32%] w-full max-h-140 h-78 xsm:h-90 sm:h-100 md:h-110 lg:h-140"
+            >
+              <Skeleton className="w-full h-full text-center py-12">
+                Sin productos
+              </Skeleton>
+            </CarouselItem>
+          ))}
+        {isLoading || !filteredProducts
           ? Array.from({ length: 4 }).map((_, i) => (
               <CarouselItem
                 key={i}
@@ -34,7 +48,7 @@ export function ProductCarousel({ products, isLoading }: ProductCarouselProps) {
                 <Skeleton className="w-full max-h-140 h-78 xsm:h-90 sm:h-100 md:h-110 lg:h-full" />
               </CarouselItem>
             ))
-          : products.map((product) => (
+          : filteredProducts.map((product) => (
               <CarouselItem
                 key={product.id}
                 className="pl-2 md:pl-4 basis-[60%] sm:basis-[40%]  md-medium:basis-[35%] lg:basis-[32%]"

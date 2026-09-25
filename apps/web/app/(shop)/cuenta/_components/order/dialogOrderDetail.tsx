@@ -21,7 +21,7 @@ export function DialogOrderDetail() {
           Ver orden
         </Button>
       </DialogTrigger>
-      <DialogContent className="md:max-w-[800px] lg:max-w-[990px]">
+      <DialogContent className="w-full max-w-[600px] md:max-w-[800px] lg:max-w-[990px]">
         <DialogHeader>
           <DialogTitle className=" text-blreack text-start">
             Detalles de la orden{" "}
@@ -90,7 +90,7 @@ export function DialogOrderDetail() {
           <DialogClose asChild>
             <ButtonBase
               type="button"
-              className=" h-[40px] w-[200px] px-10 rounded-full flex-none"
+              className=" h-11 w-51 px-10 rounded-full flex-none"
             >
               Aceptar
             </ButtonBase>

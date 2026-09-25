@@ -1,7 +1,17 @@
+import { useLogout } from "@/app/hooks/useLogout";
 import ButtonBase from "@workspace/ui/components/buttonBase";
 import { Fragment } from "react";
 
 export default function SupportAccess() {
+const logout = useLogout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
+
   return (
     <Fragment>
       <div className="space-y-3">
@@ -16,7 +26,7 @@ export default function SupportAccess() {
             </span>
           </div>
           <div>
-            <ButtonBase className="h-10">Salir</ButtonBase>
+            <ButtonBase onClick={handleLogout} className="h-10">Salir</ButtonBase>
           </div>
         </div>
 

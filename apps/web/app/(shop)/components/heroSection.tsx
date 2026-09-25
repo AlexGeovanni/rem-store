@@ -10,7 +10,7 @@ export function HeroSection() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative overflow-hidden border-b border-border/60"
+      className="relative overflow-hidden"
     >
       <Wrapper className="mx-auto grid w-full grid-cols-1 gap-8 px-4 pb-3 mt-0 md:mt-1 lg:mt-2  sm:px-6 lg:grid-cols-12 lg:gap-4 lg:px-8 lg:pb-6 ">
         {/* Left: Copy */}

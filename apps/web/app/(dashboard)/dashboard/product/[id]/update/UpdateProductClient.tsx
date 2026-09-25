@@ -17,15 +17,14 @@ export default function UpdateProductClient({
 }) {
  
   const { data: product, isLoading, isError } = useQuery({
-    queryKey: ["product", productId],
+    queryKey: ["productUpdate", productId],
     queryFn: () => productService.getProductById(productId),
     enabled: !!productId,
-    retry: false,
+    staleTime: 1000 * 60,
+    retry: 1,
   });
 
-  if ((isError || !product) && !isLoading) {
-    return <h1>No se pudo cargar el producto.</h1>;
-  }
+
 
   return (
     <div className="space-y-4">
@@ -37,7 +36,9 @@ export default function UpdateProductClient({
           </button>
         </Link>
       </header>
-      {isLoading ? <SkeletonDefault />:<Fragment><div className="mt-4">
+      {isLoading && <SkeletonDefault />}
+      {(isError || !product) && !isLoading && <Fragment><div className="rounded-xl bg-muted/50  min-h-[75svh] h-full flex justify-center items-center"><h1 className="text-xl font-medium">No se pudo cargar el producto.</h1></div></Fragment>}
+      {!isLoading && !isError && <Fragment><div className="mt-4">
           <h2 className="text-lg font-semibold lg:text-2xl">
             Actualizar producto
           </h2>

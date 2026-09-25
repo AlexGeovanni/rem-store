@@ -20,21 +20,23 @@ import { useState } from "react";
 import { productService } from "@/app/lib/service/product.service";
 import { imageService } from "@/app/lib/service/image.service";
 import ProductForm from "../_components/products/productForm";
+import { toast } from "@workspace/ui/lib/toast";
+import { useRouter } from "next/navigation";
 export default function CreatetPage() {
   const { data: dataUser } = useBusinessUser();
   const [file, setFile] = useState<File | null>(null);
   const { setTabAside } = useTabStore();
 
-  const { mutate } = useMutation({
+  const route = useRouter()
+  
+  const { mutate,isPending } = useMutation({
     mutationFn: productService.postProduct,
-    onSuccess: (data) => {
-      console.log("page data", data);
-      // router.push("/auth/iniciar-sesion"); // Redirigir a la página de inicio de sesión o donde sea necesario
-      // Redirigir, guardar token, etc.
+    onSuccess: () => {
+      toast.success("Producto creado")
+      route.push("/dashboard/product");
     },
     onError: () => {
-      console.log("error");
-      // setErrorMessage('Error al registrar la cuenta. Por favor, inténtelo de nuevo más tarde.')
+      toast.error("No se pudo guardar el producto intenta de nuevo o mas tarde!")
     },
   });
 
@@ -60,6 +62,7 @@ export default function CreatetPage() {
   const onSubmit = form.handleSubmit(async (data) => {
   try {
     if (!file) {
+      toast.error("Debes seleccionar una imagen")
       throw new Error("Debes seleccionar una imagen");
     }
 
@@ -78,7 +81,6 @@ export default function CreatetPage() {
     mutate(payload)
   } catch (error) {
     console.error(error);
-    // mostrar toast/error al usuario
   }
 });
 
@@ -108,7 +110,7 @@ export default function CreatetPage() {
         </div>
       </header>
 
-      <ProductForm form={form} onSubmit={onSubmit} onChange={setFile}  />
+      <ProductForm form={form} isPending={isPending} onSubmit={onSubmit} onChange={setFile}  />
 
     </div>
   );

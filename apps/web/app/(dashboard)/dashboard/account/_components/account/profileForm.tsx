@@ -6,7 +6,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@workspace/ui/lib/toast";
 import { Fragment } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useFormState } from "react-hook-form";
 import FormInputField from "../../../_components/FormInputField";
 import { Field, FieldLabel } from "@workspace/ui/components/field";
 import {
@@ -25,7 +25,7 @@ export default function ProfileForm({ user }: { user: User }) {
   const queryClient = useQueryClient();
   const form = useForm<UserBusinessEditInput>({
     resolver: zodResolver(UserBusinessEditSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues: {
       businessName: user?.businessName,
       phoneNumber: "",
@@ -33,6 +33,10 @@ export default function ProfileForm({ user }: { user: User }) {
       description: user?.description,
     },
   });
+
+  const { isDirty, isValid, isSubmitting } = useFormState({
+      control: form.control,
+    });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: UserBusinessEditInput) => {
@@ -43,13 +47,11 @@ export default function ProfileForm({ user }: { user: User }) {
         queryKey: userQueryKeys.business(),
       });
 
-      toast.success("Cambios guardados correctamente", {
-        position: "top-right",
-      });
+      toast.success("Cambios guardados correctamente");
       form.reset(variables);
     },
     onError: () => {
-      // Aqui puedes manejar el error de la actualizacion
+      toast.success("Cambios no se guardaron");
     },
   });
 
@@ -130,9 +132,9 @@ export default function ProfileForm({ user }: { user: User }) {
             className="flex-0 w-full rounded-full h-9 xsm:h-11 px-10 "
             disabled={
               isPending ||
-              !form.formState.isDirty ||
-              !form.formState.isValid ||
-              form.formState.isSubmitting
+              !isDirty ||
+              !isValid ||
+              isSubmitting
             }
           >
             Guardar cambios

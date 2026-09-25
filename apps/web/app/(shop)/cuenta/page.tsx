@@ -29,6 +29,7 @@ export default function PageCuenta() {
   const { data: user, isLoading, isError } = useClientUser();
 
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.id ?? "");
+  
   const handleLogout = async () => {
     try {
       await logout();
@@ -69,7 +70,7 @@ export default function PageCuenta() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{
                     duration: 0.3,
-                    ease: [0.43, 0.13, 0.23, 0.96], 
+                    ease: [0.43, 0.13, 0.23, 0.96],
                   }}
                 >
                   {tabs[0]?.id === selectedTab && (

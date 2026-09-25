@@ -31,6 +31,7 @@ import { useFormState, useWatch } from "react-hook-form";
 interface FormProductProps {
   form: UseFormReturn<ProductCreateInput, unknown, ProductCreateOutput>;
   isUpdate?: boolean;
+  isPending:boolean;
   onChange?: (file: File | null) => void;
   onSubmit: () => void;
   onSubmitDelete?: () => void;
@@ -39,6 +40,7 @@ interface FormProductProps {
 export default function ProductForm({
   form,
   isUpdate,
+  isPending,
   onChange,
   onSubmit,
   onSubmitDelete,
@@ -214,7 +216,7 @@ export default function ProductForm({
           <div className="space-x-2">
             <ButtonBase
               disabled={
-                // isPending ||
+                isPending ||
                 !isDirty ||
                 !isValid ||
                 isSubmitting

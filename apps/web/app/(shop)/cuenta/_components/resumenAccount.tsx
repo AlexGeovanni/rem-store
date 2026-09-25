@@ -23,7 +23,7 @@ export default function ResumenAccount({ user }: { user: ClientUser }) {
 
   const form = useForm<UserClientEditInput>({
     resolver: zodResolver(UserClientEditSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues: {
       name: user?.name || "",
       phoneNumber: user?.phoneNumber || "",
@@ -37,7 +37,9 @@ export default function ResumenAccount({ user }: { user: ClientUser }) {
     },
     onSuccess: (_response, variables) => {
       queryClient.invalidateQueries({ queryKey: userQueryKeys.client() });
-      toast.success("Cambios guardados correctamente",{position:"top-right"})
+      toast.success("Cambios guardados correctamente", {
+        position: "top-right",
+      });
       form.reset(variables);
     },
     onError: () => {
@@ -53,6 +55,12 @@ export default function ResumenAccount({ user }: { user: ClientUser }) {
     form.reset();
   };
 
+  console.log(
+    isPending,
+    !form.formState.isDirty,
+    !form.formState.isValid,
+    form.formState.isSubmitting,
+  );
 
   return (
     <div className="">
@@ -67,7 +75,8 @@ export default function ResumenAccount({ user }: { user: ClientUser }) {
           </div>
           <div className="">
             <div className="text-sm text-gray-500">
-              Cliente desde {user.createdAt ? formatDateCreatAt(user.createdAt) : "--"}
+              Cliente desde{" "}
+              {user.createdAt ? formatDateCreatAt(user.createdAt) : "--"}
             </div>
             <div className="text-sm text-gray-500">0 - pedidos realizados</div>
           </div>
@@ -104,7 +113,8 @@ export default function ResumenAccount({ user }: { user: ClientUser }) {
             <ButtonBase
               type="submit"
               className="flex-0 w-full rounded-full h-9 xsm:h-11 px-10 "
-              disabled={isPending || 
+              disabled={
+                isPending ||
                 !form.formState.isDirty ||
                 !form.formState.isValid ||
                 form.formState.isSubmitting

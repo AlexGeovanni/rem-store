@@ -8,26 +8,6 @@ export type TypeBuyPrice = Default & {
   max: number | null;
 };
 
-export const buyPrice: TypeBuyPrice[] = [
-  {
-    id: 1,
-    label: "Menos de $800",
-    min: 0,
-    max: 800,
-  },
-  {
-    id: 2,
-    label: "$800 - $1500",
-    min: 800,
-    max: 1500,
-  },
-  {
-    id: 3,
-    label: "Mas de $1500",
-    min: 1500,
-    max: null,
-  },
-];
 
 export type TypeDiscount = Default & {
   value: boolean;

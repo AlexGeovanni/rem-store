@@ -59,7 +59,7 @@ export default function NotFound() {
                 </Link>
               </Button>
               <Button asChild variant="ghost">
-                <Link href="/soporte">
+                <Link href="/">
                   <Headphones className="h-4 w-4" aria-hidden="true" />
                   Contactar soporte
                 </Link>

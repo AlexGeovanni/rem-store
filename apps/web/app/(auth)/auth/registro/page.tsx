@@ -178,11 +178,10 @@ export default function Page() {
           </FieldGroup>
         </PanelForm>
         <div className="flex gap-1 items-center">
-          {stepsPosition > 0 && !validFormEnd && (
+          {stepsPosition > 0 && (
             <Button
               variant={"link"}
               type="button"
-              // className=" rounded-full text-sm h-9 xsm:h-[46px]  xsm:text-base  bg-[#000000] hover:bg-[#1d1d1d]"
               className="flex items-center text-sm cursor-pointer"
               onClick={handleBackStep}
               disabled={isPending}

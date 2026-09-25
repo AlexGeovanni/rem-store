@@ -29,7 +29,7 @@ export default function Content() {
   if (excludedPatterns.some((regex) => regex.test(path))) return null;
   
   return (
-    <div className={cn('h-[70px] lg:h-auto',!isHome && 'lg:h-[70px] group')}>
+    <div className={cn('h-[70px] lg:h-auto', 'lg:h-[70px] group')}>
       <motion.header
         initial={false}
         animate={isScrolled ? { opacity: 0, y: -100 } : { opacity: 1, y: 0 }}

@@ -36,7 +36,7 @@ export default function DealsCarousel() {
     );
   }, [selectCategory, products]);
 
-  if (filteredProducts.length <= 0) {
+  if (products.length <= 0) {
     return null;
   }
 
@@ -88,7 +88,7 @@ export default function DealsCarousel() {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <ProductCarousel
-              products={filteredProducts}
+              filteredProducts={filteredProducts}
               isLoading={isLoading}
             />
           </motion.div>

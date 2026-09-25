@@ -19,8 +19,6 @@ export const TABS_MENU = {
 export type TabValueLayout = (typeof TABS_LAYOUT)[keyof typeof TABS_LAYOUT];
 export type TabValueMenu = (typeof TABS_MENU)[keyof typeof TABS_MENU];
 
-export const TAB_ARRAY: TabValueLayout[] = Object.values(TABS_LAYOUT) ;
-export const TAB_ARRAY_MENU: TabValueMenu[] = Object.values(TABS_MENU);
 
 // Valores por defecto
 const DEFAULT_TAB_ASIDE: TabValueLayout = TABS_LAYOUT.DASHBOARD;
@@ -58,19 +56,6 @@ export const DATA_SIDEBAR:DataSidebar[] = [
       },
     ],
   },
-  // {
-  //   id: TABS_LAYOUT.ORDERS,
-  //   title: "Pedidos",
-  //   url: "/dashboard/pedidos",
-  //   icon: ListTodo,
-  //   childrenTab: [
-  //     {
-  //       id: TABS_MENU.ORDERS_LIST,
-  //       title: "Listado",
-  //       url: "/dashboard/pedidos",
-  //     },
-  //   ],
-  // },
 ];
 
 interface TabState {
