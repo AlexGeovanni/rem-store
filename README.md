@@ -61,34 +61,10 @@ JWT_SECRET=tu_secreto_jwt
 
 ## Desarrollo
 
-Para iniciar la aplicación web:
-
-```bash
-pnpm --filter web dev
-```
-
-Después abre [http://localhost:3000](http://localhost:3000).
-
-También puedes iniciar las tareas del monorepo con:
+Para iniciar la aplicación:
 
 ```bash
 pnpm dev
-```
-
-## Comandos útiles
-
-```bash
-pnpm build         # Compila las aplicaciones y paquetes
-pnpm lint          # Ejecuta ESLint
-pnpm check-types   # Comprueba los tipos de TypeScript
-pnpm format        # Formatea archivos TypeScript y Markdown
-```
-
-## Producción
-
-```bash
-pnpm build
-pnpm --filter web start
 ```
 
 Antes de desplegar, configura `API_URL`, `JWT_SECRET` y las variables necesarias en el entorno de producción.
